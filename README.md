@@ -42,3 +42,13 @@ public string GetPreviewText()
         .Fallback("User #" + Id);
 }
 ```
+
+
+# Numeric extensions
+
+## `someDouble.ToInvariantString()`
+
+Ever wanted to set some dynamic percentage to a `<div>` element? And it ran on your machine? Only your machine?
+
+Now it will also run on machines in other countries ;)
+
