@@ -53,6 +53,17 @@ Ever wanted to set some dynamic percentage to a `<div>` element? And it ran on y
 Now it will also run on machines in other countries ;)
 
 
+# `IEnumerable` extensions
+
+## `.SafeAny()`
+
+Just prevents you from unreadable code like:
+* `if (myItems?.Any() == true)`
+* `if (myItems?.Any() ?? false)`
+* `if ((myItems?.Any()).GetValueOrDefault())`
+* `if (myItems?.Count() > 0)`
+
+
 # `IComparable` extensions (double, int, TimeSpan, ...)
 
 Ever had the need to clamp a value into a given range? Was it `Math.Max(minValue, Math.Min(maxValue, userInput))`? Looks quite difficult...
