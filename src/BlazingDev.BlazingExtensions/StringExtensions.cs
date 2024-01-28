@@ -15,5 +15,22 @@ namespace BlazingDev.BlazingExtensions
         {
             return !string.IsNullOrWhiteSpace(input);
         }
+
+        /// <summary>
+        /// Returns the fallback text if the "input" parameter has no text (see <see cref="HasText">HasText()</see> extension). <br/>
+        /// Returns empty string if "input" has no text and "fallbackText" is null.
+        /// </summary>
+        /// <param name="input">main value to use if useful</param>
+        /// <param name="fallbackText">alternative text if "input" has no text. Falls back to empty string if null is passed.</param>
+        /// <returns></returns>
+        public static string Fallback(this string? input, string? fallbackText)
+        {
+            if (input.HasText())
+            {
+                return input;
+            }
+
+            return fallbackText ?? "";
+        }
     }
 }
