@@ -8,6 +8,13 @@ public static class ComparableExtensions
         where T : struct, IComparable
     {
         if (minValue != null &&
+            maxValue != null &&
+            minValue.Value.CompareTo(maxValue.Value) == 1)
+        {
+            throw new ArgumentException($"MinValue ({minValue}) is greater than MaxValue ({maxValue})!");
+        }
+        
+        if (minValue != null &&
             value.CompareTo(minValue) == -1)
         {
             return minValue.Value;
