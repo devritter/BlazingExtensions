@@ -52,3 +52,9 @@ Ever wanted to set some dynamic percentage to a `<div>` element? And it ran on y
 
 Now it will also run on machines in other countries ;)
 
+
+# `IComparable` extensions (double, int, TimeSpan, ...)
+
+Ever had the need to clamp a value into a given range? Was it `Math.Max(minValue, Math.Min(maxValue, userInput))`? Looks quite difficult...
+
+Much easier: `userInput.LimitTo(minValue, maxValue)`
