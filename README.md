@@ -28,7 +28,7 @@ What will it return?
 So no rocket science, actually just the inverted version of `string.IsNullOrWhiteSpace()` :shrug:
 
 
-## .Fallback(otherString)
+## `.Fallback(otherString)`
 
 Imagine you want to display some short preview text for a `User` class. Would your code look as simple like this?
 
