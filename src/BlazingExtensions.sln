@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazingDev.BlazingExtensions", "BlazingDev.BlazingExtensions\BlazingDev.BlazingExtensions.csproj", "{65F77CD1-5127-49D1-8A9A-0098AF75388E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazingDev.BlazingExtensions.Tests", "BlazingDev.BlazingExtensions.Tests\BlazingDev.BlazingExtensions.Tests.csproj", "{1B59BB73-E5E4-4870-8940-29566BC441F9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{65F77CD1-5127-49D1-8A9A-0098AF75388E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65F77CD1-5127-49D1-8A9A-0098AF75388E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65F77CD1-5127-49D1-8A9A-0098AF75388E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65F77CD1-5127-49D1-8A9A-0098AF75388E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B59BB73-E5E4-4870-8940-29566BC441F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B59BB73-E5E4-4870-8940-29566BC441F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B59BB73-E5E4-4870-8940-29566BC441F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B59BB73-E5E4-4870-8940-29566BC441F9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
