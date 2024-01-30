@@ -6,6 +6,7 @@ Hello C# developers!
 
 Within this repo I'm collecting all the extensions that I was missing over and over in my daily work. Hopefully they will also speed up and inspire your life :)
 
+
 # String extensions
 
 ## `.HasText()`
@@ -67,6 +68,7 @@ Prevents you from unreadable (and potentially buggy) code like:
 
 Note: Because I don't want to override Linq's `.Any()` but want to be null-safe, I used the `Safe` prefix.
 
+
 ## `.IsEmpty()`
 
 Returns `true` if the collection is `null` or empty.\
@@ -81,8 +83,19 @@ Prevents you from unreadable (and potentially buggy) code like:
 
 Note: As there is no competing existing extension method, I had no need to use the `Safe` prefix. 
 
+
 # `IComparable` extensions (double, int, TimeSpan, ...)
+
+## `.LimitTo(minValue, maxValue)`
 
 Ever had the need to clamp a value into a given range? Was it `Math.Max(minValue, Math.Min(maxValue, userInput))`? Looks quite difficult...
 
-Much easier: `userInput.LimitTo(minValue, maxValue)`
+Much easier: 
+* `userInput = userInput.LimitTo(minValue, maxValue);`
+* `volume = volume.LimitTo(0, 10);`
+* `percentage = percentage.LimitTo(0, 1);`
+* `bookingTime = bookingTime.LimitTo(options.OpeningTime, options.ClosingTime);`
+
+It's even possible to only limit one part: 
+* `startPosition = startPosition.LimitTo(0, null);`
+* `amount = amount.LimitTo(null, user.MaxAmount);`
