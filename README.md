@@ -53,16 +53,33 @@ Ever wanted to set some dynamic percentage to a `<div>` element? And it ran on y
 Now it will also run on machines in other countries ;)
 
 
-# `IEnumerable` extensions
+# `IEnumerable<T>` extensions
 
 ## `.SafeAny()`
 
-Just prevents you from unreadable code like:
+Returns `true` if the collection has items (and therefore is not `null`).\
+Prevents you from unreadable (and potentially buggy) code like:
 * `if (myItems?.Any() == true)`
+* `if (myItems?.Any() != false)` (does not work for `null` collections)
 * `if (myItems?.Any() ?? false)`
 * `if ((myItems?.Any()).GetValueOrDefault())`
 * `if (myItems?.Count() > 0)`
 
+Note: Because I don't want to override Linq's `.Any()` but want to be null-safe, I used the `Safe` prefix.
+
+## `.IsEmpty()`
+
+Returns `true` if the collection is `null` or empty.\
+Prevents you from unreadable (and potentially buggy) code like:
+* `if (!myItems.Any())`
+* `if (myItems.Any() == false)`
+* `if (myItems.Any() != true)`
+* `if (myItems.Count() == 0)`
+* `if (myItems?.Any() == false)` (which does not work for `null` collections)
+* `if (myItems?.Any() != true)`
+* `if (myItems?.Count() == 0)` (which does not work for `null` collections)
+
+Note: As there is no competing existing extension method, I had no need to use the `Safe` prefix. 
 
 # `IComparable` extensions (double, int, TimeSpan, ...)
 

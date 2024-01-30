@@ -13,4 +13,13 @@ public static class EnumerableExtensions
         return enumerable != null && 
                enumerable.Any();
     }
+
+    /// <summary>
+    /// returns true if the "enumerable" is null or empty (count = 0)
+    /// </summary>
+    public static bool IsEmpty<T>(this IEnumerable<T>? enumerable)
+    {
+        return enumerable == null ||
+               !enumerable.Any();
+    }
 }

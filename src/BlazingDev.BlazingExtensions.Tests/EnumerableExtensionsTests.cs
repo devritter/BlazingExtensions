@@ -14,4 +14,17 @@ public class EnumerableExtensionsTests
             Assert.Equal(expected, values.SafeAny());
         }
     }
+    
+    [Fact]
+    public void IsEmpty()
+    {
+        Test(true, null);
+        Test(true, []);
+        Test(false, [1]);
+
+        void Test(bool expected, int[]? values)
+        {
+            Assert.Equal(expected, values.IsEmpty());
+        }
+    }
 }
