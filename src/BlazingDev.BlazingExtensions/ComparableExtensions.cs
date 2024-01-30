@@ -14,7 +14,7 @@ public static class ComparableExtensions
     /// <returns>the value raised to the "minValue", lowered to the "maxValue", or as-is if it has already been inside the range</returns>
     /// <exception cref="ArgumentException">if the "minValue" is larger than the "maxValue"</exception>
     public static T LimitTo<T>(this T value, T? minValue, T? maxValue)
-        where T : struct, IComparable
+        where T : struct, IComparable<T>
     {
         if (minValue != null &&
             maxValue != null &&
@@ -24,13 +24,13 @@ public static class ComparableExtensions
         }
         
         if (minValue != null &&
-            value.CompareTo(minValue) == -1)
+            value.CompareTo(minValue.Value) == -1)
         {
             return minValue.Value;
         }
 
         if (maxValue != null &&
-            value.CompareTo(maxValue) == 1)
+            value.CompareTo(maxValue.Value) == 1)
         {
             return maxValue.Value;
         }
