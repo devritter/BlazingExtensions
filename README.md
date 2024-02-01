@@ -121,7 +121,7 @@ It's even possible to only limit one part:
 
 ## `DisposeAction`
 
-The passed action gets executed on manual `.Dispose()` call or when reaching the end of a `using(...)` statement.
+A very simple `IDisposable` implementation which just invokes the passed action on manual `.Dispose()` call or when reaching the end of an `using(...)` statement.
 
 Example:
 ```csharp
@@ -133,5 +133,25 @@ private void HandleButtonClick()
         DoSomethingDangerousThatMayThrowAnException();    
     }
     // the compiler creates a "finally" block here for you so the "button enabling" action will get invoked
+}
+```
+
+
+## `AsyncDisposeAction`
+
+Same as above, but for async actions/disposals. You must use the `await using(...)` statement.
+
+Example:
+
+```csharp
+private async Task ListenForMessages()
+{
+    var subscription = someService.CreateSubscription(someTopics);
+    await using(new AsyncDisposeAction(() => subscription.UnsubscribeAsync()))
+    {
+        // busy waiting...
+        // await Task.Delay...
+        // await someTaskCompletionSource.Task...
+    }
 }
 ```
