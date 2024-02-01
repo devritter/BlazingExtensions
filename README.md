@@ -69,6 +69,24 @@ Ever wanted to set some dynamic percentage to a `<div>` element? And it ran on y
 Now it will also run on machines in other countries ;)
 
 
+# IComparable&lt;T&gt; extensions
+Almost every struct is `IComparable<T>`, e.g. double, int, DateTime, TimeSpan, ...
+
+## `.LimitTo(minValue, maxValue)`
+
+Ever had the need to clamp a value into a given range? Was it `Math.Max(minValue, Math.Min(maxValue, userInput))`? Looks quite difficult...
+
+Much easier:
+* `userInput = userInput.LimitTo(minValue, maxValue);`
+* `volume = volume.LimitTo(0, 10);`
+* `percentage = percentage.LimitTo(0, 1);`
+* `bookingTime = bookingTime.LimitTo(options.OpeningTime, options.ClosingTime);`
+
+It's even possible to only limit one part:
+* `startPosition = startPosition.LimitTo(0, null);`
+* `amount = amount.LimitTo(null, user.MaxAmount);`
+
+
 # IEnumerable&lt;T&gt; extensions
 
 ## `.SafeAny()`
@@ -97,24 +115,6 @@ Prevents you from unreadable (and potentially buggy) code like:
 * `if (myItems?.Count() == 0)` (which does not work for `null` collections)
 
 Note: As there is no competing existing extension method, I had no need to use the `Safe` prefix. 
-
-
-# IComparable&lt;T&gt; extensions
-Almost every struct is `IComparable<T>`, e.g. double, int, DateTime, TimeSpan, ...
-
-## `.LimitTo(minValue, maxValue)`
-
-Ever had the need to clamp a value into a given range? Was it `Math.Max(minValue, Math.Min(maxValue, userInput))`? Looks quite difficult...
-
-Much easier: 
-* `userInput = userInput.LimitTo(minValue, maxValue);`
-* `volume = volume.LimitTo(0, 10);`
-* `percentage = percentage.LimitTo(0, 1);`
-* `bookingTime = bookingTime.LimitTo(options.OpeningTime, options.ClosingTime);`
-
-It's even possible to only limit one part: 
-* `startPosition = startPosition.LimitTo(0, null);`
-* `amount = amount.LimitTo(null, user.MaxAmount);`
 
 
 # Utilities
