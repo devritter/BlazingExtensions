@@ -26,7 +26,8 @@ What will it return?
 * `"  \t   \n   "` (very useless content) --> false
 * `"x"` --> **true**
 
-So no rocket science, actually just the inverted version of `string.IsNullOrWhiteSpace()` :shrug:
+So no rocket science, actually just the inverted version of `string.IsNullOrWhiteSpace()` :shrug:\
+As a memory hook just think of "myStringVar HasUsefulText() ?"
 
 
 ## `.Fallback(otherString)`
@@ -54,7 +55,7 @@ Ever wanted to set some dynamic percentage to a `<div>` element? And it ran on y
 Now it will also run on machines in other countries ;)
 
 
-# `IEnumerable<T>` extensions
+# IEnumerable&lt;T&gt; extensions
 
 ## `.SafeAny()`
 
@@ -84,7 +85,8 @@ Prevents you from unreadable (and potentially buggy) code like:
 Note: As there is no competing existing extension method, I had no need to use the `Safe` prefix. 
 
 
-# `IComparable` extensions (double, int, TimeSpan, ...)
+# IComparable&lt;T&gt; extensions
+Almost every struct is `IComparable<T>`, e.g. double, int, DateTime, TimeSpan, ...
 
 ## `.LimitTo(minValue, maxValue)`
 
