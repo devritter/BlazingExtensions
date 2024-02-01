@@ -50,6 +50,16 @@ public string GetPreviewText()
 Just a shorter version of `myString.Contains(subString, StringComparison.OrdinalIgnoreCase)`.
 
 
+## `items.StringJoin(separator)`
+Convenient way to join a string together just like `string.Join(separator, items)`.\
+Bonus point: allows the items to be `null`.
+
+Example:
+```csharp
+var nextThreeSongs = playlistItems.Take(3).Select(x => x.SongName).StringJoin(", ");
+```
+
+
 # Numeric extensions
 
 ## `someDouble.ToInvariantString()`

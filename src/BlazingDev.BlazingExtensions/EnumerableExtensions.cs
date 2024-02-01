@@ -22,4 +22,17 @@ public static class EnumerableExtensions
         return enumerable == null ||
                !enumerable.Any();
     }
+
+    /// <summary>
+    /// Returns the "items" joined together separated by the "separator"
+    /// </summary>
+    public static string StringJoin(this IEnumerable<string?>? items, string separator)
+    {
+        if (items == null)
+        {
+            return "";
+        }
+        
+        return string.Join(separator, items);
+    }
 }
