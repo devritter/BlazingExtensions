@@ -115,3 +115,23 @@ Much easier:
 It's even possible to only limit one part: 
 * `startPosition = startPosition.LimitTo(0, null);`
 * `amount = amount.LimitTo(null, user.MaxAmount);`
+
+
+# Utilities
+
+## `DisposeAction`
+
+The passed action gets executed on manual `.Dispose()` call or when reaching the end of a `using(...)` statement.
+
+Example:
+```csharp
+private void HandleButtonClick()
+{
+    _isButtonEnabled = false;
+    using(new DisposeAction(() => _isButtonEnabled = true))
+    {
+        DoSomethingDangerousThatMayThrowAnException();    
+    }
+    // the compiler creates a "finally" block here for you so the "button enabling" action will get invoked
+}
+```
