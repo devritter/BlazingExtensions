@@ -37,10 +37,34 @@ public class StringExtensionsTests
     }
 
     [Fact]
-    public void ReturnsEmptyString_IfMainAndFallbackStringIsUseless()
+    public void Fallback_ReturnsEmptyString_IfMainAndFallbackStringIsUseless()
     {
         Assert.Equal("", ((string?)null).Fallback(null));
         Assert.Equal("", "".Fallback(null));
         Assert.Equal("", "  ".Fallback(null));
+    }
+
+    [Theory]
+    [InlineData("hello world", "hello world", true)]
+    [InlineData("hello world", "hello", true)]
+    [InlineData("hello world", "world", true)]
+    [InlineData("hello world", "lo wor", true)]
+    [InlineData("hello world", "o", true)]
+    [InlineData("hello world", "lowor", false)]
+    [InlineData("hello world", "world!", false)]
+    // should we allow null values?
+    public void ContainsIgnoreCase(string longString, string subString, bool expect)
+    {
+        Assert.Equal(expect, longString.ContainsIgnoreCase(subString));
+        
+        Assert.Equal(expect, longString.ContainsIgnoreCase(subString.ToUpper()));
+        Assert.Equal(expect, longString.ToUpper().ContainsIgnoreCase(subString));
+        Assert.Equal(expect, longString.ToUpper().ContainsIgnoreCase(subString.ToUpper()));
+        Assert.Equal(expect, longString.ToUpper().ContainsIgnoreCase(subString.ToLower()));
+        
+        Assert.Equal(expect, longString.ContainsIgnoreCase(subString.ToLower()));
+        Assert.Equal(expect, longString.ToLower().ContainsIgnoreCase(subString));
+        Assert.Equal(expect, longString.ToLower().ContainsIgnoreCase(subString.ToLower()));
+        Assert.Equal(expect, longString.ToLower().ContainsIgnoreCase(subString.ToUpper()));
     }
 }

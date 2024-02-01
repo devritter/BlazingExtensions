@@ -46,6 +46,10 @@ public string GetPreviewText()
 ```
 
 
+## `.ContainsIgnoreCase(subString)`
+Just a shorter version of `myString.Contains(subString, StringComparison.OrdinalIgnoreCase)`.
+
+
 # Numeric extensions
 
 ## `someDouble.ToInvariantString()`

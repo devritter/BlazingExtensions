@@ -32,5 +32,13 @@ namespace BlazingDev.BlazingExtensions
 
             return fallbackText ?? "";
         }
+
+        /// <summary>
+        /// searches for the "subString" inside the "mainString" using OrdinalIgnoreCase comparison
+        /// </summary>
+        public static bool ContainsIgnoreCase(this string mainString, string subString)
+        {
+            return mainString.Contains(subString, StringComparison.OrdinalIgnoreCase);
+        }
     }
 }
