@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,7 +11,7 @@ public static class EnumerableExtensions
     /// </summary>
     public static bool SafeAny<T>(this IEnumerable<T>? enumerable)
     {
-        return enumerable != null && 
+        return enumerable != null &&
                enumerable.Any();
     }
 
@@ -32,7 +33,17 @@ public static class EnumerableExtensions
         {
             return "";
         }
-        
+
         return string.Join(separator, items);
+    }
+
+    public static IOrderedEnumerable<T> OrderByFirstWhere<T>(this IEnumerable<T> items, Predicate<T> predicate)
+    {
+        return items.OrderBy(x => predicate(x) ? 0 : 1);
+    }
+
+    public static IOrderedEnumerable<T> ThenByFirstWhere<T>(this IOrderedEnumerable<T> items, Predicate<T> predicate)
+    {
+        return items.ThenBy(x => predicate(x) ? 0 : 1);
     }
 }
