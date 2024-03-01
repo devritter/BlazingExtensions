@@ -46,4 +46,16 @@ public static class EnumerableExtensions
     {
         return items.ThenBy(x => predicate(x) ? 0 : 1);
     }
+
+    public static IEnumerable<T> WhereNotNull<T>(this IEnumerable<T?> items)
+        where T : class
+    {
+        return items.Where(x => x != null)!;
+    }
+
+    public static IEnumerable<T> WhereNotNull<T>(this IEnumerable<T?> items)
+        where T : struct
+    {
+        return items.Where(x => x.HasValue).Select(x => x!.Value);
+    }
 }

@@ -1,3 +1,5 @@
+using System.Text;
+
 namespace BlazingDev.BlazingExtensions.Tests;
 
 public class EnumerableExtensionsTests
@@ -121,14 +123,14 @@ public class EnumerableExtensionsTests
             .ToList();
 
         string[] expected =
-            [
-                "Please more",
-                "Could I have more, please?",
-                "I want",
-                "Gimme",
-            ];
+        [
+            "Please more",
+            "Could I have more, please?",
+            "I want",
+            "Gimme"
+        ];
 
-        friendlyFirst.Should().BeEquivalentTo(expected, o => o.WithStrictOrdering());  
+        friendlyFirst.Should().BeEquivalentTo(expected, o => o.WithStrictOrdering());
     }
 
     [Fact]
@@ -187,5 +189,24 @@ public class EnumerableExtensionsTests
         };
 
         sorted.Should().BeEquivalentTo(expected, o => o.WithStrictOrdering());
+    }
+
+    [Fact]
+    public void WhereNotNull_ForClasses()
+    {
+        var items = new List<StringBuilder?>() { new StringBuilder().Append("hello"), null, new("world") };
+
+        var stringLength = items.WhereNotNull()
+            .Select(x => x.Length).Sum();
+        // no compiler warning here ^
+        stringLength.Should().Be(10);
+    }
+
+    [Fact]
+    public void WhereNotNull_ForStructs()
+    {
+        List<TimeSpan?> items = [TimeSpan.FromSeconds(5), null, TimeSpan.FromSeconds(10), null];
+        var totalSeconds = items.WhereNotNull().Select(x => x.TotalSeconds).Sum();
+        totalSeconds.Should().Be(15);
     }
 }
