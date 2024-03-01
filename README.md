@@ -99,7 +99,7 @@ Prevents you from unreadable (and potentially buggy) code like:
 * `if ((myItems?.Any()).GetValueOrDefault())`
 * `if (myItems?.Count() > 0)`
 
-Note: Because I don't want to override Linq's `.Any()` but want to be null-safe, I used the `Safe` prefix.
+Note: Because I can't override Linq's `.Any()` but want to be null-safe, I used the `Safe` prefix.
 
 
 ## `.IsEmpty()`
@@ -115,6 +115,27 @@ Prevents you from unreadable (and potentially buggy) code like:
 * `if (myItems?.Count() == 0)` (which does not work for `null` collections)
 
 Note: As there is no competing existing extension method, I had no need to use the `Safe` prefix. 
+
+## `.WhereNotNull()`
+Returns only non-null items with the correct nullability information so you don't get compiler warnings.
+```csharp
+foreach (var items in data.WhereNotNull())
+{
+    // no compiler warning here
+    DoSomething(item.Id, item.Name);
+}    
+```
+
+When used with structs, they are even unpacked!
+```csharp
+someData
+    .Select(x => x.UpdateTimestamp)
+    .WhereNotNull()
+    // now direct value access is possible
+    .Select(x => x.DayOfWeek) 
+    // ...
+```
+
 
 ## `.OrderByFirstWhere()` and `.ThenByFirstWhere()`
 Useful when you want to have some pinned / favorite / urgent items on the top of a list.
