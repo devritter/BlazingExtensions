@@ -116,6 +116,15 @@ Prevents you from unreadable (and potentially buggy) code like:
 
 Note: As there is no competing existing extension method, I had no need to use the `Safe` prefix. 
 
+## `.OrderByFirstWhere()` and `.ThenByFirstWhere()`
+Useful when you want to have some pinned / favorite / urgent items on the top of a list.
+```csharp
+return tasks
+    .OrderByFirstWhere(x => x.Pinned)
+    .ThenByFirstWhere(x => x.IsUrgent)
+    .ThenBy(/* whatever you usually sort on */);
+```
+
 ---
 # Utilities
 
