@@ -6,7 +6,7 @@ Hello C# developers!
 
 Within this repo I'm collecting all the extensions that I was missing over and over in my daily work. Hopefully they will also speed up and inspire your life :)
 
-
+---
 # String extensions
 
 ## `.HasText()`
@@ -59,7 +59,7 @@ Example:
 var nextThreeSongs = playlistItems.Take(3).Select(x => x.SongName).StringJoin(", ");
 ```
 
-
+---
 # Numeric extensions
 
 ## `someDouble.ToInvariantString()`
@@ -68,7 +68,7 @@ Ever wanted to set some dynamic percentage to a `<div>` element? And it ran on y
 
 Now it will also run on machines in other countries ;)
 
-
+---
 # IComparable&lt;T&gt; extensions
 Almost every struct is `IComparable<T>`, e.g. double, int, DateTime, TimeSpan, ...
 
@@ -86,7 +86,7 @@ It's even possible to only limit one part:
 * `startPosition = startPosition.LimitTo(0, null);`
 * `amount = amount.LimitTo(null, user.MaxAmount);`
 
-
+---
 # IEnumerable&lt;T&gt; extensions
 
 ## `.SafeAny()`
@@ -116,7 +116,7 @@ Prevents you from unreadable (and potentially buggy) code like:
 
 Note: As there is no competing existing extension method, I had no need to use the `Safe` prefix. 
 
-
+---
 # Utilities
 
 ## `DisposeAction`
