@@ -56,15 +56,46 @@ public class StringExtensionsTests
     public void ContainsIgnoreCase(string longString, string subString, bool expect)
     {
         Assert.Equal(expect, longString.ContainsIgnoreCase(subString));
-        
+
         Assert.Equal(expect, longString.ContainsIgnoreCase(subString.ToUpper()));
         Assert.Equal(expect, longString.ToUpper().ContainsIgnoreCase(subString));
         Assert.Equal(expect, longString.ToUpper().ContainsIgnoreCase(subString.ToUpper()));
         Assert.Equal(expect, longString.ToUpper().ContainsIgnoreCase(subString.ToLower()));
-        
+
         Assert.Equal(expect, longString.ContainsIgnoreCase(subString.ToLower()));
         Assert.Equal(expect, longString.ToLower().ContainsIgnoreCase(subString));
         Assert.Equal(expect, longString.ToLower().ContainsIgnoreCase(subString.ToLower()));
         Assert.Equal(expect, longString.ToLower().ContainsIgnoreCase(subString.ToUpper()));
+    }
+
+    [Theory]
+    [InlineData("info:job done", "info:", "job done")] // expected behavior
+    [InlineData("info:job done   ", "info:", "job done   ")] // end spaces remain
+    [InlineData("info:info:job done", "info:", "job done")] // multiple trimming
+    [InlineData("info:info:job done   ", "info:", "job done   ")] // end spaces remain
+    [InlineData("info: job done", "info:", " job done")] // space remains
+    // no trimming
+    [InlineData("info:job done", "warn:", "info:job done")] // no replace if start text is different
+    [InlineData(" info:job done", "info:", " info:job done")] // expected behavior
+    [InlineData("info:job done", "INFO:", "info:job done")] // different casing -> no trimming
+    public void TrimStart(string fullString, string trimValue, string expectedOutput)
+    {
+        fullString.TrimStart(trimValue).Should().Be(expectedOutput);
+    }
+
+    [Theory]
+    [InlineData("info:job done", "info:", "job done")] // same behavior like without whitespace removal
+    [InlineData("info:info:job done", "info:", "job done")] // same behavior
+    [InlineData("info: job done", "info:", "job done")] // whitespace removed
+    [InlineData(" info: job done", "info:", "job done")] // leading whitespace removed
+    [InlineData(" info: job done   ", "info:", "job done   ")] // leading whitespace removed, trailing remains
+    [InlineData(" info: info: job done", "info:", "job done")] // multiple whitespace removed
+    [InlineData(" info:\tinfo:\ninfo: job done", "info:", "job done")] // different whitespaces removed
+    // no trimming
+    [InlineData("info:job done", "warn:", "info:job done")] // no replace if start text is different
+    [InlineData("info:job done", "INFO:", "info:job done")] // different casing -> no trimming
+    public void TrimStart_WithWhitespaceRemoval(string fullString, string trimValue, string expectedOutput)
+    {
+        fullString.TrimStart(trimValue, true).Should().Be(expectedOutput);
     }
 }
