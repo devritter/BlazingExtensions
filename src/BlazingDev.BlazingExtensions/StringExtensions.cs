@@ -40,14 +40,22 @@ public static class StringExtensions
     {
         return mainString.Contains(subString, StringComparison.OrdinalIgnoreCase);
     }
-
+    
+    /// <summary>
+    /// Trims away the "trimText" from the "input" string. If it occurs multiple times, it is removed multiple times.
+    /// Possibility to also pre- and post-trim white-spaces from the "input" string
+    /// </summary>
+    /// <param name="input">The string which potentially contains unwanted start text</param>
+    /// <param name="trimText">The text which should be removed</param>
+    /// <param name="trimWhiteSpacesFromStart">true if starting white-spaces should also be removed from the original and then trimmed input string</param>
+    /// <returns></returns>
     public static string TrimStart(this string input, string trimText, bool trimWhiteSpacesFromStart = false)
     {
         if (trimWhiteSpacesFromStart)
         {
             input = input.TrimStart();
         }
-        
+
         while (input.StartsWith(trimText))
         {
             input = input.Substring(trimText.Length);

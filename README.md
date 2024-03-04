@@ -48,6 +48,16 @@ public string GetPreviewText()
 
 Just a shorter version of `myString.Contains(subString, StringComparison.OrdinalIgnoreCase)`.
 
+## `.TrimStart(startString)`
+
+Trims substrings, not just characters. Additional possibility to also remove leading white-space characters.
+
+```csharp
+"info:job done".TrimStart("info:"); // returns: "job done"
+"info:info:job done".TrimStart("info:"); // returns: "job done"
+"  info: info:info:\t   job done".TrimStart("info:", trimWhiteSpacesFromStart: true); // returns: "job done"
+```
+
 ## `items.StringJoin(separator)`
 
 Convenient way to join a string together just like `string.Join(separator, items)`.\
