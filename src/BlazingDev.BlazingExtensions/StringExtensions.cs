@@ -77,7 +77,7 @@ public static class StringExtensions
             // native .StartsWith returns true, would end in endless loop
             return input;
         }
-        
+
         while (input.StartsWith(trimText))
         {
             input = input.Substring(trimText.Length);
@@ -85,6 +85,23 @@ public static class StringExtensions
             {
                 input = input.TrimStart();
             }
+        }
+
+        return input;
+    }
+
+    public static string TrimEnd(this string input, string trimText)
+    {
+        if (trimText == "")
+        {
+            // native .EndsWith returns true, would end in endless loop
+            return input;
+        }
+        
+        while (input.EndsWith(trimText))
+        {
+            var lengthTrimmed = input.Length - trimText.Length;
+            input = input.Substring(0, lengthTrimmed);
         }
 
         return input;

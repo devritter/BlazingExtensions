@@ -96,10 +96,25 @@ public class StringExtensionsTests
     }
 
     [Theory]
-    // some edge cases
-    [InlineData("info:job done", "", "info:job done")]
-    [InlineData("info:job done", " ", "info:job done")] 
-    [InlineData("info:job done", "info:job done", "")] 
+    [InlineData(" ", " ", "")] // space removes space
+    [InlineData("   ", " ", "")] // space removes multiple spaces
+    [InlineData("     ", "  ", " ")] // 2-space vs 5-space = 1-space
+    [InlineData(" ", "", " ")] // no trimming at all (but also no endless loop)
+    [InlineData("", " ", "")] // useless input, remains
+    [InlineData("", "", "")] // noting to do
+    [InlineData(" ", "\t", " ")] // wrong trim string -> no trimming
+    [InlineData("hello", "", "hello")]
+    [InlineData("hello", " ", "hello")]
+    [InlineData("", "hello", "")]
+    [InlineData("hello", "hello", "")] // full trimming
+    [InlineData("hellohello", "hello", "")] // multiple full trimming
+    public void TrimStart_TrimEnd_HandleEdgeCasesProperly(string input, string trimValue, string expectedOutput)
+    {
+        input.TrimStart(trimValue).Should().Be(expectedOutput);
+        input.TrimEnd(trimValue).Should().Be(expectedOutput);
+    }
+
+    [Theory]
     // normal cases
     [InlineData("info:job done", "info:", "job done")] // expected behavior
     [InlineData("info:job done   ", "info:", "job done   ")] // end spaces remain
@@ -110,6 +125,7 @@ public class StringExtensionsTests
     [InlineData("info:job done", "warn:", "info:job done")] // no replace if start text is different
     [InlineData(" info:job done", "info:", " info:job done")] // expected behavior
     [InlineData("info:job done", "INFO:", "info:job done")] // different casing -> no trimming
+    // todo what to do with null?
     public void TrimStart(string fullString, string trimValue, string expectedOutput)
     {
         fullString.TrimStart(trimValue).Should().Be(expectedOutput);
@@ -129,5 +145,18 @@ public class StringExtensionsTests
     public void TrimStart_WithWhitespaceRemoval(string fullString, string trimValue, string expectedOutput)
     {
         fullString.TrimStart(trimValue, true).Should().Be(expectedOutput);
+    }
+
+    [Theory]
+    [InlineData("file1.txt", ".txt", "file1")]
+    [InlineData("   file1.txt", ".txt", "   file1")] // start spaces remain
+    [InlineData("FILE1.txt", ".txt", "FILE1")] // casing remains
+    [InlineData("file1 .txt", ".txt", "file1 ")] // space remains
+    [InlineData("file1.txt", ".mp3", "file1.txt")] // no match, no trimming
+    [InlineData("file1.txt.txt", ".txt", "file1")] // multiple trimming
+    [InlineData("file1.TXT", ".txt", "file1.TXT")] // different casing, no trimming
+    public void TrimEnd(string fullString, string trimValue, string expectedOutput)
+    {
+        fullString.TrimEnd(trimValue).Should().Be(expectedOutput);
     }
 }
