@@ -76,7 +76,8 @@ Trims substrings, not just characters.
 ## `items.StringJoin(separator)`
 
 Convenient way to join a string together just like `string.Join(separator, items)`.\
-Bonus point: allows the items to be `null`.
+Bonus point: allows the items list to be `null` (returns `""` then). \
+Tip: to exclude `null` items INSIDE the list, use `.WhereNotNull()` (see below).
 
 Example:
 
