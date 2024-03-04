@@ -58,7 +58,7 @@ public static class StringExtensions
     }
 
     /// <summary>
-    /// Trims away the "trimText" from the "input" string. If it occurs multiple times, it is removed multiple times.
+    /// Trims away the "trimText" from the start of the "input" string. If it occurs multiple times, it is removed multiple times.
     /// Possibility to also pre- and post-trim white-spaces from the "input" string
     /// </summary>
     /// <param name="input">The string which potentially contains unwanted start text</param>
@@ -90,6 +90,12 @@ public static class StringExtensions
         return input;
     }
 
+    /// <summary>
+    /// Trims away the "trimText" from the end of the "input" string. If it occurs multiple times, it is removed multiple times.
+    /// </summary>
+    /// <param name="input">The string which potentially contains unwanted start text</param>
+    /// <param name="trimText">The text which should be removed</param>
+    /// <returns></returns>
     public static string TrimEnd(this string input, string trimText)
     {
         if (trimText == "")
