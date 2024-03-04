@@ -48,6 +48,14 @@ public string GetPreviewText()
 
 Just a shorter version of `myString.Contains(subString, StringComparison.OrdinalIgnoreCase)`.
 
+## `.StartsWithIgnoreCase(subString)`
+
+Just a shorter version of `myString.StartsWith(subString, StringComparison.OrdinalIgnoreCase)`.
+
+## `.EndsWithIgnoreCase(subString)`
+
+Just a shorter version of `myString.EndsWith(subString, StringComparison.OrdinalIgnoreCase)`.
+
 ## `.TrimStart(startString)`
 
 Trims substrings, not just characters. Additional possibility to also remove leading white-space characters.

@@ -40,7 +40,23 @@ public static class StringExtensions
     {
         return mainString.Contains(subString, StringComparison.OrdinalIgnoreCase);
     }
-    
+
+    /// <summary>
+    /// searches for the "subString" at the start of the "mainString" using OrdinalIgnoreCase comparison
+    /// </summary>
+    public static bool StartsWithIgnoreCase(this string mainString, string subString)
+    {
+        return mainString.StartsWith(subString, StringComparison.OrdinalIgnoreCase);
+    }
+
+    /// <summary>
+    /// searches for the "subString" at the end of the "mainString" using OrdinalIgnoreCase comparison
+    /// </summary>
+    public static bool EndsWithIgnoreCase(this string mainString, string subString)
+    {
+        return mainString.EndsWith(subString, StringComparison.OrdinalIgnoreCase);
+    }
+
     /// <summary>
     /// Trims away the "trimText" from the "input" string. If it occurs multiple times, it is removed multiple times.
     /// Possibility to also pre- and post-trim white-spaces from the "input" string

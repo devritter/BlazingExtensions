@@ -52,6 +52,8 @@ public class StringExtensionsTests
     [InlineData("hello world", "o", true)]
     [InlineData("hello world", "lowor", false)]
     [InlineData("hello world", "world!", false)]
+    [InlineData("hello world", "", true)] // default behavior...
+    [InlineData("hello world", " ", true)]
     // should we allow null values?
     public void ContainsIgnoreCase(string longString, string subString, bool expect)
     {
@@ -66,6 +68,31 @@ public class StringExtensionsTests
         Assert.Equal(expect, longString.ToLower().ContainsIgnoreCase(subString));
         Assert.Equal(expect, longString.ToLower().ContainsIgnoreCase(subString.ToLower()));
         Assert.Equal(expect, longString.ToLower().ContainsIgnoreCase(subString.ToUpper()));
+    }
+
+    [Theory]
+    [InlineData("hello world", "hello world", true)]
+    [InlineData("hello world", "hello", true)]
+    [InlineData("hello world", "hello!", false)]
+    [InlineData("hello world", "", true)] // default behavior...
+    public void StartsWithIgnoreCase(string mainString, string subString, bool expect)
+    {
+        mainString.StartsWithIgnoreCase(subString).Should().Be(expect);
+        mainString.ToUpper().StartsWithIgnoreCase(subString.ToLower()).Should().Be(expect);
+        mainString.ToLower().StartsWithIgnoreCase(subString.ToUpper()).Should().Be(expect);
+    }
+
+    [Theory]
+    [InlineData("hello world", "hello world", true)]
+    [InlineData("hello world", "world", true)]
+    [InlineData("hello world", "world!", false)]
+    [InlineData("hello world", "hello!", false)]
+    [InlineData("hello world", "", true)] // default behavior...
+    public void EndsWithIgnoreCase(string mainString, string subString, bool expect)
+    {
+        mainString.EndsWithIgnoreCase(subString).Should().Be(expect);
+        mainString.ToUpper().EndsWithIgnoreCase(subString.ToLower()).Should().Be(expect);
+        mainString.ToLower().EndsWithIgnoreCase(subString.ToUpper()).Should().Be(expect);
     }
 
     [Theory]
