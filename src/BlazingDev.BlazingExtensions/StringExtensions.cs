@@ -72,6 +72,12 @@ public static class StringExtensions
             input = input.TrimStart();
         }
 
+        if (trimText == "")
+        {
+            // native .StartsWith returns true, would end in endless loop
+            return input;
+        }
+        
         while (input.StartsWith(trimText))
         {
             input = input.Substring(trimText.Length);

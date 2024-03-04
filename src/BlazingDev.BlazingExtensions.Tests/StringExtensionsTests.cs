@@ -96,6 +96,11 @@ public class StringExtensionsTests
     }
 
     [Theory]
+    // some edge cases
+    [InlineData("info:job done", "", "info:job done")]
+    [InlineData("info:job done", " ", "info:job done")] 
+    [InlineData("info:job done", "info:job done", "")] 
+    // normal cases
     [InlineData("info:job done", "info:", "job done")] // expected behavior
     [InlineData("info:job done   ", "info:", "job done   ")] // end spaces remain
     [InlineData("info:info:job done", "info:", "job done")] // multiple trimming
