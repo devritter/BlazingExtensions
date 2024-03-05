@@ -95,8 +95,8 @@ public class StringExtensionsTests
     
     [Theory]
     [InlineData(" ", " ", "")] // space removes space
-    [InlineData("   ", " ", "")] // space removes multiple spaces
-    [InlineData("     ", "  ", " ")] // 2-space vs 5-space = 1-space
+    [InlineData("   ", " ", "  ")] // only first space may be removed
+    [InlineData(" ", "  ", " ")] // 2-space not found, 1-space input returned
     [InlineData(" ", "", " ")] // no trimming at all (but also no endless loop)
     [InlineData("", " ", "")] // useless input, remains
     [InlineData("", "", "")] // noting to do
@@ -105,56 +105,34 @@ public class StringExtensionsTests
     [InlineData("hello", " ", "hello")]
     [InlineData("", "hello", "")]
     [InlineData("hello", "hello", "")] // full trimming
-    [InlineData("hellohello", "hello", "")] // multiple full trimming
-    public void TrimStart_TrimEnd_HandleEdgeCasesProperly(string input, string trimValue, string expectedOutput)
+    public void TrimStartOnce_TrimEndOnce_HandleEdgeCasesProperly(string input, string trimValue, string expectedOutput)
     {
-        input.TrimStart(trimValue).Should().Be(expectedOutput);
-        input.TrimEnd(trimValue).Should().Be(expectedOutput);
+        input.TrimStartOnce(trimValue).Should().Be(expectedOutput);
+        input.TrimEndOnce(trimValue).Should().Be(expectedOutput);
     }
 
     [Theory]
     // normal cases
+    [InlineData("hellohello", "hello", "hello")] // only one trimming
     [InlineData("info:job done", "info:", "job done")] // expected behavior
     [InlineData("info:job done   ", "info:", "job done   ")] // end spaces remain
-    [InlineData("info:info:job done", "info:", "job done")] // multiple trimming
-    [InlineData("info:info:job done   ", "info:", "job done   ")] // end spaces remain
+    [InlineData("info:info:job done", "info:", "info:job done")] // only trim one occurrence
+    [InlineData("info:info:job done   ", "info:", "info:job done   ")] // end spaces remain
     [InlineData("info: job done", "info:", " job done")] // space remains
     // no trimming
     [InlineData("info:job done", "warn:", "info:job done")] // no replace if start text is different
-    [InlineData(" info:job done", "info:", " info:job done")] // expected behavior
+    [InlineData(" info:job done", "info:", " info:job done")] // no match because leading space
     [InlineData("info:job done", "INFO:", "info:job done")] // different casing -> no trimming
     // todo what to do with null?
-    public void TrimStart(string fullString, string trimValue, string expectedOutput)
+    public void TrimStartOnce_TrimEndOnce(string mainString, string trimValue, string expectedOutput)
     {
-        fullString.TrimStart(trimValue).Should().Be(expectedOutput);
-    }
+        mainString.TrimStartOnce(trimValue).Should().Be(expectedOutput);
 
-    [Theory]
-    [InlineData("info:job done", "info:", "job done")] // same behavior like without whitespace removal
-    [InlineData("info:info:job done", "info:", "job done")] // same behavior
-    [InlineData("info: job done", "info:", "job done")] // whitespace removed
-    [InlineData(" info: job done", "info:", "job done")] // leading whitespace removed
-    [InlineData(" info: job done   ", "info:", "job done   ")] // leading whitespace removed, trailing remains
-    [InlineData(" info: info: job done", "info:", "job done")] // multiple whitespace removed
-    [InlineData(" info:\tinfo:\ninfo: job done", "info:", "job done")] // different whitespaces removed
-    // no trimming
-    [InlineData("info:job done", "warn:", "info:job done")] // no replace if start text is different
-    [InlineData("info:job done", "INFO:", "info:job done")] // different casing -> no trimming
-    public void TrimStart_WithWhitespaceRemoval(string fullString, string trimValue, string expectedOutput)
-    {
-        fullString.TrimStart(trimValue, true).Should().Be(expectedOutput);
-    }
+        // the reverse strings should exactly work for .TrimEnd
+        var mainStringReverse = new string(mainString.Reverse().ToArray());
+        var trimValueReverse = new string(trimValue.Reverse().ToArray());
+        var expectedOutputReverse = new string(expectedOutput.Reverse().ToArray());
 
-    [Theory]
-    [InlineData("file1.txt", ".txt", "file1")]
-    [InlineData("   file1.txt", ".txt", "   file1")] // start spaces remain
-    [InlineData("FILE1.txt", ".txt", "FILE1")] // casing remains
-    [InlineData("file1 .txt", ".txt", "file1 ")] // space remains
-    [InlineData("file1.txt", ".mp3", "file1.txt")] // no match, no trimming
-    [InlineData("file1.txt.txt", ".txt", "file1")] // multiple trimming
-    [InlineData("file1.TXT", ".txt", "file1.TXT")] // different casing, no trimming
-    public void TrimEnd(string fullString, string trimValue, string expectedOutput)
-    {
-        fullString.TrimEnd(trimValue).Should().Be(expectedOutput);
+        mainStringReverse.TrimEndOnce(trimValueReverse).Should().Be(expectedOutputReverse);
     }
 }
