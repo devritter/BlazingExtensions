@@ -68,6 +68,7 @@ Trims substrings, not just characters.
 ## `.TrimEndOnce(trimValue)`
 
 Trims substrings, not just characters.
+
 ```csharp
 "file1.txt".TrimEndOnce(".txt"); // returns: "file1"
 ```
@@ -98,7 +99,7 @@ Now it will also run on machines in other countries ;)
 
 # IComparable&lt;T&gt; extensions
 
-Almost every struct is `IComparable<T>`, e.g. double, int, DateTime, TimeSpan, ...
+> Almost every struct is `IComparable<T>`, e.g. double, int, DateTime, TimeSpan, ...
 
 ## `.LimitTo(minValue, maxValue)`
 
@@ -116,6 +117,21 @@ It's even possible to only limit one part:
 
 * `startPosition = startPosition.LimitTo(0, null);`
 * `amount = amount.LimitTo(null, user.MaxAmount);`
+
+## `.IsBetweenInclusive(lowerLimit, upperLimit)`
+
+What's the similarity between `if (value >= 10 && value <= 20)` and `if (10 <= value && value <= 20)`?\
+IMHO they are both quite difficult to read. You need some time and mental effort to check if the comparison is made the right
+way.
+
+What about: 
+``````if (value.IsBetweenInclusive(10, 20))``````? :)
+
+## `.IsBetweenExclusive(lowerLimit, upperLimit)`
+
+Same as above, but the argument numbers itself are not considered "valid". 
+
+`10.IsBetweenExclusive(10, 20) // returns false`
 
 ---
 

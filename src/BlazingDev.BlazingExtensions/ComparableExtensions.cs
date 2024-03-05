@@ -22,7 +22,7 @@ public static class ComparableExtensions
         {
             throw new ArgumentException($"minValue ({minValue}) is greater than maxValue ({maxValue})!");
         }
-        
+
         if (minValue != null &&
             value.CompareTo(minValue.Value) == -1)
         {
@@ -34,10 +34,18 @@ public static class ComparableExtensions
         {
             return maxValue.Value;
         }
-        
+
         return value;
     }
 
+    /// <summary>
+    /// Checks whether a given number is between the "lowerLimit" and the "upperLimit".
+    /// If the number is equal to the "lowerLimit" or "upperLimit", "true" is returned.
+    /// </summary>
+    /// <param name="input">the number which should be checked</param>
+    /// <param name="lowerLimit">the minimum allowed number (which is also a valid number for the check)</param>
+    /// <param name="upperLimit">the maximum allowed number (which is also a valid number for the check)</param>
+    /// <exception cref="ArgumentException">if the lowerLimit is greater than the upperLimit</exception>
     public static bool IsBetweenInclusive<T>(this T input, T lowerLimit, T upperLimit)
         where T : IComparable<T>
     {
@@ -45,7 +53,7 @@ public static class ComparableExtensions
         {
             throw new ArgumentException($"lowerLimit ({lowerLimit}) is greater than upperLimit ({upperLimit})!");
         }
-        
+
         if (input.CompareTo(lowerLimit) >= 0 && input.CompareTo(upperLimit) <= 0)
         {
             return true;
@@ -54,6 +62,14 @@ public static class ComparableExtensions
         return false;
     }
 
+    /// <summary>
+    /// Checks whether a given number is between the "lowerLimit" and the "upperLimit".
+    /// If the number is equal to the "lowerLimit" or "upperLimit", "true" is returned.
+    /// </summary>
+    /// <param name="input">the number which should be checked</param>
+    /// <param name="lowerLimit">the lower value which should not be reached</param>
+    /// <param name="upperLimit">the upper value which should not be reached</param>
+    /// <exception cref="ArgumentException">if the lowerLimit is greater than the upperLimit</exception>
     public static bool IsBetweenExclusive<T>(this T input, T lowerLimit, T upperLimit)
         where T : IComparable<T>
     {
@@ -61,7 +77,7 @@ public static class ComparableExtensions
         {
             throw new ArgumentException($"lowerLimit ({lowerLimit}) is greater than upperLimit ({upperLimit})!");
         }
-        
+
         if (input.CompareTo(lowerLimit) == 1 && input.CompareTo(upperLimit) == -1)
         {
             return true;
