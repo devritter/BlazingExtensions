@@ -64,4 +64,72 @@ public class ComparableExtensionsTests
     {
         Assert.Throws<ArgumentException>(() => 5.LimitTo(10, 1));
     }
+
+    [Theory]
+    [InlineData(3,1,5, true)]
+    [InlineData(3,3,5, true)]
+    [InlineData(3,1,3, true)]
+    [InlineData(3,3,3, true)]
+    [InlineData(3,4,6, false)] // range is higher
+    [InlineData(3,1,2, false)] // range is lower
+    [InlineData(-7,-10,-5, true)] // negative
+    [InlineData(-7,-7,-5, true)] // negative
+    [InlineData(-7,-10,-7, true)] // negative
+    [InlineData(-7,-3,0, false)] // negative
+    public void IsBetweenInclusive_Int(int toCheck, int lower, int upper, bool expect)
+    {
+        toCheck.IsBetweenInclusive(lower, upper).Should().Be(expect);
+    }
+    
+    [Theory]
+    [InlineData("2000-01-05", "2000-01-01", "2000-01-10", true)]
+    [InlineData("2000-01-05", "2000-01-05", "2000-01-10", true)]
+    [InlineData("2000-01-05", "2000-01-01", "2000-01-05", true)]
+    [InlineData("2000-01-05", "2000-01-05", "2000-01-05", true)]
+    [InlineData("2000-01-05", "2000-01-04", "2000-01-04", false)]
+    [InlineData("2000-01-05", "2000-01-06", "2000-01-06", false)]
+    public void IsBetweenInclusive_DateTime(string toCheck, string lower, string upper, bool expect)
+    {
+        var toCheckDt = DateTime.Parse(toCheck);
+        var lowerDt = DateTime.Parse(lower);
+        var upperDt = DateTime.Parse(upper);
+        toCheckDt.IsBetweenInclusive(lowerDt, upperDt).Should().Be(expect);
+    }
+
+    [Fact]
+    public void IsBetweenInclusive_ThrowsException_WhenBordersAreTwisted()
+    {
+        Assert.Throws<ArgumentException>(() => 5.IsBetweenInclusive(10, 1));
+    }
+
+    [Theory]
+    [InlineData(3,1,5, true)]
+    [InlineData(3,3,5, false)]
+    [InlineData(3,1,3, false)]
+    [InlineData(3,3,3, false)]
+    [InlineData(3,4,6, false)] // range is higher
+    [InlineData(3,1,2, false)] // range is lower
+    [InlineData(-7,-10,-5, true)] // negative
+    [InlineData(-7,-7,-5, false)] // negative
+    [InlineData(-7,-10,-7, false)] // negative
+    [InlineData(-7,-3,0, false)] // negative
+    public void IsBetweenExclusive_Int(int toCheck, int lower, int upper, bool expect)
+    {
+        toCheck.IsBetweenExclusive(lower, upper).Should().Be(expect);
+    }
+    
+    [Theory]
+    [InlineData("2000-01-05", "2000-01-01", "2000-01-10", true)]
+    [InlineData("2000-01-05", "2000-01-05", "2000-01-10", false)]
+    [InlineData("2000-01-05", "2000-01-01", "2000-01-05", false)]
+    [InlineData("2000-01-05", "2000-01-05", "2000-01-05", false)]
+    [InlineData("2000-01-05", "2000-01-04", "2000-01-04", false)]
+    [InlineData("2000-01-05", "2000-01-06", "2000-01-06", false)]
+    public void IsBetweenExclusive_DateTime(string toCheck, string lower, string upper, bool expect)
+    {
+        var toCheckDt = DateTime.Parse(toCheck);
+        var lowerDt = DateTime.Parse(lower);
+        var upperDt = DateTime.Parse(upper);
+        toCheckDt.IsBetweenExclusive(lowerDt, upperDt).Should().Be(expect);
+    }
 }

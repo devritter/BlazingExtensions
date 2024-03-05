@@ -20,7 +20,7 @@ public static class ComparableExtensions
             maxValue != null &&
             minValue.Value.CompareTo(maxValue.Value) == 1)
         {
-            throw new ArgumentException($"MinValue ({minValue}) is greater than MaxValue ({maxValue})!");
+            throw new ArgumentException($"minValue ({minValue}) is greater than maxValue ({maxValue})!");
         }
         
         if (minValue != null &&
@@ -36,5 +36,37 @@ public static class ComparableExtensions
         }
         
         return value;
+    }
+
+    public static bool IsBetweenInclusive<T>(this T input, T lowerLimit, T upperLimit)
+        where T : IComparable<T>
+    {
+        if (lowerLimit.CompareTo(upperLimit) == 1)
+        {
+            throw new ArgumentException($"lowerLimit ({lowerLimit}) is greater than upperLimit ({upperLimit})!");
+        }
+        
+        if (input.CompareTo(lowerLimit) >= 0 && input.CompareTo(upperLimit) <= 0)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    public static bool IsBetweenExclusive<T>(this T input, T lowerLimit, T upperLimit)
+        where T : IComparable<T>
+    {
+        if (lowerLimit.CompareTo(upperLimit) == 1)
+        {
+            throw new ArgumentException($"lowerLimit ({lowerLimit}) is greater than upperLimit ({upperLimit})!");
+        }
+        
+        if (input.CompareTo(lowerLimit) == 1 && input.CompareTo(upperLimit) == -1)
+        {
+            return true;
+        }
+
+        return false;
     }
 }
