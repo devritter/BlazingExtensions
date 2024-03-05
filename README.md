@@ -56,21 +56,20 @@ Just a shorter version of `myString.StartsWith(subString, StringComparison.Ordin
 
 Just a shorter version of `myString.EndsWith(subString, StringComparison.OrdinalIgnoreCase)`.
 
-## `.TrimStart(trimValue)`
+## `.TrimStartOnce(trimValue)`
 
-Trims substrings, not just characters. Additional possibility to also remove leading white-space characters.
+Trims substrings, not just characters.
 
 ```csharp
-"info:job done".TrimStart("info:"); // returns: "job done"
-"info:info:job done".TrimStart("info:"); // returns: "job done"
-"  info: info:info:\t   job done".TrimStart("info:", trimWhiteSpacesFromStart: true); // returns: "job done"
+"info:job done".TrimStartOnce("info:"); // returns: "job done"
+"info:info:job done".TrimStartOnce("info:"); // returns: "info:job done"
 ```
 
-## `.TrimEnd(trimValue)`
+## `.TrimEndOnce(trimValue)`
 
 Trims substrings, not just characters.
 ```csharp
-"file1.txt".TrimStart(".txt"); // returns: "file1"
+"file1.txt".TrimEndOnce(".txt"); // returns: "file1"
 ```
 
 ## `items.StringJoin(separator)`
