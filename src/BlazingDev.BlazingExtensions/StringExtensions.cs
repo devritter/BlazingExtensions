@@ -91,11 +91,36 @@ public static class StringExtensions
             // native .EndsWith returns true, would end in endless loop
             return input;
         }
-        
+
         if (input.EndsWith(trimText))
         {
             var lengthTrimmed = input.Length - trimText.Length;
             input = input.Substring(0, lengthTrimmed);
+        }
+
+        return input;
+    }
+
+    /// <summary>
+    /// Truncates/shortens/clips a given text if it exceeds a given "maxLength".
+    /// No additional characters are placed in case of truncating (use the "Ellipsis" extension method instead)
+    /// </summary>
+    /// <param name="input">the string which is potentially too long</param>
+    /// <param name="maxLength">the max allowed length of the string. 0 means no clipping.</param>
+    /// <returns></returns>
+    public static string Truncate(this string? input, int maxLength)
+    {
+        if (!input.HasText())
+        {
+            return "";
+        }
+
+        input = input.Trim();
+
+        if (input.Length > maxLength &&
+            maxLength > 0)
+        {
+            input = input.Substring(0, maxLength).Trim();
         }
 
         return input;

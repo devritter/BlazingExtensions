@@ -87,12 +87,12 @@ public class StringExtensionsTests
         // the reverse strings should exactly work for .EndsWith
         var mainStringReverse = new string(mainString.Reverse().ToArray());
         var subStringReverse = new string(subString.Reverse().ToArray());
-        
+
         mainStringReverse.EndsWithIgnoreCase(subStringReverse).Should().Be(expect);
         mainStringReverse.ToUpper().EndsWithIgnoreCase(subStringReverse.ToLower()).Should().Be(expect);
         mainStringReverse.ToLower().EndsWithIgnoreCase(subStringReverse.ToUpper()).Should().Be(expect);
     }
-    
+
     [Theory]
     [InlineData(" ", " ", "")] // space removes space
     [InlineData("   ", " ", "  ")] // only first space may be removed
@@ -134,5 +134,28 @@ public class StringExtensionsTests
         var expectedOutputReverse = new string(expectedOutput.Reverse().ToArray());
 
         mainStringReverse.TrimEndOnce(trimValueReverse).Should().Be(expectedOutputReverse);
+    }
+
+    [Theory]
+    [InlineData("this is a long text", 100, "this is a long text")]
+    [InlineData("this is a long text", 19, "this is a long text")]
+    [InlineData("this is a long text", 18, "this is a long tex")]
+    [InlineData("this is a long text", 10, "this is a")] // trim trailing space
+    // auto trim
+    [InlineData("   this is a long   ", 4, "this")]
+    [InlineData("   this is   ", 8, "this is")]
+    [InlineData("   this          is   ", 10, "this")]
+    // special cases
+    [InlineData(" ", 10, "")]
+    [InlineData("   ", 2, "")]
+    [InlineData("", 10, "")]
+    [InlineData(null, 10, "")] // nobody likes nulls, so just return empty string
+    // 0 = no clipping
+    [InlineData("hello", 0, "hello")]
+    [InlineData("  hello  ", 0, "hello")]
+    [InlineData("  ", 0, "")]
+    public void Truncate(string? input, int length, string output)
+    {
+        input.Truncate(length).Should().Be(output);
     }
 }

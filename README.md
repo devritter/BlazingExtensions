@@ -73,6 +73,27 @@ Trims substrings, not just characters.
 "file1.txt".TrimEndOnce(".txt"); // returns: "file1"
 ```
 
+## `.Truncate(maxLength)`
+
+Fast and convenient way to shorten a given text, e.g. for a preview line.
+
+```csharp
+"hello world".Truncate(15);                 // returns "hello world", no truncation needed
+"hello beautiful world".Truncate(15);       // returns "hello beautiful"
+// auto trimming of the input and output string:
+"hello world".Truncate(6);                  // returns "hello"
+"hello\n\t  ".Truncate(15);                 // returns "hello"
+"   hello   ".Truncate(15);                 // returns "hello"
+"   hello beautiful world   ".Truncate(15); // returns "hello beautiful"
+// handling annoying cases
+"  ".Truncate(15);                          // returns ""
+null.Truncate(15);                          // returns ""
+// 0 = no trimming (of the useful content)
+"   ".Truncate(0);                          // returns ""
+"  hello  ".Truncate(0);                    // returns "hello"
+"hello".Truncate(0);                        // returns "hello"
+```
+
 ## `items.StringJoin(separator)`
 
 Convenient way to join a string together just like `string.Join(separator, items)`.\
