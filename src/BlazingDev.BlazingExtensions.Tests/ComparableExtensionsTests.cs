@@ -18,9 +18,9 @@ public class ComparableExtensionsTests
     [InlineData(0.5, 0, 0.4, 0.4)]
     // very hard limit
     [InlineData(5, 4, 4, 4)]
-    public void LimitToDouble_WithBothRangesSet(double input, double min, double max, double result)
+    public void ClampDouble_WithBothRangesSet(double input, double min, double max, double result)
     {
-        Assert.Equal(result, input.LimitTo(min, max));
+        Assert.Equal(result, input.Clamp(min, max));
     }
 
     [Theory]
@@ -30,9 +30,9 @@ public class ComparableExtensionsTests
     [InlineData(-0.5, -1, -0.5)]
     [InlineData(-0.5, -0.5, -0.5)]
     [InlineData(-0.5, -0.2, -0.2)]
-    public void LimitToDouble_WithOnlyMinSet(double input, double min, double result)
+    public void ClampDouble_WithOnlyMinSet(double input, double min, double result)
     {
-        Assert.Equal(result, input.LimitTo(min, null));
+        Assert.Equal(result, input.Clamp(min, null));
     }
 
     [Theory]
@@ -42,27 +42,27 @@ public class ComparableExtensionsTests
     [InlineData(-0.5, 0, -0.5)]
     [InlineData(-0.5, -0.5, -0.5)]
     [InlineData(-0.5, -0.8, -0.8)]
-    public void LimitToDouble_WithOnlyMaxSet(double input, double max, double result)
+    public void ClampDouble_WithOnlyMaxSet(double input, double max, double result)
     {
-        Assert.Equal(result, input.LimitTo(null, max));
+        Assert.Equal(result, input.Clamp(null, max));
     }
 
     [Fact]
-    public void LimitTo_WithTimeSpan()
+    public void ClampTimeSpan()
     {
         var ts1 = TimeSpan.FromHours(1);
         var ts2 = TimeSpan.FromHours(2);
         var ts3 = TimeSpan.FromHours(3);
         
-        Assert.Equal(ts2, ts2.LimitTo(ts1, ts3));
-        Assert.Equal(ts2, ts1.LimitTo(ts2, ts3));
-        Assert.Equal(ts2, ts3.LimitTo(ts1, ts2));
+        Assert.Equal(ts2, ts2.Clamp(ts1, ts3));
+        Assert.Equal(ts2, ts1.Clamp(ts2, ts3));
+        Assert.Equal(ts2, ts3.Clamp(ts1, ts2));
     }
 
     [Fact]
-    public void LimitTo_ThrowsArgumentException_IfMinAndMaxAreTwisted()
+    public void Clamp_ThrowsArgumentException_IfMinAndMaxAreTwisted()
     {
-        Assert.Throws<ArgumentException>(() => 5.LimitTo(10, 1));
+        Assert.Throws<ArgumentException>(() => 5.Clamp(10, 1));
     }
 
     [Theory]

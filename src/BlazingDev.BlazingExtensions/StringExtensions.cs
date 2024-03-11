@@ -163,7 +163,7 @@ public static class StringExtensions
 
         var ellipsisLength = ellipsisText.Length;
 
-        maxLengthIncludingEllipsis = maxLengthIncludingEllipsis.LimitTo(ellipsisLength, null);
+        maxLengthIncludingEllipsis = maxLengthIncludingEllipsis.Clamp(ellipsisLength, null);
 
         // no ellipsis if the text just fits the max length window
         if (input.Length <= maxLengthIncludingEllipsis)
