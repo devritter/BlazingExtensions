@@ -157,5 +157,64 @@ public class StringExtensionsTests
     public void Truncate(string? input, int length, string output)
     {
         input.Truncate(length).Should().Be(output);
+        // empty ellipsis should behave the same as Truncate()
+        input.Ellipsis(length, "").Should().Be(output);
+    }
+
+    [Theory]
+    [InlineData("this is a long text", 100, "this is a long text")]
+    [InlineData("this is a long text", 15, "this is a long…")]
+    [InlineData("hello", 5, "hello")] // ellipsis character does not make sense here
+    [InlineData("hello!", 5, "hell…")]
+    // auto trim
+    [InlineData("     ", 3, "")]
+    [InlineData("    hello  ", 6, "hello")]
+    [InlineData("    hello  ", 3, "he…")]
+    // special cases
+    [InlineData("hello", 1, "…")] // we give at least the full ellipsis text back
+    [InlineData(null, 5, "")] // nobody likes nulls, so just return empty string
+    [InlineData(null, 0, "")] // nobody likes nulls, so just return empty string
+    // 0 = no clipping (to have the same behavior as .Truncate() )
+    [InlineData("hello", 0, "hello")] // ellipsis character does not make sense here
+    public void Ellipsis(string? input, int length, string output)
+    {
+        input.Ellipsis(length).Should().Be(output);
+    }
+
+    [Theory]
+    [InlineData("hello world", 11, "hello world")]
+    [InlineData("hello world", 10, "hell[more]")]
+    [InlineData("see more info", 10, "see [more]")]
+    [InlineData("hello world", 7, "h[more]")]
+    // auto trim
+    [InlineData(" x ", 5, "x")]
+    [InlineData(" hello world ", 11, "hello world")]
+    [InlineData(" hello world ", 8, "he[more]")]
+    // special cases
+    [InlineData("hello world", 6, "[more]")] // we give at least the ellipsis back
+    [InlineData("hello world", 1, "[more]")] // we give at least the ellipsis back
+    [InlineData(null, 5, "")] // nobody likes nulls, so just return empty string
+    // 0 = no clipping (to have the same behavior as .Truncate() )
+    [InlineData("hello world", 0, "hello world")]
+    [InlineData("", 0, "")]
+    [InlineData("  ", 0, "")]
+    [InlineData("  x  ", 0, "x")] // nobody likes nulls, so just return empty string
+    [InlineData(null, 0, "")] // nobody likes nulls, so just return empty string
+    public void EllipsisWithCustomText(string? input, int length, string output)
+    {
+        input.Ellipsis(length, "[more]").Should().Be(output);
+    }
+
+    [Theory]
+    [InlineData("hello world", 11, "hello world")]
+    [InlineData("hello world", 10, "hel [more]")]
+    [InlineData("see more info", 10, "see [more]")]
+    [InlineData("see\tmore info", 10, "see [more]")]
+    [InlineData("h         d", 10, "h [more]")] // only one leading space required
+    [InlineData("hello world", 7, "[more]")] // no leading space here
+    [InlineData("hello world", 1, "[more]")] // and also not here because not useful
+    public void EllipsisWithCustomText_PreservesLeadingSpaceFromEllipsis(string? input, int length, string output)
+    {
+        input.Ellipsis(length, " [more]").Should().Be(output);
     }
 }

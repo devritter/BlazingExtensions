@@ -75,23 +75,58 @@ Trims substrings, not just characters.
 
 ## `.Truncate(maxLength)`
 
-Fast and convenient way to shorten a given text, e.g. for a preview line.
+Fast and convenient way to shorten a given text, e.g. for a preview line.\
+You can expect a non-`null` and trimmed string.
 
 ```csharp
 "hello world".Truncate(15);                 // returns "hello world", no truncation needed
 "hello beautiful world".Truncate(15);       // returns "hello beautiful"
+
 // auto trimming of the input and output string:
 "hello world".Truncate(6);                  // returns "hello"
 "hello\n\t  ".Truncate(15);                 // returns "hello"
 "   hello   ".Truncate(15);                 // returns "hello"
 "   hello beautiful world   ".Truncate(15); // returns "hello beautiful"
+
 // handling annoying cases
 "  ".Truncate(15);                          // returns ""
 null.Truncate(15);                          // returns ""
+
 // 0 = no trimming (of the useful content)
 "   ".Truncate(0);                          // returns ""
 "  hello  ".Truncate(0);                    // returns "hello"
 "hello".Truncate(0);                        // returns "hello"
+```
+
+## `.Ellipsis(maxLengthIncludingEllipsis, ellipsisText)`
+
+Fast and convenient way to shorten a given text + appending ellipsis text, e.g. for a preview line.\
+The default ellipsis text `…` only uses 1 character.\
+You can expect a non-`null` and trimmed string.
+
+```csharp
+"hello world".Ellipsis(15);                         // returns "hello world", no ellipsis needed
+"hello beautiful world".Ellipsis(15);               // returns "hello beautifu…"
+
+// you can specify your own ellipsis text
+"hello beautiful world".Ellipsis(15, " [more]");    // returns "hello be [more]"
+
+// the ellipsis text is always returned even if the maxLength is too small.
+// this is handy when your ellipsis text is localized.
+"hello beautiful world".Ellipsis(2, " [more]");     // returns "[more]"
+
+// auto trimming of the input and output string:
+"hello world   ".Ellipsis(15);                      // returns "hello world"
+"   hello beautiful world   ".Ellipsis(15);         // returns "hello beautifu…"
+
+// handling annoying cases
+"  ".Ellipsis(15);                                  // returns ""
+null.Ellipsis(15);                                  // returns ""
+
+// 0 = no trimming (of the useful content)
+"   ".Ellipsis(0);                                  // returns ""
+"  hello  ".Ellipsis(0);                            // returns "hello"
+"hello".Ellipsis(0);                                // returns "hello"
 ```
 
 ## `items.StringJoin(separator)`
@@ -142,15 +177,16 @@ It's even possible to only limit one part:
 ## `.IsBetweenInclusive(lowerLimit, upperLimit)`
 
 What's the similarity between `if (value >= 10 && value <= 20)` and `if (10 <= value && value <= 20)`?\
-IMHO they are both quite difficult to read. You need some time and mental effort to check if the comparison is made the right
+IMHO they are both quite difficult to read. You need some time and mental effort to check if the comparison is made the
+right
 way.
 
-What about: 
+What about:
 ``````if (value.IsBetweenInclusive(10, 20))``````? :)
 
 ## `.IsBetweenExclusive(lowerLimit, upperLimit)`
 
-Same as above, but the argument numbers itself are not considered "valid". 
+Same as above, but the argument numbers itself are not considered "valid".
 
 `10.IsBetweenExclusive(10, 20) // returns false`
 

@@ -117,12 +117,79 @@ public static class StringExtensions
 
         input = input.Trim();
 
-        if (input.Length > maxLength &&
-            maxLength > 0)
+        if (maxLength == 0)
+        {
+            return input;
+        }
+
+        if (input.Length > maxLength)
         {
             input = input.Substring(0, maxLength).Trim();
         }
 
         return input;
+    }
+
+    public const string DefaultEllipsisText = "…";
+
+    /// <summary>
+    /// Truncates a given text if it exceeds a given "maxLength" and appends some "ellipsisText" if the text was truncated.
+    /// Usually the returned text does not exceed the "maxLengthIncludingEllipsis" even if truncation and "ellipsisText" appending was needed.
+    /// In cases where the "ellipsisText" is longer than the "maxLengthIncludingEllipsis" at least the "ellipsisText" is returned.
+    /// </summary>
+    /// <param name="input">the string which is potentially too long</param>
+    /// <param name="maxLengthIncludingEllipsis">the max desired length of the string. 0 means no clipping.</param>
+    /// <param name="ellipsisText">the text which indicates that there is more text</param>
+    /// <returns></returns>
+    public static string Ellipsis(this string? input, int maxLengthIncludingEllipsis,
+        string ellipsisText = DefaultEllipsisText)
+    {
+        if (!input.HasText())
+        {
+            return "";
+        }
+
+        input = input.Trim();
+
+        if (maxLengthIncludingEllipsis == 0)
+        {
+            return input;
+        }
+
+        if (ellipsisText.Length == 0)
+        {
+            return input.Truncate(maxLengthIncludingEllipsis);
+        }
+
+        var ellipsisLength = ellipsisText.Length;
+
+        maxLengthIncludingEllipsis = maxLengthIncludingEllipsis.LimitTo(ellipsisLength, null);
+
+        // no ellipsis if the text just fits the max length window
+        if (input.Length <= maxLengthIncludingEllipsis)
+        {
+            return input;
+        }
+
+        if (input.Length <= ellipsisLength)
+        {
+            return ellipsisText;
+        }
+
+        var maxTextLength = maxLengthIncludingEllipsis - ellipsisLength;
+
+        if (input.Length > maxTextLength)
+        {
+            input = input.Substring(0, maxTextLength);
+
+            if (char.IsWhiteSpace(ellipsisText[0]))
+            {
+                input = input.Trim();
+            }
+            
+            input += ellipsisText;
+        }
+
+        return input.Trim();
     }
 }
