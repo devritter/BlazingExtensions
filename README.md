@@ -7,6 +7,11 @@ Hello C# developers!
 Within this repo I'm collecting all the extensions that I was missing over and over in my daily work. Hopefully they
 will also speed up and inspire your life :)
 
+> If you have the possibility to make yourself 5% more productive and your code 5% more readable and bug-free, then you
+> should definitely use it!
+
+So let's start into your blazing future ;)
+
 ---
 
 # String extensions
