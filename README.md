@@ -16,13 +16,13 @@ So let's start into your blazing future ;)
 
 # String extensions
 
-## `.HasText()`
+## `.HasContent()`
 
 Are you happy using `string.IsNullOrEmpty(value)` all the time? Or was it `string.IsNullOrWhiteSpace(value)`?
 And shouldn't you write positive code according to "Clean Code"?
 Have you ever forgotten to invert the return value when using it within an `if` statement?
 
-Clear the stage for `value.HasText()`! :tada:
+Clear the stage for `value.HasContent()`! :tada:
 
 What will it return?
 

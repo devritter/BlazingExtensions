@@ -7,17 +7,18 @@ public static class StringExtensions
 {
     /// <summary>
     /// is the opposite of "string.IsNullOrWhiteSpace". <br/> 
-    /// null, empty string, whitespaces (like spaces, tabs, newlines) are NOT considered useful text and the method will return false.
+    /// null, empty string, whitespaces (like spaces, tabs, newlines) are NOT considered useful content and the method will return false.
+    /// In all other cases where at least one 'visible' character is part of the string, the method returns true. 
     /// </summary>
-    /// <param name="input"></param>
+    /// <param name="input">the value to check</param>
     /// <returns></returns>
-    public static bool HasText([NotNullWhen(true)] this string? input)
+    public static bool HasContent([NotNullWhen(true)] this string? input)
     {
         return !string.IsNullOrWhiteSpace(input);
     }
 
     /// <summary>
-    /// Returns the fallback text if the "input" parameter has no text (see <see cref="HasText">HasText()</see> extension). <br/>
+    /// Returns the fallback text if the "input" parameter has no text (see <see cref="HasContent">HasText()</see> extension). <br/>
     /// Returns empty string if "input" has no text and "fallbackText" is null.
     /// </summary>
     /// <param name="input">main value to use if useful</param>
@@ -25,7 +26,7 @@ public static class StringExtensions
     /// <returns></returns>
     public static string Fallback(this string? input, string? fallbackText)
     {
-        if (input.HasText())
+        if (input.HasContent())
         {
             return input;
         }
@@ -110,7 +111,7 @@ public static class StringExtensions
     /// <returns></returns>
     public static string Truncate(this string? input, int maxLength)
     {
-        if (!input.HasText())
+        if (!input.HasContent())
         {
             return "";
         }
@@ -144,7 +145,7 @@ public static class StringExtensions
     public static string Ellipsis(this string? input, int maxLengthIncludingEllipsis,
         string ellipsisText = DefaultEllipsisText)
     {
-        if (!input.HasText())
+        if (!input.HasContent())
         {
             return "";
         }

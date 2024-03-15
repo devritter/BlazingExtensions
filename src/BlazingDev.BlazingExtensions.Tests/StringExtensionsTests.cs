@@ -11,9 +11,9 @@ public class StringExtensionsTests
     [InlineData("   \t   \n  ", false)]
     [InlineData("x", true)]
     [InlineData("    x\t", true)]
-    public void HasText(string? input, bool expected)
+    public void HasContent(string? input, bool expected)
     {
-        Assert.Equal(expected, input.HasText());
+        Assert.Equal(expected, input.HasContent());
     }
 
     [Theory]
