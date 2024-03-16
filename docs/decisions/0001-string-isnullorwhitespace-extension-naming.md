@@ -1,6 +1,6 @@
 ---
 status: accepted
-date: 2024-03-15
+date: 2024-03-16
 deciders: the-blazing-dev
 ---
 
@@ -19,8 +19,8 @@ Therefore I need an extension which is easy to remember, easy to read and easy t
 
 ## Additional context
 
-In probably 99% you don't care if the string is `null`, empty (`""`) or white-space (`"   "`). All three cases are "
-bad".
+In probably 99% you don't care if the string is `null`, empty (`""`) or white-space (`"   "`). All three cases are
+"bad".
 
 All other cases are considered "good", because they contain something useful, e.g. `"hello"`.\
 This is also true for strings that contain a lot white-spaces but at least some "visible" character, e.g. `"   x   "`.
@@ -38,22 +38,23 @@ This is also true for strings that contain a lot white-spaces but at least some 
 * someString.IsValuable()
     * see above
 * someString.IsBlank()
-    * Bad, more feels like it checks only against "emptiness"
-    * Bad, because the other way round, you need to invert the return value
+    * Neutral/bad, more feels like it checks only against "emptiness"
+    * Bad, because it is the other way round, you need to invert the return value
+        * Neutral/good, because we could have a `IsNotBlank()` extension method
 * someString.HasData()
+    * Neutral, would fit better for some more complex classes
 * someString.HasContent()
-    * Good, because null+empty definitely is not "content". and you can't really expect white-spaces if this method
-      returns true
-    * Good, because this method could also be used for null/empty lists
+    * Good, because null+empty definitely is not "content". And white-spaces are no "useful" content.
+    * Good, because this method name could also be used for null/empty lists
     * Good, because also the opposite is possible: `.LacksContent()`
 * someString.HasValue()
-    * Good, because analogy to nullables``
-    * Bad, because then `""` would be a value, same as default values like `0` or `false`
+    * Good, because analogy to nullables
+    * Bad, because people could expect `""` to be a value, same as default values like `0` or `false`
 * someString.IsValid()
     * Bad, because validity is domain specific
     * Bad, could raise too many expectations (we don't check validation attributes)
 * someString.IsGood()
-    * see above
+    * Bad, because it depends on the situation. E.g. variables like `headerTextOverride` are fine to be empty.
 * someString.IsFilled()
     * Good, because it's quite clear that something has to be in it
     * Bad, because it sounds like some filling limit is reached, e.g. students in a course
@@ -68,5 +69,7 @@ This is also true for strings that contain a lot white-spaces but at least some 
 ## Decision Outcome
 
 Chosen option: "someString.HasContent()", because
-it is the only option with only positive arguments. A second advante is that the same name can be used for list
-out best (see below)}.
+it is the only option with only positive arguments. It has the best balance between telling what it checks and not
+giving too many misleading expectations.
+
+Another advantage is that the same extension method name can be used for lists. 
