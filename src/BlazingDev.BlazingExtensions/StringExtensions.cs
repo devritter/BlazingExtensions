@@ -37,6 +37,14 @@ public static class StringExtensions
     /// <summary>
     /// searches for the "subString" inside the "mainString" using OrdinalIgnoreCase comparison
     /// </summary>
+    public static bool EqualsIgnoreCase(this string value, string? other)
+    {
+        return value.Equals(other, StringComparison.OrdinalIgnoreCase);
+    }
+
+    /// <summary>
+    /// searches for the "subString" inside the "mainString" using OrdinalIgnoreCase comparison
+    /// </summary>
     public static bool ContainsIgnoreCase(this string mainString, string subString)
     {
         return mainString.Contains(subString, StringComparison.OrdinalIgnoreCase);

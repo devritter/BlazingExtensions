@@ -45,6 +45,26 @@ public class StringExtensionsTests
     }
 
     [Theory]
+    [InlineData("hello", "hello", true)]
+    [InlineData("hello", "HELLO", true)]
+    [InlineData("HELLO", "hello", true)]
+    [InlineData("hello", "hello!", false)]
+    [InlineData("hello!", "hello", false)]
+    // special cases
+    [InlineData("hello", "", false)]
+    [InlineData("", "hello", false)]
+    [InlineData("hello", null, false)]
+    // [InlineData(null, "hello", false)] for now let's just behave like the framework method
+    [InlineData("", "", true)]
+    [InlineData("\t", "\t", true)]
+    public void EqualsIgnoreCase(string value, string? other, bool expect)
+    {
+        value.EqualsIgnoreCase(other).Should().Be(expect);
+        // verify that it behaves the same as the framework method
+        value.Equals(other, StringComparison.OrdinalIgnoreCase).Should().Be(expect);
+    }
+
+    [Theory]
     [InlineData("hello world", "hello world", true)]
     [InlineData("hello world", "hello", true)]
     [InlineData("hello world", "world", true)]
