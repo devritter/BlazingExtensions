@@ -237,4 +237,52 @@ public class StringExtensionsTests
     {
         input.Ellipsis(length, " [more]").Should().Be(output);
     }
+
+    [Theory]
+    [InlineData("some,csv,text")] // start
+    [InlineData(",,some,,,csv,,,text,,")] // remove empty entries
+    [InlineData("  ,  ,some,  ,  ,csv,  ,  ,text,  ,  ")] // no content also means empty
+    [InlineData("  some  ,  csv  ,  text  ")] // auto-trim
+    [InlineData(" some ,  , csv ,  , text , , , \t,\n,\t\n")] // everything combined
+    public void BzSplit(string input)
+    {
+        string[] expected = ["some", "csv", "text"];
+        
+        // single char separator
+        input.BzSplit(',').Should().BeEquivalentTo(expected);
+        
+        // multi char separator
+        input.BzSplit('\t', ';', ',').Should().BeEquivalentTo(expected);
+        
+        // single string separator
+        input.BzSplit(",").Should().BeEquivalentTo(expected);
+        // validate with multi-character separator
+        input.Replace(",", "<sep>").BzSplit("<sep>").Should().BeEquivalentTo(expected);
+        
+        // multi string separator
+        input.BzSplit("<sep>", "\t", ",").Should().BeEquivalentTo(expected);
+    }
+
+    [Fact]
+    public void BzSplit_SpecialCases()
+    {
+        // non-content input
+        "".BzSplit(",").Should().BeEquivalentTo([]);
+        "  ".BzSplit(",").Should().BeEquivalentTo([]);
+        " , ".BzSplit(",").Should().BeEquivalentTo([]);
+        
+        // separator not part of input string
+        "hello world".BzSplit(",").Should().BeEquivalentTo(["hello world"]);
+        "hello world".BzSplit("  ").Should().BeEquivalentTo(["hello world"]);
+        
+        // non-content separator
+        "hello".BzSplit("").Should().BeEquivalentTo(["hello"]);
+        "hello".BzSplit(" ").Should().BeEquivalentTo(["hello"]);
+        "  hello  ".BzSplit(" ").Should().BeEquivalentTo(["hello"]);
+        
+        // non-content both
+        "".BzSplit("").Should().BeEquivalentTo([]);
+        "  ".BzSplit("").Should().BeEquivalentTo([]);
+        " \t ".BzSplit("").Should().BeEquivalentTo([]);
+    }
 }

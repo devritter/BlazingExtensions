@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 
 namespace BlazingDev.BlazingExtensions;
 
@@ -200,5 +202,65 @@ public static class StringExtensions
         }
 
         return input.Trim();
+    }
+
+    /// <summary>
+    /// A handy string split function which <br />
+    /// a) removes empty entries (including white-space ones) <br />
+    /// b) trims the non-empty entries
+    /// </summary>
+    /// <param name="input">the string you want to split</param>
+    /// <param name="separator">separator character</param>
+    /// <returns></returns>
+    public static string[] BzSplit(this string input, char separator)
+    {
+        return BzSplitCore(input.Split(separator, StringSplitOptions.RemoveEmptyEntries));
+    }
+
+    /// <summary>
+    /// A handy string split function which <br />
+    /// a) removes empty entries (including white-space ones) <br />
+    /// b) trims the non-empty entries
+    /// </summary>
+    /// <param name="input">the string you want to split</param>
+    /// <param name="separators">separator characters</param>
+    /// <returns></returns>
+    public static string[] BzSplit(this string input, params char[] separators)
+    {
+        return BzSplitCore(input.Split(separators, StringSplitOptions.RemoveEmptyEntries));
+    }
+
+    /// <summary>
+    /// A handy string split function which <br />
+    /// a) removes empty entries (including white-space ones) <br />
+    /// b) trims the non-empty entries
+    /// </summary>
+    /// <param name="input">the string you want to split</param>
+    /// <param name="separator">separator string</param>
+    /// <returns></returns>
+    public static string[] BzSplit(this string input, string separator)
+    {
+        return BzSplitCore(input.Split(separator, StringSplitOptions.RemoveEmptyEntries));
+    }
+
+    /// <summary>
+    /// A handy string split function which <br />
+    /// a) removes empty entries (including white-space ones) <br />
+    /// b) trims the non-empty entries
+    /// </summary>
+    /// <param name="input">the string you want to split</param>
+    /// <param name="separators">separator strings</param>
+    /// <returns></returns>
+    public static string[] BzSplit(this string input, params string[] separators)
+    {
+        return BzSplitCore(input.Split(separators, StringSplitOptions.RemoveEmptyEntries));
+    }
+
+    private static string[] BzSplitCore(string[] items)
+    {
+        return items
+            .Where(x => x.HasContent())
+            .Select(x => x.Trim())
+            .ToArray(); 
     }
 }

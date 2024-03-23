@@ -138,6 +138,15 @@ null.Ellipsis(15);                                  // returns ""
 "hello".Ellipsis(0);                                // returns "hello"
 ```
 
+## `.BzSplit(separator)`
+Handy splitter function which also
+* removes empty entries (including whitespace ones)
+* trims entries
+
+```csharp
+"hello,  ,  world  ,,,".BzSplit(',')   // returns ["hello","world"]
+```
+
 ## `items.StringJoin(separator)`
 
 Convenient way to join a string together just like `string.Join(separator, items)`.\
