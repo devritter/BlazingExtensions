@@ -240,7 +240,7 @@ Use `!myItems.HasContent()` to prevent yourself from unreadable (and potentially
 Returns only non-null items with the correct nullability information so you don't get compiler warnings.
 
 ```csharp
-foreach (var items in data.WhereNotNull())
+foreach (var item in data.WhereNotNull())
 {
     // no compiler warning here
     DoSomething(item.Id, item.Name);
