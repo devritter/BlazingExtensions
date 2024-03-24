@@ -139,7 +139,9 @@ null.Ellipsis(15);                                  // returns ""
 ```
 
 ## `.BzSplit(separator)`
+
 Handy splitter function which also
+
 * removes empty entries (including whitespace ones)
 * trims entries
 
@@ -221,12 +223,9 @@ Prevents you from unreadable (and potentially buggy) code like:
 * `if (myItems?.Any() != false)` (does not work for `null` collections)
 * `if (myItems?.Any() ?? false)`
 * `if ((myItems?.Any()).GetValueOrDefault())`
-* `if (myItems?.Count() > 0)`
+* `if (myItems?.Count() > 0)` (could be slow)
 
-## `.IsEmpty()`
-
-Returns `true` if the collection is `null` or empty.\
-Prevents you from unreadable (and potentially buggy) code like:
+Use `!myItems.HasContent()` to prevent yourself from unreadable (and potentially buggy) code like:
 
 * `if (!myItems.Any())`
 * `if (myItems.Any() == false)`
@@ -234,7 +233,7 @@ Prevents you from unreadable (and potentially buggy) code like:
 * `if (myItems.Count() == 0)`
 * `if (myItems?.Any() == false)` (which does not work for `null` collections)
 * `if (myItems?.Any() != true)`
-* `if (myItems?.Count() == 0)` (which does not work for `null` collections)
+* `if (myItems?.Count() == 0)` (which does not work for `null` collections and could be slow)
 
 ## `.WhereNotNull()`
 

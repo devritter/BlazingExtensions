@@ -24,19 +24,6 @@ public class EnumerableExtensionsTests
     }
 
     [Fact]
-    public void IsEmpty()
-    {
-        Test(true, null);
-        Test(true, []);
-        Test(false, [1]);
-
-        void Test(bool expected, int[]? values)
-        {
-            Assert.Equal(expected, values.IsEmpty());
-        }
-    }
-
-    [Fact]
     public void StringJoin()
     {
         Test([], ",", "");
