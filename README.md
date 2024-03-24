@@ -212,7 +212,7 @@ Same as above, but the argument numbers itself are not considered "valid".
 
 # IEnumerable&lt;T&gt; extensions
 
-## `.SafeAny()`
+## `.HasContent()`
 
 Returns `true` if the collection has items (and therefore is not `null`).\
 Prevents you from unreadable (and potentially buggy) code like:
@@ -222,8 +222,6 @@ Prevents you from unreadable (and potentially buggy) code like:
 * `if (myItems?.Any() ?? false)`
 * `if ((myItems?.Any()).GetValueOrDefault())`
 * `if (myItems?.Count() > 0)`
-
-Note: Because I can't override Linq's `.Any()` but want to be null-safe, I used the `Safe` prefix.
 
 ## `.IsEmpty()`
 
@@ -237,8 +235,6 @@ Prevents you from unreadable (and potentially buggy) code like:
 * `if (myItems?.Any() == false)` (which does not work for `null` collections)
 * `if (myItems?.Any() != true)`
 * `if (myItems?.Count() == 0)` (which does not work for `null` collections)
-
-Note: As there is no competing existing extension method, I had no need to use the `Safe` prefix.
 
 ## `.WhereNotNull()`
 

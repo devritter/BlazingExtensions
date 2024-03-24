@@ -5,7 +5,7 @@ namespace BlazingDev.BlazingExtensions.Tests;
 public class EnumerableExtensionsTests
 {
     [Fact]
-    public void SafeAny()
+    public void HasContent()
     {
         Test(false, null);
         Test(false, []);
@@ -13,7 +13,13 @@ public class EnumerableExtensionsTests
 
         void Test(bool expected, int[]? values)
         {
-            Assert.Equal(expected, values.SafeAny());
+            Assert.Equal(expected, values.HasContent());
+
+            if (values.HasContent())
+            {
+                // no compiler warning here!
+                _ = values.Length;
+            }
         }
     }
 

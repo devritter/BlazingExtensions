@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace BlazingDev.BlazingExtensions;
@@ -7,9 +8,9 @@ namespace BlazingDev.BlazingExtensions;
 public static class EnumerableExtensions
 {
     /// <summary>
-    /// returns true if the "enumerable" is NOT NULL and FILLED with something
+    /// returns true if the "enumerable" is NOT NULL and has at least one item
     /// </summary>
-    public static bool SafeAny<T>(this IEnumerable<T>? enumerable)
+    public static bool HasContent<T>([NotNullWhen(true)] this IEnumerable<T>? enumerable)
     {
         return enumerable != null &&
                enumerable.Any();
