@@ -202,4 +202,29 @@ public class BzEnumerableExtensionsTests
         var totalSeconds = items.WhereNotNull().Select(x => x.TotalSeconds).Sum();
         totalSeconds.Should().Be(15);
     }
+
+    [Fact]
+    public void EnumerableForEach()
+    {
+        var sum = 0;
+        var items = new[] { 1, 2, 3 };
+        items.ForEach(x => sum += x);
+        sum.Should().Be(6);
+
+        sum = 0;
+        items.AsEnumerable().ForEach(x => sum += x);
+        sum.Should().Be(6);
+
+        sum = 0;
+        var hashSet = new HashSet<int>(items);
+        hashSet.ForEach(x => sum += x);
+        sum.Should().Be(6);
+
+        sum = 0;
+        // we can't really assert that the "original" List.ForEach(x) method is called
+        // but we just verify that we don't have compiler errors
+        var list = new List<int>(items);
+        list.ForEach(x => sum += x);
+        sum.Should().Be(6);
+    }
 }

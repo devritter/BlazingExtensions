@@ -50,4 +50,15 @@ public static class BzEnumerableExtensions
     {
         return items.Where(x => x.HasValue).Select(x => x!.Value);
     }
+
+    /// <summary>
+    /// Invokes the "action" with every item inside "items"
+    /// </summary>
+    public static void ForEach<T>(this IEnumerable<T> items, Action<T> action)
+    {
+        foreach (var item in items)
+        {
+            action(item);
+        }
+    }
 }

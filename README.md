@@ -258,6 +258,15 @@ someData
     // ...
 ```
 
+## `.ForEach(action)`
+
+Ever tried to call `.ForEach(...)` on an `Array`, `IEnumerable<T>` or `HashSet<T>`? Now you can! 
+Without calling `.ToList()` upfront!
+
+```csharp
+someItems.ForEach(x => DoSomeFurtherProcessing(x));
+```
+
 ## `.OrderByFirstWhere()` and `.ThenByFirstWhere()`
 
 Useful when you want to have some pinned / favorite / urgent items on the top of a list.
