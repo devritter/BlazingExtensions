@@ -30,4 +30,23 @@ public static class BzDateTimeExtensions
     {
         return value.ToStartOfMonth().AddMonths(1).AddMilliseconds(-1);
     }
+
+    /// <summary>
+    /// Returns the JavaScript ticks for a given DateTime. <br />
+    /// If the DateTimeKind is Local, the value is converted to UTC before calculating the JS ticks.
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    public static long ToJsTicks(this DateTime value)
+    {
+        // JS ticks are in UTC, so we need to verify that "value" is also UTC
+        // let's interpret "Unspecified" as "UTC" as this information is lost through EntityFramework when using DateTime as column type
+        if (value.Kind == DateTimeKind.Local)
+        {
+            value = value.ToUniversalTime();
+        }
+
+        var diff = value - DateTime.UnixEpoch;
+        return (long)diff.TotalMilliseconds;
+    }
 }

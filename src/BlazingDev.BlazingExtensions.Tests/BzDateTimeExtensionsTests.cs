@@ -55,4 +55,13 @@ public class BzDateTimeExtensionsTests
         now.ToStartOfMonth().Kind.Should().Be(kind);
         now.ToEndOfMonth().Kind.Should().Be(kind);
     }
+
+    [Theory]
+    [InlineData("2024-03-29T21:11:25.772", 1711746685772)] // Unspecified should be handled as UTC
+    [InlineData("2024-03-29T21:11:25.772Z", 1711746685772)] // UTC
+    [InlineData("2024-03-29T22:11:25.772+01:00", 1711746685772)] // Local
+    public void ToJsTicks(string dateTimeString, long expectedTicks)
+    {
+        DateTime.Parse(dateTimeString).ToJsTicks().Should().Be(expectedTicks);
+    }
 }

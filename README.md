@@ -201,6 +201,16 @@ reportTo = reportFrom.ToEndOfMonth();
 return dataFromDb.Where(x => x.Timestamp => reportFrom && x.Timestamp <= reportTo);
 ```
 
+## `.ToJsTicks()`
+
+Returns the JavaScript ticks for a given `DateTime`.
+
+> Info: If the `DateTimeKind` is `Local`, the value is converted to `UTC` before calculating the JS ticks.
+
+```csharp
+var xAxisValuesForSomeChart = rawData.Select(x => x.Timestamp.ToJsTicks());
+```
+
 ---
 
 # IComparable&lt;T&gt; extensions
