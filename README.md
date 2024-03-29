@@ -213,7 +213,7 @@ var xAxisValuesForSomeChart = rawData.Select(x => x.Timestamp.ToJsTicks());
 
 ## `.IfUndefinedSpecifyKind(kind)`
 
-Simple way to specify the `DateTimeKind` for a `DateTime` if it's current `Kind=Unspecified`. 
+Simple way to specify the `DateTimeKind` for a `DateTime` if it's current `Kind=Unspecified`.
 
 This is different to calling `.ToUniversalTime()` or `.ToLocalTime()` because there the framework assumes that the
 `DateTime` is currently in the opposite kind and applies the timezone offset.
@@ -261,6 +261,32 @@ What about:
 Same as above, but the argument numbers itself are not considered "valid".
 
 `10.IsBetweenExclusive(10, 20) // returns false`
+
+---
+
+# Enum extensions
+
+## `.GetDescription()`
+
+Returns the value of the `[Description("...")]` attribute and falls back to simple `.ToString()`.
+
+```csharp
+public enum MyEnum
+{
+    Download,
+    Skip,
+    [Description("Dowload later")]
+    DownloadLater
+}
+
+MyEnum.Skip.GetDescription(); // returns "Skip"
+MyEnum.DownloadLater.GetDescription(); // returns "Download later"
+```
+
+## `BzEnumExtensions.Parse<TEnum>(text)`
+
+Parses the given `text` to the desired `TEnum`. Also checks for `[Description]` attribute matches. \
+Throws `ArgumentException` if parsing was not possible.
 
 ---
 
