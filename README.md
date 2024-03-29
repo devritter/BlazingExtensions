@@ -173,6 +173,36 @@ Now it will also run on machines in other countries ;)
 
 ---
 
+# DateTime extensions
+
+## `.ToMidnight()`
+
+Moves the `DateTime`'s time portion to `23:59:59.999`. Useful for data filtering:
+
+```csharp
+reportFrom = selectedDay.Date; // just to get sure you don't have any time portion
+reportTo = reportFrom.ToMidnight(); // call the extension method upfront if you use EntityFramework
+var singleDayDataQuery = dataFromDb.Where(x => x.Timestamp >= reportFrom && x.Timestamp <= reportTo);
+```
+
+## `.ToStartOfMonth()`
+
+Moves a given `DateTime` to the first day of its month and sets the time to 00:00:00.000. Useful for data filtering.
+See code example at `.ToEndOfMonth()`.
+
+## `.ToEndOfMonth()`
+
+Moves a given `DateTime` to the last day of its month and sets the time to 23:59:59.999. Useful for data filtering:
+
+```csharp
+// imagine you need to always fetch a full month here
+reportFrom = reportFrom.ToStartOfMonth(); // call the extension method upfront if you use EntityFramework
+reportTo = reportFrom.ToEndOfMonth();
+return dataFromDb.Where(x => x.Timestamp => reportFrom && x.Timestamp <= reportTo);
+```
+
+---
+
 # IComparable&lt;T&gt; extensions
 
 > Almost every struct is `IComparable<T>`, e.g. double, int, DateTime, TimeSpan, ...
@@ -260,7 +290,7 @@ someData
 
 ## `.ForEach(action)`
 
-Ever tried to call `.ForEach(...)` on an `Array`, `IEnumerable<T>` or `HashSet<T>`? Now you can! 
+Ever tried to call `.ForEach(...)` on an `Array`, `IEnumerable<T>` or `HashSet<T>`? Now you can!
 Without calling `.ToList()` upfront!
 
 ```csharp
