@@ -64,4 +64,27 @@ public class BzDateTimeExtensionsTests
     {
         DateTime.Parse(dateTimeString).ToJsTicks().Should().Be(expectedTicks);
     }
+
+    [Fact]
+    public void IfUndefinedSpecifyKind()
+    {
+        var now = DateTime.Now;
+        now.IfUndefinedSetKind(DateTimeKind.Utc).Kind.Should().Be(DateTimeKind.Local);
+        now.IfUndefinedSetKind(DateTimeKind.Utc).Should().Be(now);
+        now.IfUndefinedSetKind(DateTimeKind.Local).Should().Be(now);
+
+        var nowUtc = DateTime.UtcNow;
+        nowUtc.IfUndefinedSetKind(DateTimeKind.Local).Kind.Should().Be(DateTimeKind.Utc);
+        nowUtc.IfUndefinedSetKind(DateTimeKind.Local).Should().Be(nowUtc);
+        nowUtc.IfUndefinedSetKind(DateTimeKind.Utc).Should().Be(nowUtc);
+
+        var format = "yyyy-MM-dd HH:mm:ss";
+        var nowString = now.ToString(format);
+        var nowUnspecified = DateTime.Parse(nowString);
+        nowUnspecified.IfUndefinedSetKind(DateTimeKind.Utc).Kind.Should().Be(DateTimeKind.Utc);
+        nowUnspecified.IfUndefinedSetKind(DateTimeKind.Local).Kind.Should().Be(DateTimeKind.Local);
+        // no "data shift" should happen
+        nowUnspecified.IfUndefinedSetKind(DateTimeKind.Utc).ToString(format).Should().Be(nowString);
+        nowUnspecified.IfUndefinedSetKind(DateTimeKind.Local).ToString(format).Should().Be(nowString);
+    }
 }

@@ -49,4 +49,22 @@ public static class BzDateTimeExtensions
         var diff = value - DateTime.UnixEpoch;
         return (long)diff.TotalMilliseconds;
     }
+
+    /// <summary>
+    /// Specifies the given kind on a given DateTime if the DateTime's kind is currently "Unspecified". <br />
+    /// This is different to calling ".ToUniversalTime()" or ".ToLocalTime()" because there the framework assumes that the
+    /// DateTime is currently in the opposite kind and applies the timezone offset.
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="kind"></param>
+    /// <returns></returns>
+    public static DateTime IfUndefinedSetKind(this DateTime value, DateTimeKind kind)
+    {
+        if (value.Kind == DateTimeKind.Unspecified)
+        {
+            return DateTime.SpecifyKind(value, kind);
+        }
+
+        return value;
+    }
 }

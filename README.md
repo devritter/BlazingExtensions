@@ -211,6 +211,18 @@ Returns the JavaScript ticks for a given `DateTime`.
 var xAxisValuesForSomeChart = rawData.Select(x => x.Timestamp.ToJsTicks());
 ```
 
+## `.IfUndefinedSpecifyKind(kind)`
+
+Simple way to specify the `DateTimeKind` for a `DateTime` if it's current `Kind=Unspecified`. 
+
+This is different to calling `.ToUniversalTime()` or `.ToLocalTime()` because there the framework assumes that the
+`DateTime` is currently in the opposite kind and applies the timezone offset.
+
+```csharp
+// assume timestamps are UTC
+someData.ForEach(x => x.Timestamp = x.Timestamp.IfUndefinedSpecifyKind(DateTimeKind.Utc));
+```
+
 ---
 
 # IComparable&lt;T&gt; extensions
