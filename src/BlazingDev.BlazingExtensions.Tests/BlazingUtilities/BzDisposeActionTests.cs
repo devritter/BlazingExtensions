@@ -1,6 +1,6 @@
 using BlazingDev.BlazingExtensions.BlazingUtilities;
 
-namespace BlazingDev.BlazingExtensions.Tests;
+namespace BlazingDev.BlazingExtensions.Tests.BlazingUtilities;
 
 public class BzDisposeActionTests
 {
@@ -11,6 +11,7 @@ public class BzDisposeActionTests
         using (new BzDisposeAction(() => called = true))
         {
         }
+
         Assert.True(called);
     }
 

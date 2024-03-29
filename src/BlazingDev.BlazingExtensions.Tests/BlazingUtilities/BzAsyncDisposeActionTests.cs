@@ -1,6 +1,6 @@
 using BlazingDev.BlazingExtensions.BlazingUtilities;
 
-namespace BlazingDev.BlazingExtensions.Tests;
+namespace BlazingDev.BlazingExtensions.Tests.BlazingUtilities;
 
 public class BzAsyncDisposeActionTests
 {
@@ -11,6 +11,7 @@ public class BzAsyncDisposeActionTests
         await using (new BzAsyncDisposeAction(async () => called = true))
         {
         }
+
         Assert.True(called);
     }
 
