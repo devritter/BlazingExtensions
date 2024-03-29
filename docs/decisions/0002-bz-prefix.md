@@ -59,6 +59,7 @@ Probably all extension methods would need the prefix: `.BzHasContent()`, `.BzFal
 * Good, because it is not very popular in C# (at least in non-component classes)
 * Good, because C# extension methods are ignored if the class itself provides a method with the same name
 * Bad, because it is annoying to have name collisions, which could also pop up after a package update / framework update
+* Bad, because I already had such collisions
 
 ### Use a mix of the above
 

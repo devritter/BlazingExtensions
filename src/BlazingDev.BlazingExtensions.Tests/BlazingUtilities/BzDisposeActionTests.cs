@@ -1,12 +1,14 @@
+using BlazingDev.BlazingExtensions.BlazingUtilities;
+
 namespace BlazingDev.BlazingExtensions.Tests;
 
-public class DisposeActionTests
+public class BzDisposeActionTests
 {
     [Fact]
     public void ActionIsCalledOnDispose()
     {
         var called = false;
-        using (new DisposeAction(() => called = true))
+        using (new BzDisposeAction(() => called = true))
         {
         }
         Assert.True(called);
@@ -16,7 +18,7 @@ public class DisposeActionTests
     public void ActionIsOnlyCalledOnce()
     {
         var count = 0;
-        var disposable = new DisposeAction(() => count++);
+        var disposable = new BzDisposeAction(() => count++);
         disposable.Dispose();
         disposable.Dispose();
         Assert.Equal(1, count);

@@ -1,11 +1,11 @@
 using System;
 
-namespace BlazingDev.BlazingExtensions;
+namespace BlazingDev.BlazingExtensions.BlazingUtilities;
 
 /// <summary>
 /// Executes the passed action on disposal
 /// </summary>
-public class DisposeAction(Action action) : IDisposable
+public class BzDisposeAction(Action action) : IDisposable
 {
     private bool _isDisposed;
 

@@ -1,12 +1,14 @@
+using BlazingDev.BlazingExtensions.BlazingUtilities;
+
 namespace BlazingDev.BlazingExtensions.Tests;
 
-public class AsyncDisposeActionTests
+public class BzAsyncDisposeActionTests
 {
     [Fact]
     public async Task ActionIsCalledOnDispose()
     {
         var called = false;
-        await using (new AsyncDisposeAction(async () => called = true))
+        await using (new BzAsyncDisposeAction(async () => called = true))
         {
         }
         Assert.True(called);
@@ -16,7 +18,7 @@ public class AsyncDisposeActionTests
     public async Task ActionIsOnlyCalledOnce()
     {
         var count = 0;
-        var disposable = new AsyncDisposeAction(async () => count++);
+        var disposable = new BzAsyncDisposeAction(async () => count++);
         await disposable.DisposeAsync();
         await disposable.DisposeAsync();
         Assert.Equal(1, count);
