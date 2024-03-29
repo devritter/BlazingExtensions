@@ -273,7 +273,7 @@ return tasks
 
 # Utilities
 
-## `DisposeAction`
+## `BzDisposeAction`
 
 A very simple `IDisposable` implementation which just invokes the passed action on manual `.Dispose()` call or when
 reaching the end of an `using(...)` statement.
@@ -292,7 +292,7 @@ private void HandleButtonClick()
 }
 ```
 
-## `AsyncDisposeAction`
+## `BzAsyncDisposeAction`
 
 Same as above, but for async actions/disposals. You must use the `await using(...)` statement.
 
