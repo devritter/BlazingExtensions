@@ -2,7 +2,7 @@ using System.Text;
 
 namespace BlazingDev.BlazingExtensions.Tests;
 
-public class EnumerableExtensionsTests
+public class BzEnumerableExtensionsTests
 {
     [Fact]
     public void HasContent()

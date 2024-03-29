@@ -1,6 +1,6 @@
 namespace BlazingDev.BlazingExtensions.Tests;
 
-public class StringExtensionsTests
+public class BzStringExtensionsTests
 {
     [Theory]
     [InlineData(null, false)]

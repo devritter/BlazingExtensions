@@ -2,7 +2,7 @@ using System;
 
 namespace BlazingDev.BlazingExtensions;
 
-public static class ComparableExtensions
+public static class BzComparableExtensions
 {
     /// <summary>
     /// Clamps/limits the given "value" into the inclusive boundaries defined by "minValue" and "maxValue". <br/>

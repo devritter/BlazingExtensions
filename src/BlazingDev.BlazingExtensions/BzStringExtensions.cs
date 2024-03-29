@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace BlazingDev.BlazingExtensions;
 
-public static class StringExtensions
+public static class BzStringExtensions
 {
     /// <summary>
     /// is the opposite of "string.IsNullOrWhiteSpace". <br/> 
