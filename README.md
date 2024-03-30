@@ -288,6 +288,25 @@ MyEnum.DownloadLater.GetDescription(); // returns "Download later"
 Parses the given `text` to the desired `TEnum`. Also checks for `[Description]` attribute matches. \
 Throws `ArgumentException` if parsing was not possible.
 
+```csharp
+public enum MyEnum 
+{
+    FirstEntry = 0,
+    [Description("Second entry")] SecondEntry = 1,
+    ThirdEntry = 2   
+}
+
+// all of the following work:
+BzEnumExtensions.Parse<MyEnum>("SecondEntry");
+BzEnumExtensions.Parse<MyEnum>("Second entry");
+BzEnumExtensions.Parse<MyEnum>("1");
+BzEnumExtensions.Parse<MyEnum>("secondentry", ignoreCase: true);
+BzEnumExtensions.Parse<MyEnum>("second ENTRY", ignoreCase: true);
+BzEnumExtensions.Parse<MyEnum>("1", ignoreCase: true);
+
+// and it also works for [Flags] enums!
+```
+
 ## `.RemoveFlag(flagToRemove)` / `.AddFlag(flagToAdd)` / `.SetFlag(flag, set)`
 
 Easier to read than:

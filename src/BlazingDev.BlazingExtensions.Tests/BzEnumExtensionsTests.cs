@@ -28,7 +28,19 @@ public class BzEnumExtensionsTests(ITestOutputHelper testOutput)
     public void Parse_WorksForNormalEnums(string input, SomeEnum expected)
     {
         BzEnumExtensions.Parse<SomeEnum>(input).Should().Be(expected);
+        BzEnumExtensions.Parse<SomeEnum>(input, ignoreCase: true).Should().Be(expected);
+        BzEnumExtensions.Parse<SomeEnum>(input.ToUpper(), ignoreCase: true).Should().Be(expected);
         BzEnumExtensions.Parse(typeof(SomeEnum), input).Should().Be(expected);
+        BzEnumExtensions.Parse(typeof(SomeEnum), input, ignoreCase: true).Should().Be(expected);
+        BzEnumExtensions.Parse(typeof(SomeEnum), input.ToLower(), ignoreCase: true).Should().Be(expected);
+    }
+
+    [Theory]
+    [InlineData("0", SomeEnum.FirstEntry)]
+    [InlineData("1", SomeEnum.SecondEntry)]
+    public void Parse_WorksForNormalEnumIntegerValues(string numberText, SomeEnum expect)
+    {
+        Parse_WorksForNormalEnums(numberText, expect);
     }
 
     [Theory]
@@ -42,10 +54,21 @@ public class BzEnumExtensionsTests(ITestOutputHelper testOutput)
     public void Parse_WorksForFlagsEnums(string input, FlagsEnum expected)
     {
         BzEnumExtensions.Parse<FlagsEnum>(input).Should().Be(expected);
+        BzEnumExtensions.Parse<FlagsEnum>(input, ignoreCase: true).Should().Be(expected);
+        BzEnumExtensions.Parse<FlagsEnum>(input.ToLower(), ignoreCase: true).Should().Be(expected);
         BzEnumExtensions.Parse(typeof(FlagsEnum), input).Should().Be(expected);
+        BzEnumExtensions.Parse(typeof(FlagsEnum), input, ignoreCase: true).Should().Be(expected);
+        BzEnumExtensions.Parse(typeof(FlagsEnum), input.ToUpper(), ignoreCase: true).Should().Be(expected);
     }
 
-    // todo ignore case
+    [Theory]
+    [InlineData("2", FlagsEnum.Bit2)]
+    [InlineData("5", FlagsEnum.Default)]
+    public void Parse_WorksForFlagsEnumIntegerValues(string numberText, FlagsEnum expect)
+    {
+        Parse_WorksForFlagsEnums(numberText, expect);
+    }
+
     // todo exception handling
 
     [Theory]

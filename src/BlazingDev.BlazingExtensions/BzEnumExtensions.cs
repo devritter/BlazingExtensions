@@ -42,9 +42,10 @@ public static class BzEnumExtensions
     /// </summary>
     /// <param name="enumType">desired enum type</param>
     /// <param name="text">text which represents Enum values directly or the [Description] attribute value</param>
-    public static object Parse(Type enumType, string text)
+    /// <param name="ignoreCase">if true, the comparison is case-insensitive</param>
+    public static object Parse(Type enumType, string text, bool ignoreCase = false)
     {
-        if (Enum.TryParse(enumType, text, out var parsed))
+        if (Enum.TryParse(enumType, text, ignoreCase, out var parsed))
         {
             return parsed;
         }
@@ -53,14 +54,19 @@ public static class BzEnumExtensions
         foreach (var enumValue in enumValues)
         {
             var description = GetDescriptionCore(enumValue);
-            if (text == description)
+            if (ignoreCase && text.EqualsIgnoreCase(description))
+            {
+                return enumValue;
+            }
+
+            if (!ignoreCase && text == description)
             {
                 return enumValue;
             }
         }
 
         // just call Enum.Parse which will throw a good exception
-        return Enum.Parse(enumType, text);
+        return Enum.Parse(enumType, text, ignoreCase);
     }
 
     /// <summary>
@@ -68,9 +74,10 @@ public static class BzEnumExtensions
     /// Throws "ArgumentException" if parsing was not possible.
     /// </summary>
     /// <param name="text">text which represents Enum values directly or the [Description] attribute value</param>
-    public static TEnum Parse<TEnum>(string text) where TEnum : struct, Enum
+    /// <param name="ignoreCase">if true, the comparison is case-insensitive</param>
+    public static TEnum Parse<TEnum>(string text, bool ignoreCase = false) where TEnum : struct, Enum
     {
-        return (TEnum)Parse(typeof(TEnum), text);
+        return (TEnum)Parse(typeof(TEnum), text, ignoreCase);
     }
 
     /// <summary>
