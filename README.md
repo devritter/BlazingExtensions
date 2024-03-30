@@ -288,6 +288,12 @@ MyEnum.DownloadLater.GetDescription(); // returns "Download later"
 Parses the given `text` to the desired `TEnum`. Also checks for `[Description]` attribute matches. \
 Throws `ArgumentException` if parsing was not possible.
 
+## `.RemoveFlag(flagToRemove)`
+
+Removes the `flagToRemove` from a given Enum value.
+
+> Info! Don't expect too much performance as a lot of boxing is needed!
+
 ---
 
 # IEnumerable&lt;T&gt; extensions

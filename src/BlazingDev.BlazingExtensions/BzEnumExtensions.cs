@@ -64,12 +64,25 @@ public static class BzEnumExtensions
     }
 
     /// <summary>
-    /// Parses the given "text" to the desired "enumType". Also checks for [Description] attribute matches.
+    /// Parses the given "text" to the desired "TEnum". Also checks for [Description] attribute matches.
     /// Throws "ArgumentException" if parsing was not possible.
     /// </summary>
     /// <param name="text">text which represents Enum values directly or the [Description] attribute value</param>
     public static TEnum Parse<TEnum>(string text) where TEnum : struct, Enum
     {
         return (TEnum)Parse(typeof(TEnum), text);
+    }
+
+    public static T RemoveFlag<T>(this T value, T flagToRemove) where T : struct, Enum
+    {
+        if (value.HasFlag(flagToRemove))
+        {
+            var originalValue = (int)(object)value;
+            var flagValue = (int)(object)flagToRemove;
+            var result = originalValue & ~flagValue;
+            return (T)(object)result;
+        }
+
+        return value;
     }
 }

@@ -46,6 +46,18 @@ public class BzEnumExtensionsTests
     // todo ignore case
     // todo exception handling
 
+    [Theory]
+    [InlineData(FlagsEnum.Bit1 | FlagsEnum.Bit2, FlagsEnum.Bit1, FlagsEnum.Bit2)]
+    [InlineData(FlagsEnum.Bit1 | FlagsEnum.Bit2, FlagsEnum.Bit2, FlagsEnum.Bit1)]
+    [InlineData(FlagsEnum.Default, FlagsEnum.Bit1, FlagsEnum.Bit4)]
+    [InlineData(FlagsEnum.All, FlagsEnum.Bit2, FlagsEnum.Default)]
+    [InlineData(FlagsEnum.Bit1, FlagsEnum.Bit1, (FlagsEnum)0)] // removing last flag
+    [InlineData(FlagsEnum.Bit1, FlagsEnum.Bit4, FlagsEnum.Bit1)] // removing irrelevant flag
+    public void RemoveFlag(FlagsEnum start, FlagsEnum remove, FlagsEnum expect)
+    {
+        start.RemoveFlag(remove).Should().Be(expect);
+    }
+
     public enum SomeEnum
     {
         FirstEntry,
