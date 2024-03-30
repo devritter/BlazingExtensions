@@ -288,11 +288,23 @@ MyEnum.DownloadLater.GetDescription(); // returns "Download later"
 Parses the given `text` to the desired `TEnum`. Also checks for `[Description]` attribute matches. \
 Throws `ArgumentException` if parsing was not possible.
 
-## `.RemoveFlag(flagToRemove)`
+## `.RemoveFlag(flagToRemove)` / `.AddFlag(flagToAdd)` / `.SetFlag(flag, set)`
 
-Removes the `flagToRemove` from a given Enum value.
+Easier to read than:
 
-> Info! Don't expect too much performance when calling this method very frequently as a lot of converting is needed!
+* `flags = flags | MyFlagEnum.ThirdFlag`
+* `flags |= MyFlagEnum.ThirdFlag`
+* `flags = flags & ~MyFlagEnum.ThirdFlag`
+* `flags &= ~MyFlagEnum.ThirdFlag`
+
+```csharp
+var everythingFromInstances = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
+var everythingStatic = everythingFromInstances.RemoveFlag(BindingFlags.Instance).AddFlag(BindingFlags.Static);
+
+var staticBindingFlagsWithUserSelection = everythingStatic.SetFlag(BindingFlags.NonPublic, shouldIncludePrivateMembers);
+```
+
+> Info! Don't expect too much performance when calling this method very frequently as a lot of conversion is needed!
 
 ---
 

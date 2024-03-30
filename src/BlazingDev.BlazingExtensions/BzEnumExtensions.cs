@@ -89,4 +89,31 @@ public static class BzEnumExtensions
 
         return value;
     }
+
+    /// <summary>
+    /// Adds the "flagToAdd" to the "value". <br />
+    /// Info! Don't expect too much performance when calling this method very frequently as a lot of converting is needed! 
+    /// </summary>
+    public static T AddFlag<T>(this T value, T flagToAdd) where T : struct, Enum
+    {
+        if (!value.HasFlag(flagToAdd))
+        {
+            var originalValue = Convert.ToInt64(value);
+            var flagValue = Convert.ToInt64(flagToAdd);
+            var result = originalValue | flagValue;
+            return (T)Convert.ChangeType(result, typeof(T).GetEnumUnderlyingType());
+        }
+
+        return value;
+    }
+
+    /// <summary>
+    /// Adds or removes the "flag" to/from the "value". <br />
+    /// Info! Don't expect too much performance when calling this method very frequently as a lot of converting is needed! 
+    /// </summary>
+    /// <param name="set">True if the "flag" should be added. False if the "flag" should be removed.</param>
+    public static T SetFlag<T>(this T value, T flag, bool set) where T : struct, Enum
+    {
+        return set ? value.AddFlag(flag) : value.RemoveFlag(flag);
+    }
 }
