@@ -73,14 +73,18 @@ public static class BzEnumExtensions
         return (TEnum)Parse(typeof(TEnum), text);
     }
 
+    /// <summary>
+    /// Removes the "flagToRemove" from the "value". <br />
+    /// Info! Don't expect too much performance when calling this method very frequently as a lot of converting is needed! 
+    /// </summary>
     public static T RemoveFlag<T>(this T value, T flagToRemove) where T : struct, Enum
     {
         if (value.HasFlag(flagToRemove))
         {
-            var originalValue = (int)(object)value;
-            var flagValue = (int)(object)flagToRemove;
+            var originalValue = Convert.ToInt64(value);
+            var flagValue = Convert.ToInt64(flagToRemove);
             var result = originalValue & ~flagValue;
-            return (T)(object)result;
+            return (T)Convert.ChangeType(result, typeof(T).GetEnumUnderlyingType());
         }
 
         return value;

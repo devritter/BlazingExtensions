@@ -1,8 +1,10 @@
 using System.ComponentModel;
 
+using Xunit.Abstractions;
+
 namespace BlazingDev.BlazingExtensions.Tests;
 
-public class BzEnumExtensionsTests
+public class BzEnumExtensionsTests(ITestOutputHelper testOutput)
 {
     [Theory]
     [InlineData(FileMode.OpenOrCreate, "OpenOrCreate")]
@@ -56,6 +58,19 @@ public class BzEnumExtensionsTests
     public void RemoveFlag(FlagsEnum start, FlagsEnum remove, FlagsEnum expect)
     {
         start.RemoveFlag(remove).Should().Be(expect);
+        testOutput.WriteLine(new { start, remove, expect }.ToString());
+
+        var ushortStart = (FlagsEnumUshortBased)start;
+        var ushortRemove = (FlagsEnumUshortBased)remove;
+        var ushortExpect = (FlagsEnumUshortBased)expect;
+        ushortStart.RemoveFlag(ushortRemove).Should().Be(ushortExpect);
+        testOutput.WriteLine(new { ushortStart, ushortRemove, ushortExpect }.ToString());
+
+        var ulongStart = (FlagsEnumUlongBased)start;
+        var ulongRemove = (FlagsEnumUlongBased)remove;
+        var ulongExpect = (FlagsEnumUlongBased)expect;
+        ulongStart.RemoveFlag(ulongRemove).Should().Be(ulongExpect);
+        testOutput.WriteLine(new { ulongStart, ulongRemove, ulongExpect }.ToString());
     }
 
     public enum SomeEnum
@@ -67,6 +82,26 @@ public class BzEnumExtensionsTests
 
     [Flags]
     public enum FlagsEnum
+    {
+        Bit1 = 1,
+        Bit2 = 2,
+        [Description("fourth bit set")] Bit4 = 4,
+        [Description("Default setting")] Default = 5,
+        All = 7
+    }
+
+    [Flags]
+    public enum FlagsEnumUshortBased : ushort
+    {
+        Bit1 = 1,
+        Bit2 = 2,
+        [Description("fourth bit set")] Bit4 = 4,
+        [Description("Default setting")] Default = 5,
+        All = 7
+    }
+
+    [Flags]
+    public enum FlagsEnumUlongBased : ulong
     {
         Bit1 = 1,
         Bit2 = 2,

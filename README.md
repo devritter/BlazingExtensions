@@ -292,7 +292,7 @@ Throws `ArgumentException` if parsing was not possible.
 
 Removes the `flagToRemove` from a given Enum value.
 
-> Info! Don't expect too much performance as a lot of boxing is needed!
+> Info! Don't expect too much performance when calling this method very frequently as a lot of converting is needed!
 
 ---
 
