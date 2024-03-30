@@ -45,6 +45,8 @@ public static class BzEnumExtensions
     /// <param name="ignoreCase">if true, the comparison is case-insensitive</param>
     public static object Parse(Type enumType, string text, bool ignoreCase = false)
     {
+        text = text.Trim(); // the native Enum.{Try]Parse also trims the passed text
+
         if (Enum.TryParse(enumType, text, ignoreCase, out var parsed))
         {
             return parsed;

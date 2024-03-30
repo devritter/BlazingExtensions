@@ -23,16 +23,18 @@ public class BzEnumExtensionsTests(ITestOutputHelper testOutput)
 
     [Theory]
     [InlineData("FirstEntry", SomeEnum.FirstEntry)]
+    [InlineData("  FirstEntry  ", SomeEnum.FirstEntry)]
     [InlineData("SecondEntry", SomeEnum.SecondEntry)]
     [InlineData("Second entry", SomeEnum.SecondEntry)]
+    [InlineData("  Second entry  ", SomeEnum.SecondEntry)]
     public void Parse_WorksForNormalEnums(string input, SomeEnum expected)
     {
         BzEnumExtensions.Parse<SomeEnum>(input).Should().Be(expected);
-        BzEnumExtensions.Parse<SomeEnum>(input, ignoreCase: true).Should().Be(expected);
-        BzEnumExtensions.Parse<SomeEnum>(input.ToUpper(), ignoreCase: true).Should().Be(expected);
+        BzEnumExtensions.Parse<SomeEnum>(input, true).Should().Be(expected);
+        BzEnumExtensions.Parse<SomeEnum>(input.ToUpper(), true).Should().Be(expected);
         BzEnumExtensions.Parse(typeof(SomeEnum), input).Should().Be(expected);
-        BzEnumExtensions.Parse(typeof(SomeEnum), input, ignoreCase: true).Should().Be(expected);
-        BzEnumExtensions.Parse(typeof(SomeEnum), input.ToLower(), ignoreCase: true).Should().Be(expected);
+        BzEnumExtensions.Parse(typeof(SomeEnum), input, true).Should().Be(expected);
+        BzEnumExtensions.Parse(typeof(SomeEnum), input.ToLower(), true).Should().Be(expected);
     }
 
     [Theory]
@@ -47,29 +49,57 @@ public class BzEnumExtensionsTests(ITestOutputHelper testOutput)
     [InlineData("Bit1", FlagsEnum.Bit1)]
     [InlineData("Bit2", FlagsEnum.Bit2)]
     [InlineData("Bit4", FlagsEnum.Bit4)]
+    [InlineData("  Bit4  ", FlagsEnum.Bit4)]
     [InlineData("fourth bit set", FlagsEnum.Bit4)]
     [InlineData("Default", FlagsEnum.Default)]
     [InlineData("Default setting", FlagsEnum.Default)]
+    [InlineData("  Default setting  ", FlagsEnum.Default)]
     [InlineData("All", FlagsEnum.All)]
+    [InlineData("  All  ", FlagsEnum.All)]
     public void Parse_WorksForFlagsEnums(string input, FlagsEnum expected)
     {
         BzEnumExtensions.Parse<FlagsEnum>(input).Should().Be(expected);
-        BzEnumExtensions.Parse<FlagsEnum>(input, ignoreCase: true).Should().Be(expected);
-        BzEnumExtensions.Parse<FlagsEnum>(input.ToLower(), ignoreCase: true).Should().Be(expected);
+        BzEnumExtensions.Parse<FlagsEnum>(input, true).Should().Be(expected);
+        BzEnumExtensions.Parse<FlagsEnum>(input.ToLower(), true).Should().Be(expected);
         BzEnumExtensions.Parse(typeof(FlagsEnum), input).Should().Be(expected);
-        BzEnumExtensions.Parse(typeof(FlagsEnum), input, ignoreCase: true).Should().Be(expected);
-        BzEnumExtensions.Parse(typeof(FlagsEnum), input.ToUpper(), ignoreCase: true).Should().Be(expected);
+        BzEnumExtensions.Parse(typeof(FlagsEnum), input, true).Should().Be(expected);
+        BzEnumExtensions.Parse(typeof(FlagsEnum), input.ToUpper(), true).Should().Be(expected);
     }
 
     [Theory]
     [InlineData("2", FlagsEnum.Bit2)]
+    [InlineData("  2  ", FlagsEnum.Bit2)]
     [InlineData("5", FlagsEnum.Default)]
+    [InlineData("  5  ", FlagsEnum.Default)]
     public void Parse_WorksForFlagsEnumIntegerValues(string numberText, FlagsEnum expect)
     {
         Parse_WorksForFlagsEnums(numberText, expect);
     }
 
-    // todo exception handling
+    [Fact]
+    public void Parse_WorksForAnyIntegerValue()
+    {
+        BzEnumExtensions.Parse<SomeEnum>("64"); // no exception
+        BzEnumExtensions.Parse(typeof(SomeEnum), "64"); // no exception
+        BzEnumExtensions.Parse<FlagsEnum>("64"); // no exception
+        BzEnumExtensions.Parse(typeof(FlagsEnum), "64"); // no exception
+    }
+
+    [Fact]
+    public void Parse_ThrowsExceptionForUnknownStrings()
+    {
+        Test(() => BzEnumExtensions.Parse<SomeEnum>("Unkown"));
+        Test(() => BzEnumExtensions.Parse(typeof(SomeEnum), "Unkown"));
+        Test(() => BzEnumExtensions.Parse<FlagsEnum>("Unkown"));
+        Test(() => BzEnumExtensions.Parse(typeof(FlagsEnum), "Unkown"));
+
+        Test(() => BzEnumExtensions.Parse<SomeEnum>("Second   Entry"));
+
+        void Test(Action action)
+        {
+            action.Should().Throw<ArgumentException>();
+        }
+    }
 
     [Theory]
     [InlineData(FlagsEnum.Bit1 | FlagsEnum.Bit2, FlagsEnum.Bit1, FlagsEnum.Bit2)]
