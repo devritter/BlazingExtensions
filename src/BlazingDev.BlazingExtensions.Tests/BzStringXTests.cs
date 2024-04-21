@@ -160,20 +160,15 @@ public class BzStringXTests
     [InlineData("this is a long text", 100, "this is a long text")]
     [InlineData("this is a long text", 19, "this is a long text")]
     [InlineData("this is a long text", 18, "this is a long tex")]
-    [InlineData("this is a long text", 10, "this is a")] // trim trailing space
-    // auto trim
-    [InlineData("   this is a long   ", 4, "this")]
-    [InlineData("   this is   ", 8, "this is")]
-    [InlineData("   this          is   ", 10, "this")]
+    [InlineData("this is a long text", 17, "this is a long te")]
+    [InlineData("this is a long text", 16, "this is a long t")]
+    [InlineData("this is a long text", 15, "this is a long ")]
+    [InlineData("this is a long text", 14, "this is a long")]
     // special cases
-    [InlineData(" ", 10, "")]
-    [InlineData("   ", 2, "")]
+    [InlineData("  ", 10, "  ")]
+    [InlineData("   ", 2, "  ")]
     [InlineData("", 10, "")]
     [InlineData(null, 10, "")] // nobody likes nulls, so just return empty string
-    // 0 = no clipping
-    [InlineData("hello", 0, "hello")]
-    [InlineData("  hello  ", 0, "hello")]
-    [InlineData("  ", 0, "")]
     public void Truncate(string? input, int length, string output)
     {
         input.Truncate(length).Should().Be(output);
@@ -182,21 +177,31 @@ public class BzStringXTests
     }
 
     [Theory]
+    [InlineData(-1)]
+    [InlineData(0)]
+    public void Truncate_ThrowsException_ForInvalidMaxLengths(int maxLength)
+    {
+        Assert.Throws<ArgumentOutOfRangeException>(() => "".Truncate(maxLength)).Message.Should().Match("*greater*0*");
+    }
+
+    [Theory]
     [InlineData("this is a long text", 100, "this is a long text")]
+    [InlineData("this is a long text", 19, "this is a long text")]
+    [InlineData("this is a long text", 18, "this is a long te…")]
+    [InlineData("this is a long text", 17, "this is a long t…")]
+    [InlineData("this is a long text", 16, "this is a long …")]
     [InlineData("this is a long text", 15, "this is a long…")]
+    [InlineData("this is a long text", 14, "this is a lon…")]
     [InlineData("hello", 5, "hello")] // ellipsis character does not make sense here
     [InlineData("hello!", 5, "hell…")]
-    // auto trim
-    [InlineData("     ", 3, "")]
-    [InlineData("    hello  ", 6, "hello")]
-    [InlineData("    hello  ", 3, "he…")]
+    // no trimming of strings
+    [InlineData("     ", 3, "  …")]
+    [InlineData("  hello  ", 6, "  hel…")]
+    [InlineData("  hello  ", 3, "  …")]
     // special cases
     [InlineData("hello", 1, "…")] // we give at least the full ellipsis text back
     [InlineData(null, 5, "")] // nobody likes nulls, so just return empty string
-    [InlineData(null, 0, "")] // nobody likes nulls, so just return empty string
-    // 0 = no clipping (to have the same behavior as .Truncate() )
-    [InlineData("hello", 0, "hello")] // ellipsis character does not make sense here
-    public void Ellipsis(string? input, int length, string output)
+    public void EllipsisWithDefaultText(string? input, int length, string output)
     {
         input.Ellipsis(length).Should().Be(output);
     }
@@ -206,36 +211,29 @@ public class BzStringXTests
     [InlineData("hello world", 10, "hell[more]")]
     [InlineData("see more info", 10, "see [more]")]
     [InlineData("hello world", 7, "h[more]")]
-    // auto trim
-    [InlineData(" x ", 5, "x")]
-    [InlineData(" hello world ", 11, "hello world")]
-    [InlineData(" hello world ", 8, "he[more]")]
+    [InlineData("hello world", 6, "[more]")]
+    // no auto trim
+    [InlineData(" x ", 6, " x ")]
+    [InlineData(" hello world ", 11, " hell[more]")]
     // special cases
-    [InlineData("hello world", 6, "[more]")] // we give at least the ellipsis back
-    [InlineData("hello world", 1, "[more]")] // we give at least the ellipsis back
-    [InlineData(null, 5, "")] // nobody likes nulls, so just return empty string
-    // 0 = no clipping (to have the same behavior as .Truncate() )
-    [InlineData("hello world", 0, "hello world")]
-    [InlineData("", 0, "")]
-    [InlineData("  ", 0, "")]
-    [InlineData("  x  ", 0, "x")] // nobody likes nulls, so just return empty string
-    [InlineData(null, 0, "")] // nobody likes nulls, so just return empty string
+    [InlineData(null, 6, "")] // nobody likes nulls, so just return empty string
     public void EllipsisWithCustomText(string? input, int length, string output)
     {
         input.Ellipsis(length, "[more]").Should().Be(output);
     }
 
-    [Theory]
-    [InlineData("hello world", 11, "hello world")]
-    [InlineData("hello world", 10, "hel [more]")]
-    [InlineData("see more info", 10, "see [more]")]
-    [InlineData("see\tmore info", 10, "see [more]")]
-    [InlineData("h         d", 10, "h [more]")] // only one leading space required
-    [InlineData("hello world", 7, "[more]")] // no leading space here
-    [InlineData("hello world", 1, "[more]")] // and also not here because not useful
-    public void EllipsisWithCustomText_PreservesLeadingSpaceFromEllipsis(string? input, int length, string output)
+    [Fact]
+    public void EllipsisThrowsException_IfMaxLengthIsShorterThanEllipsisText()
     {
-        input.Ellipsis(length, " [more]").Should().Be(output);
+        Assert.Throws<ArgumentException>(() => "".Ellipsis(1, "[more]")).Message.Should().Match("*1*too small*[more]*");
+    }
+
+    [Theory]
+    [InlineData(-1)]
+    [InlineData(0)]
+    public void Ellipsis_ThrowsException_ForInvalidMaxLengths(int maxLength)
+    {
+        Assert.Throws<ArgumentOutOfRangeException>(() => "".Ellipsis(maxLength)).Message.Should().Match("*greater*0*");
     }
 
     [Theory]
@@ -247,18 +245,18 @@ public class BzStringXTests
     public void BzSplit(string input)
     {
         string[] expected = ["some", "csv", "text"];
-        
+
         // single char separator
         input.BzSplit(',').Should().BeEquivalentTo(expected);
-        
+
         // multi char separator
         input.BzSplit('\t', ';', ',').Should().BeEquivalentTo(expected);
-        
+
         // single string separator
         input.BzSplit(",").Should().BeEquivalentTo(expected);
         // validate with multi-character separator
         input.Replace(",", "<sep>").BzSplit("<sep>").Should().BeEquivalentTo(expected);
-        
+
         // multi string separator
         input.BzSplit("<sep>", "\t", ",").Should().BeEquivalentTo(expected);
     }
@@ -270,16 +268,16 @@ public class BzStringXTests
         "".BzSplit(",").Should().BeEquivalentTo([]);
         "  ".BzSplit(",").Should().BeEquivalentTo([]);
         " , ".BzSplit(",").Should().BeEquivalentTo([]);
-        
+
         // separator not part of input string
         "hello world".BzSplit(",").Should().BeEquivalentTo(["hello world"]);
         "hello world".BzSplit("  ").Should().BeEquivalentTo(["hello world"]);
-        
+
         // non-content separator
         "hello".BzSplit("").Should().BeEquivalentTo(["hello"]);
         "hello".BzSplit(" ").Should().BeEquivalentTo(["hello"]);
         "  hello  ".BzSplit(" ").Should().BeEquivalentTo(["hello"]);
-        
+
         // non-content both
         "".BzSplit("").Should().BeEquivalentTo([]);
         "  ".BzSplit("").Should().BeEquivalentTo([]);

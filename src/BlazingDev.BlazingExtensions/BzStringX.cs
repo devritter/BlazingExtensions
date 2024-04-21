@@ -109,24 +109,23 @@ public static class BzStringX
     /// <returns></returns>
     public static string Truncate(this string? input, int maxLength)
     {
-        if (!input.HasContent())
+        if (maxLength <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(maxLength), "must be greater than 0");
+        }
+
+        if (input == null)
         {
             return "";
         }
 
-        input = input.Trim();
-
-        if (maxLength == 0)
+        // Stryker disable once equality : both < and <= work here
+        if (input.Length <= maxLength)
         {
             return input;
         }
 
-        if (input.Length > maxLength)
-        {
-            input = input.Substring(0, maxLength).Trim();
-        }
-
-        return input;
+        return input.Substring(0, maxLength);
     }
 
     public const string DefaultEllipsisText = "…";
@@ -143,26 +142,22 @@ public static class BzStringX
     public static string Ellipsis(this string? input, int maxLengthIncludingEllipsis,
         string ellipsisText = DefaultEllipsisText)
     {
-        if (!input.HasContent())
+        if (maxLengthIncludingEllipsis <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(maxLengthIncludingEllipsis), "must be greater than 0");
+        }
+
+        if (maxLengthIncludingEllipsis < ellipsisText.Length)
+        {
+            throw new ArgumentException($"{nameof(maxLengthIncludingEllipsis)} with value '{maxLengthIncludingEllipsis}' " +
+                $"is too small for {nameof(ellipsisText)} with value '{ellipsisText}'!");
+        }
+
+        if (input == null)
         {
             return "";
         }
 
-        input = input.Trim();
-
-        if (maxLengthIncludingEllipsis == 0)
-        {
-            return input;
-        }
-
-        if (ellipsisText.Length == 0)
-        {
-            return input.Truncate(maxLengthIncludingEllipsis);
-        }
-
-        var ellipsisLength = ellipsisText.Length;
-
-        maxLengthIncludingEllipsis = maxLengthIncludingEllipsis.Clamp(ellipsisLength, null);
 
         // no ellipsis if the text just fits the max length window
         if (input.Length <= maxLengthIncludingEllipsis)
@@ -170,26 +165,11 @@ public static class BzStringX
             return input;
         }
 
-        if (input.Length <= ellipsisLength)
-        {
-            return ellipsisText;
-        }
+        var maxTextLength = maxLengthIncludingEllipsis - ellipsisText.Length;
+        input = input.Substring(0, maxTextLength);
+        input += ellipsisText;
 
-        var maxTextLength = maxLengthIncludingEllipsis - ellipsisLength;
-
-        if (input.Length > maxTextLength)
-        {
-            input = input.Substring(0, maxTextLength);
-
-            if (char.IsWhiteSpace(ellipsisText[0]))
-            {
-                input = input.Trim();
-            }
-
-            input += ellipsisText;
-        }
-
-        return input.Trim();
+        return input;
     }
 
     /// <summary>
