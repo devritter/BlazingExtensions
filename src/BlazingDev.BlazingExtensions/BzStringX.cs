@@ -105,8 +105,7 @@ public static class BzStringX
     /// No additional characters are placed in case of truncating (use the "Ellipsis" extension method instead)
     /// </summary>
     /// <param name="input">the string which is potentially too long</param>
-    /// <param name="maxLength">the max allowed length of the string. 0 means no clipping.</param>
-    /// <returns></returns>
+    /// <param name="maxLength">the max allowed length of the string</param>
     public static string Truncate(this string? input, int maxLength)
     {
         if (maxLength <= 0)
@@ -132,13 +131,11 @@ public static class BzStringX
 
     /// <summary>
     /// Truncates a given text if it exceeds a given "maxLength" and appends some "ellipsisText" if the text was truncated.
-    /// Usually the returned text does not exceed the "maxLengthIncludingEllipsis" even if truncation and "ellipsisText" appending was needed.
-    /// In cases where the "ellipsisText" is longer than the "maxLengthIncludingEllipsis" at least the "ellipsisText" is returned.
+    /// The "maxLengthIncludingEllipsis" must be large enough to contain the "ellipsisText".
     /// </summary>
     /// <param name="input">the string which is potentially too long</param>
-    /// <param name="maxLengthIncludingEllipsis">the max desired length of the string. 0 means no clipping.</param>
+    /// <param name="maxLengthIncludingEllipsis">the max desired length of the string</param>
     /// <param name="ellipsisText">the text which indicates that there is more text</param>
-    /// <returns></returns>
     public static string Ellipsis(this string? input, int maxLengthIncludingEllipsis,
         string ellipsisText = DefaultEllipsisText)
     {

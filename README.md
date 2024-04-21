@@ -84,58 +84,26 @@ Trims substrings, not just characters.
 
 ## `.Truncate(maxLength)`
 
-Fast and convenient way to shorten a given text, e.g. for a preview line.\
-You can expect a non-`null` and trimmed string.
+Fast and convenient way to shorten a given text, e.g. for a preview line.
 
 ```csharp
-"hello world".Truncate(15);                 // returns "hello world", no truncation needed
-"hello beautiful world".Truncate(15);       // returns "hello beautiful"
-
-// auto trimming of the input and output string:
-"hello world".Truncate(6);                  // returns "hello"
-"hello\n\t  ".Truncate(15);                 // returns "hello"
-"   hello   ".Truncate(15);                 // returns "hello"
-"   hello beautiful world   ".Truncate(15); // returns "hello beautiful"
-
-// handling annoying cases
-"  ".Truncate(15);                          // returns ""
-null.Truncate(15);                          // returns ""
-
-// 0 = no trimming (of the useful content)
-"   ".Truncate(0);                          // returns ""
-"  hello  ".Truncate(0);                    // returns "hello"
-"hello".Truncate(0);                        // returns "hello"
+"hello".Truncate(5);        // returns "hello", no truncation needed
+"how are you?".Truncate(5); // returns "how a"
+null.Truncate(5);           // returns "", because nobody likes nulls
 ```
 
 ## `.Ellipsis(maxLengthIncludingEllipsis, ellipsisText)`
 
 Fast and convenient way to shorten a given text + appending ellipsis text, e.g. for a preview line.\
-The default ellipsis text `…` only uses 1 character.\
-You can expect a non-`null` and trimmed string.
+The default ellipsis text `…` only uses 1 character.
 
 ```csharp
-"hello world".Ellipsis(15);                         // returns "hello world", no ellipsis needed
-"hello beautiful world".Ellipsis(15);               // returns "hello beautifu…"
+"hello".Ellipsis(5);        // returns "hello", no ellipsis needed
+"how are you?".Ellipsis(5); // returns "how …"
+null.Ellipsis(5);           // returns "", because nobody likes nulls
 
 // you can specify your own ellipsis text
 "hello beautiful world".Ellipsis(15, " [more]");    // returns "hello be [more]"
-
-// the ellipsis text is always returned even if the maxLength is too small.
-// this is handy when your ellipsis text is localized.
-"hello beautiful world".Ellipsis(2, " [more]");     // returns "[more]"
-
-// auto trimming of the input and output string:
-"hello world   ".Ellipsis(15);                      // returns "hello world"
-"   hello beautiful world   ".Ellipsis(15);         // returns "hello beautifu…"
-
-// handling annoying cases
-"  ".Ellipsis(15);                                  // returns ""
-null.Ellipsis(15);                                  // returns ""
-
-// 0 = no trimming (of the useful content)
-"   ".Ellipsis(0);                                  // returns ""
-"  hello  ".Ellipsis(0);                            // returns "hello"
-"hello".Ellipsis(0);                                // returns "hello"
 ```
 
 ## `.BzSplit(separator)`
