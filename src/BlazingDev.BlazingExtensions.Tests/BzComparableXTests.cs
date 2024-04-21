@@ -1,6 +1,6 @@
 namespace BlazingDev.BlazingExtensions.Tests;
 
-public class BzComparableExtensionsTests
+public class BzComparableXTests
 {
     [Theory]
     // number is within range

@@ -2,7 +2,7 @@ using System.Globalization;
 
 namespace BlazingDev.BlazingExtensions.Tests;
 
-public class BzDoubleExtensionsTests
+public class BzDoubleXTests
 {
     [Fact]
     public void ToInvariantString_ReturnsStringInInvariantCulture()

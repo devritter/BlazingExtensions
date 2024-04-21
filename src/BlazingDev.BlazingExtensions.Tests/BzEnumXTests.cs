@@ -4,7 +4,7 @@ using Xunit.Abstractions;
 
 namespace BlazingDev.BlazingExtensions.Tests;
 
-public class BzEnumExtensionsTests(ITestOutputHelper testOutput)
+public class BzEnumXTests(ITestOutputHelper testOutput)
 {
     [Theory]
     [InlineData(FileMode.OpenOrCreate, "OpenOrCreate")]

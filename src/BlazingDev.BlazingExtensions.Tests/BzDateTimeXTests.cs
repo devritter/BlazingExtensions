@@ -1,6 +1,6 @@
 namespace BlazingDev.BlazingExtensions.Tests;
 
-public class BzDateTimeExtensionsTests
+public class BzDateTimeXTests
 {
     [Fact]
     public void ToMidnight()
