@@ -2,7 +2,7 @@ using System;
 
 namespace BlazingDev.BlazingExtensions;
 
-public static class BzDateTimeExtensions
+public static class BzDateTimeX
 {
     /// <summary>
     /// Moves the DateTime's time portion to 23:59:59.999

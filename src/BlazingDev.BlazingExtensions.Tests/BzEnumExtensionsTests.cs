@@ -29,12 +29,12 @@ public class BzEnumExtensionsTests(ITestOutputHelper testOutput)
     [InlineData("  Second entry  ", SomeEnum.SecondEntry)]
     public void Parse_WorksForNormalEnums(string input, SomeEnum expected)
     {
-        BzEnumExtensions.Parse<SomeEnum>(input).Should().Be(expected);
-        BzEnumExtensions.Parse<SomeEnum>(input, true).Should().Be(expected);
-        BzEnumExtensions.Parse<SomeEnum>(input.ToUpper(), true).Should().Be(expected);
-        BzEnumExtensions.Parse(typeof(SomeEnum), input).Should().Be(expected);
-        BzEnumExtensions.Parse(typeof(SomeEnum), input, true).Should().Be(expected);
-        BzEnumExtensions.Parse(typeof(SomeEnum), input.ToLower(), true).Should().Be(expected);
+        BzEnumX.Parse<SomeEnum>(input).Should().Be(expected);
+        BzEnumX.Parse<SomeEnum>(input, true).Should().Be(expected);
+        BzEnumX.Parse<SomeEnum>(input.ToUpper(), true).Should().Be(expected);
+        BzEnumX.Parse(typeof(SomeEnum), input).Should().Be(expected);
+        BzEnumX.Parse(typeof(SomeEnum), input, true).Should().Be(expected);
+        BzEnumX.Parse(typeof(SomeEnum), input.ToLower(), true).Should().Be(expected);
     }
 
     [Theory]
@@ -58,12 +58,12 @@ public class BzEnumExtensionsTests(ITestOutputHelper testOutput)
     [InlineData("  All  ", FlagsEnum.All)]
     public void Parse_WorksForFlagsEnums(string input, FlagsEnum expected)
     {
-        BzEnumExtensions.Parse<FlagsEnum>(input).Should().Be(expected);
-        BzEnumExtensions.Parse<FlagsEnum>(input, true).Should().Be(expected);
-        BzEnumExtensions.Parse<FlagsEnum>(input.ToLower(), true).Should().Be(expected);
-        BzEnumExtensions.Parse(typeof(FlagsEnum), input).Should().Be(expected);
-        BzEnumExtensions.Parse(typeof(FlagsEnum), input, true).Should().Be(expected);
-        BzEnumExtensions.Parse(typeof(FlagsEnum), input.ToUpper(), true).Should().Be(expected);
+        BzEnumX.Parse<FlagsEnum>(input).Should().Be(expected);
+        BzEnumX.Parse<FlagsEnum>(input, true).Should().Be(expected);
+        BzEnumX.Parse<FlagsEnum>(input.ToLower(), true).Should().Be(expected);
+        BzEnumX.Parse(typeof(FlagsEnum), input).Should().Be(expected);
+        BzEnumX.Parse(typeof(FlagsEnum), input, true).Should().Be(expected);
+        BzEnumX.Parse(typeof(FlagsEnum), input.ToUpper(), true).Should().Be(expected);
     }
 
     [Theory]
@@ -79,21 +79,21 @@ public class BzEnumExtensionsTests(ITestOutputHelper testOutput)
     [Fact]
     public void Parse_WorksForAnyIntegerValue()
     {
-        BzEnumExtensions.Parse<SomeEnum>("64"); // no exception
-        BzEnumExtensions.Parse(typeof(SomeEnum), "64"); // no exception
-        BzEnumExtensions.Parse<FlagsEnum>("64"); // no exception
-        BzEnumExtensions.Parse(typeof(FlagsEnum), "64"); // no exception
+        BzEnumX.Parse<SomeEnum>("64"); // no exception
+        BzEnumX.Parse(typeof(SomeEnum), "64"); // no exception
+        BzEnumX.Parse<FlagsEnum>("64"); // no exception
+        BzEnumX.Parse(typeof(FlagsEnum), "64"); // no exception
     }
 
     [Fact]
     public void Parse_ThrowsExceptionForUnknownStrings()
     {
-        Test(() => BzEnumExtensions.Parse<SomeEnum>("Unkown"));
-        Test(() => BzEnumExtensions.Parse(typeof(SomeEnum), "Unkown"));
-        Test(() => BzEnumExtensions.Parse<FlagsEnum>("Unkown"));
-        Test(() => BzEnumExtensions.Parse(typeof(FlagsEnum), "Unkown"));
+        Test(() => BzEnumX.Parse<SomeEnum>("Unkown"));
+        Test(() => BzEnumX.Parse(typeof(SomeEnum), "Unkown"));
+        Test(() => BzEnumX.Parse<FlagsEnum>("Unkown"));
+        Test(() => BzEnumX.Parse(typeof(FlagsEnum), "Unkown"));
 
-        Test(() => BzEnumExtensions.Parse<SomeEnum>("Second   Entry"));
+        Test(() => BzEnumX.Parse<SomeEnum>("Second   Entry"));
 
         void Test(Action action)
         {

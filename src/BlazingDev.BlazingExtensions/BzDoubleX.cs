@@ -2,7 +2,7 @@ using System.Globalization;
 
 namespace BlazingDev.BlazingExtensions;
 
-public static class BzDoubleExtensions
+public static class BzDoubleX
 {
     public static string ToInvariantString(this double value)
     {

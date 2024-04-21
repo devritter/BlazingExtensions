@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace BlazingDev.BlazingExtensions;
 
-public static class BzEnumExtensions
+public static class BzEnumX
 {
     /// <summary>
     /// Returns the value of the [Description("...")] attribute and falls back to simple .ToString()

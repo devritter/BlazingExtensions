@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace BlazingDev.BlazingExtensions;
 
-public static class BzEnumerableExtensions
+public static class BzEnumerableX
 {
     /// <summary>
     /// returns true if the "enumerable" is NOT NULL and has at least one item
