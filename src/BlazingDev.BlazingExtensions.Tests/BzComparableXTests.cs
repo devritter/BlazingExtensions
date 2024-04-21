@@ -62,7 +62,7 @@ public class BzComparableXTests
     [Fact]
     public void Clamp_ThrowsArgumentException_IfMinAndMaxAreTwisted()
     {
-        Assert.Throws<ArgumentException>(() => 5.Clamp(10, 1));
+        Assert.Throws<ArgumentException>(() => 5.Clamp(10, 1)).Message.Should().Match("*minValue*greater*maxValue*");
     }
 
     [Theory]
@@ -99,7 +99,7 @@ public class BzComparableXTests
     [Fact]
     public void IsBetweenInclusive_ThrowsException_WhenBordersAreTwisted()
     {
-        Assert.Throws<ArgumentException>(() => 5.IsBetweenInclusive(10, 1));
+        Assert.Throws<ArgumentException>(() => 5.IsBetweenInclusive(10, 1)).Message.Should().Match("*lowerLimit*greater*upperLimit*");
     }
 
     [Theory]
@@ -131,5 +131,11 @@ public class BzComparableXTests
         var lowerDt = DateTime.Parse(lower);
         var upperDt = DateTime.Parse(upper);
         toCheckDt.IsBetweenExclusive(lowerDt, upperDt).Should().Be(expect);
+    }
+
+    [Fact]
+    public void IsBetweenExclusive_ThrowsException_WhenBordersAreTwisted()
+    {
+        Assert.Throws<ArgumentException>(() => 5.IsBetweenExclusive(10, 1)).Message.Should().Match("*lowerLimit*greater*upperLimit*");
     }
 }

@@ -75,12 +75,6 @@ public static class BzStringX
     /// <param name="trimText">The text which should be removed</param>
     public static string TrimStartOnce(this string input, string trimText)
     {
-        if (trimText == "")
-        {
-            // native .StartsWith returns true, would end in endless loop
-            return input;
-        }
-
         if (input.StartsWith(trimText))
         {
             input = input.Substring(trimText.Length);
@@ -97,12 +91,6 @@ public static class BzStringX
     /// <returns></returns>
     public static string TrimEndOnce(this string input, string trimText)
     {
-        if (trimText == "")
-        {
-            // native .EndsWith returns true, would end in endless loop
-            return input;
-        }
-
         if (input.EndsWith(trimText))
         {
             var lengthTrimmed = input.Length - trimText.Length;
@@ -197,7 +185,7 @@ public static class BzStringX
             {
                 input = input.Trim();
             }
-            
+
             input += ellipsisText;
         }
 
@@ -261,6 +249,6 @@ public static class BzStringX
         return items
             .Where(x => x.HasContent())
             .Select(x => x.Trim())
-            .ToArray(); 
+            .ToArray();
     }
 }

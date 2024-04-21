@@ -47,6 +47,7 @@ public static class BzEnumX
     {
         text = text.Trim(); // the native Enum.{Try]Parse also trims the passed text
 
+        // Stryker disable once block : allow early exit for name matches and numbers
         if (Enum.TryParse(enumType, text, ignoreCase, out var parsed))
         {
             return parsed;

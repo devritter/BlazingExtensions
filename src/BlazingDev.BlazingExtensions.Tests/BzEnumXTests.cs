@@ -27,6 +27,7 @@ public class BzEnumXTests(ITestOutputHelper testOutput)
     [InlineData("SecondEntry", SomeEnum.SecondEntry)]
     [InlineData("Second entry", SomeEnum.SecondEntry)]
     [InlineData("  Second entry  ", SomeEnum.SecondEntry)]
+    [InlineData("500", (SomeEnum)500)]
     public void Parse_WorksForNormalEnums(string input, SomeEnum expected)
     {
         BzEnumX.Parse<SomeEnum>(input).Should().Be(expected);
@@ -56,6 +57,7 @@ public class BzEnumXTests(ITestOutputHelper testOutput)
     [InlineData("  Default setting  ", FlagsEnum.Default)]
     [InlineData("All", FlagsEnum.All)]
     [InlineData("  All  ", FlagsEnum.All)]
+    [InlineData("500", (FlagsEnum)500)]
     public void Parse_WorksForFlagsEnums(string input, FlagsEnum expected)
     {
         BzEnumX.Parse<FlagsEnum>(input).Should().Be(expected);
