@@ -29,5 +29,12 @@ public static class BzTypeX
         return NumericTypes.Contains(type);
     }
 
-
+    /// <summary>
+    /// If the given type is a nullable type, it returns the underlying type. Otherwise just returns the given type.
+    /// </summary>
+    /// <param name="type">potential nullable type</param>
+    public static Type UnwrapNullable(this Type type)
+    {
+        return Nullable.GetUnderlyingType(type) ?? type;
+    }
 }

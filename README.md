@@ -382,6 +382,7 @@ return tasks
 # Type extensions
 
 ## `.IsNumeric()`
+
 returns true for numeric types: `byte`, `sbyte`, `short`, `ushort`, `int`, `uint`, `long`, `ulong`, `float`, `double`, `decimal`.
 
 ```csharp
@@ -390,6 +391,15 @@ typeof(int).IsNumeric(); // returns true
 var numericProperties = someObject.GetProperties().Where(x => x.IsNumeric());
 ```
 
+## `.UnwrapNullable()`
+
+Unwraps a potential nullable type. Or just returns the input type.
+
+```csharp
+typeof(int?).UnwrapNullable();          // returns typeof(int)
+typeof(int).UnwrapNullable();           // returns typeof(int)
+typeof(StringBuilder).UnwrapNullable(); // returns typeof(StringBuilder)
+```
 
 ---
 

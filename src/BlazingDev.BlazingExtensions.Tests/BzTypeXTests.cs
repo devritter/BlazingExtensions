@@ -32,4 +32,21 @@ public class BzTypeXTests
     {
         type.IsNumeric().Should().BeFalse();
     }
+
+    [Theory]
+    // real nullables
+    [InlineData(typeof(int?), typeof(int))]
+    [InlineData(typeof(bool?), typeof(bool))]
+    [InlineData(typeof(DateTime?), typeof(DateTime))]
+    // no nullables
+    [InlineData(typeof(int), typeof(int))]
+    [InlineData(typeof(bool), typeof(bool))]
+    [InlineData(typeof(DateTime), typeof(DateTime))]
+    // even no structs
+    [InlineData(typeof(StringBuilder), typeof(StringBuilder))]
+    [InlineData(typeof(List<int>), typeof(List<int>))]
+    public void UnwrapNullable(Type input, Type expectedOutput)
+    {
+        input.UnwrapNullable().Should().Be(expectedOutput);
+    }
 }
