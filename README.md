@@ -49,21 +49,13 @@ public string GetPreviewText()
 }
 ```
 
-## `.EqualsIgnoreCase(other)`
+## `.EqualsIgnoreCase(other)` / `.ContainsIgnoreCase(subString)` / `.StartsWithIgnoreCase(subString)` / `.EndsWithIgnoreCase(subString)`
 
-Just a shorter version of `myString.Equals(other, StringComparison.OrdinalIgnoreCase)`.
-
-## `.ContainsIgnoreCase(subString)`
-
-Just a shorter version of `myString.Contains(subString, StringComparison.OrdinalIgnoreCase)`.
-
-## `.StartsWithIgnoreCase(subString)`
-
-Just a shorter version of `myString.StartsWith(subString, StringComparison.OrdinalIgnoreCase)`.
-
-## `.EndsWithIgnoreCase(subString)`
-
-Just a shorter version of `myString.EndsWith(subString, StringComparison.OrdinalIgnoreCase)`.
+Just shorter versions of:
+* `myString.Equals(other, StringComparison.OrdinalIgnoreCase)`
+* `myString.Contains(subString, StringComparison.OrdinalIgnoreCase)` 
+* `myString.StartsWith(subString, StringComparison.OrdinalIgnoreCase)` 
+* `myString.EndsWith(subString, StringComparison.OrdinalIgnoreCase)`.
 
 ## `.TrimStartOnce(trimValue)`
 
@@ -113,13 +105,16 @@ Returns a string where `text1` is swapped with `text2` and `text2` is swapped wi
 ```csharp
 "Anna knows Bob".SwapText("Anna", "Bob"); // returns "Bob knows Anna"
 
-// this would not work:
-"Anna knows Bob".Replace("Anna", "Bob").Replace("Bob", "Anna"); // would be "Anna knows Anna"
-
 if (preferInformalGreeting)
 {
     return GetFormalGreetingLine().SwapText(person.FirstName, person.LastName);
 }
+```
+
+This would not work:
+
+```csharp
+"Anna knows Bob".Replace("Anna", "Bob").Replace("Bob", "Anna"); // would be "Anna knows Anna"
 ```
 
 ## `.BzSplit(separator)`
@@ -151,9 +146,11 @@ var nextThreeSongs = playlistItems.Take(3).Select(x => x.SongName).StringJoin(",
 
 ## `someDouble.ToInvariantString()`
 
-Ever wanted to set some dynamic percentage to a `<div>` element? And it ran on your machine? Only your machine?
+Useful when generating HTML/CSS styles and the user has a non-english culture.
 
-Now it will also run on machines in other countries ;)
+```html
+<progress value="@percentage.ToInvariantString()" max="1"></progress>
+```
 
 ---
 
@@ -171,12 +168,12 @@ var singleDayDataQuery = dataFromDb.Where(x => x.Timestamp >= reportFrom && x.Ti
 
 ## `.ToStartOfMonth()`
 
-Moves a given `DateTime` to the first day of its month and sets the time to 00:00:00.000. Useful for data filtering.
-See code example at `.ToEndOfMonth()`.
+Moves a given `DateTime` to the first day of its month and sets the time to `00:00:00.000`. Useful for data filtering.
+See code example at `.ToEndOfMonth()` below.
 
 ## `.ToEndOfMonth()`
 
-Moves a given `DateTime` to the last day of its month and sets the time to 23:59:59.999. Useful for data filtering:
+Moves a given `DateTime` to the last day of its month and sets the time to `23:59:59.999`. Useful for data filtering:
 
 ```csharp
 // imagine you need to always fetch a full month here
@@ -199,8 +196,7 @@ var xAxisValuesForSomeChart = rawData.Select(x => x.Timestamp.ToJsTicks());
 
 Simple way to specify the `DateTimeKind` for a `DateTime` if it's current `Kind=Unspecified`.
 
-This is different to calling `.ToUniversalTime()` or `.ToLocalTime()` because there the framework assumes that the
-`DateTime` is currently in the opposite kind and applies the timezone offset.
+This is different from calling `.ToUniversalTime()` or `.ToLocalTime()` on `Unspecified` DateTimes because there the framework assumes that you desire a conversion and applies the timezone offset.
 
 ```csharp
 // assume timestamps are UTC
@@ -220,15 +216,19 @@ quite difficult...
 
 Much easier:
 
-* `userInput = userInput.Clamp(minValue, maxValue);`
-* `volume = volume.Clamp(0, 10);`
-* `percentage = percentage.Clamp(0, 1);`
-* `bookingTime = bookingTime.Clamp(options.OpeningTime, options.ClosingTime);`
+```csharp
+userInput = userInput.Clamp(minValue, maxValue);
+volume = volume.Clamp(0, 10);
+percentage = percentage.Clamp(0, 1);
+bookingTime = bookingTime.Clamp(options.OpeningTime, options.ClosingTime);
+```
 
 It's even possible to only limit one part:
 
-* `startPosition = startPosition.Clamp(0, null);`
-* `amount = amount.Clamp(null, user.MaxAmount);`
+```csharp
+startPosition = startPosition.Clamp(0, null);
+amount = amount.Clamp(null, user.MaxAmount);
+```
 
 ## `.IsBetweenInclusive(lowerLimit, upperLimit)`
 
@@ -259,7 +259,7 @@ public enum MyEnum
 {
     Download,
     Skip,
-    [Description("Dowload later")]
+    [Description("Download later")]
     DownloadLater
 }
 
@@ -267,7 +267,7 @@ MyEnum.Skip.GetDescription(); // returns "Skip"
 MyEnum.DownloadLater.GetDescription(); // returns "Download later"
 ```
 
-## `BzEnumExtensions.Parse<TEnum>(text)`
+## `BzEnumX.Parse<TEnum>(text)`
 
 Parses the given `text` to the desired `TEnum`. Also checks for `[Description]` attribute matches. \
 Throws `ArgumentException` if parsing was not possible.
@@ -281,12 +281,12 @@ public enum MyEnum
 }
 
 // all of the following work:
-BzEnumExtensions.Parse<MyEnum>("SecondEntry");
-BzEnumExtensions.Parse<MyEnum>("Second entry");
-BzEnumExtensions.Parse<MyEnum>("1");
-BzEnumExtensions.Parse<MyEnum>("secondentry", ignoreCase: true);
-BzEnumExtensions.Parse<MyEnum>("second ENTRY", ignoreCase: true);
-BzEnumExtensions.Parse<MyEnum>("1", ignoreCase: true);
+BzEnumX.Parse<MyEnum>("SecondEntry");
+BzEnumX.Parse<MyEnum>("Second entry");
+BzEnumX.Parse<MyEnum>("1");
+BzEnumX.Parse<MyEnum>("secondentry", ignoreCase: true);
+BzEnumX.Parse<MyEnum>("second ENTRY", ignoreCase: true);
+BzEnumX.Parse<MyEnum>("1", ignoreCase: true);
 
 // and it also works for [Flags] enums!
 ```
@@ -388,7 +388,10 @@ returns true for numeric types: `byte`, `sbyte`, `short`, `ushort`, `int`, `uint
 ```csharp
 typeof(int).IsNumeric(); // returns true
 
-var numericProperties = someObject.GetProperties().Where(x => x.IsNumeric());
+var numericProperties = someObject
+    .GetType()
+    .GetProperties()
+    .Where(x => x.PropertyType.IsNumeric());
 ```
 
 ## `.UnwrapNullable()`
@@ -416,7 +419,7 @@ Example:
 private void HandleButtonClick()
 {
     _isButtonEnabled = false;
-    using(new DisposeAction(() => _isButtonEnabled = true))
+    using(new BzDisposeAction(() => _isButtonEnabled = true))
     {
         DoSomethingDangerousThatMayThrowAnException();    
     }
@@ -431,13 +434,13 @@ Same as above, but for async actions/disposals. You must use the `await using(..
 Example:
 
 ```csharp
-private async Task ListenForMessages()
+private async Task ListenForMessagesAsync()
 {
-    var subscription = someService.CreateSubscription(someTopics);
-    await using(new AsyncDisposeAction(() => subscription.UnsubscribeAsync()))
+    var subscription = await someService.CreateSubscriptionAsync(someTopics);
+    await using(new BzAsyncDisposeAction(() => subscription.UnsubscribeAsync()))
     {
-        // busy waiting...
         // await Task.Delay...
+        // await DoSomethingAsync()...
         // await someTaskCompletionSource.Task...
     }
 }
