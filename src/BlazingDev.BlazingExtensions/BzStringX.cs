@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace BlazingDev.BlazingExtensions;
 
@@ -167,6 +168,52 @@ public static class BzStringX
         input += ellipsisText;
 
         return input;
+    }
+
+    /// <summary>
+    /// Returns a string where "text1" is swapped with "text2" and "text2" is swapped with "text1"
+    /// </summary>
+    /// <param name="input">the starting point which contains the swap items</param>
+    /// <param name="text1">swap item 1</param>
+    /// <param name="text2">swap item 2</param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentException">If any of the strings is null or empty</exception>
+    public static string SwapText(this string input, string text1, string text2)
+    {
+        if (string.IsNullOrEmpty(input) || string.IsNullOrEmpty(text1) || string.IsNullOrEmpty(text2))
+        {
+            throw new ArgumentException("Input string and texts to swap cannot be null or empty.");
+        }
+
+        // the longer text should be matched first, otherwise some replacements behave unexpectedly
+        // Stryker disable once equality : both < and <= work here
+        if (text1.Length < text2.Length)
+        {
+            (text1, text2) = (text2, text1);
+        }
+
+        // Escape any special characters in the texts to avoid unexpected behavior
+        string escapedText1 = Regex.Escape(text1);
+        string escapedText2 = Regex.Escape(text2);
+
+        // Create a regular expression pattern to match both texts
+        string pattern = $"({escapedText1})|({escapedText2})";
+
+        // Use a MatchEvaluator to handle replacements
+        string result = Regex.Replace(input, pattern, match =>
+        {
+            if (match.Groups[1].Success)
+            {
+                return text2;
+            }
+            else if (match.Groups[2].Success)
+            {
+                return text1;
+            }
+            return match.Value; // Return unchanged if no match
+        });
+
+        return result;
     }
 
     /// <summary>

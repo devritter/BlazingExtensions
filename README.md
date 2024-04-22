@@ -106,6 +106,22 @@ null.Ellipsis(5);           // returns "", because nobody likes nulls
 "hello beautiful world".Ellipsis(15, " [more]");    // returns "hello be [more]"
 ```
 
+## `.SwapText(text1, text2)`
+
+Returns a string where `text1` is swapped with `text2` and `text2` is swapped with `text1`.
+
+```csharp
+"Anna knows Bob".SwapText("Anna", "Bob"); // returns "Bob knows Anna"
+
+// this would not work:
+"Anna knows Bob".Replace("Anna", "Bob").Replace("Bob", "Anna"); // would be "Anna knows Anna"
+
+if (preferInformalGreeting)
+{
+    return GetFormalGreetingLine().SwapText(person.FirstName, person.LastName);
+}
+```
+
 ## `.BzSplit(separator)`
 
 Handy splitter function which also

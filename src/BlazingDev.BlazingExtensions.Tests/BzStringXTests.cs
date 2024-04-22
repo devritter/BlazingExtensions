@@ -237,6 +237,53 @@ public class BzStringXTests
     }
 
     [Theory]
+    [InlineData("not found", "t1", "t2", "not found")]
+    [InlineData("single t1 way", "t1", "t2", "single t2 way")]
+    [InlineData("single t2 way", "t1", "t2", "single t1 way")]
+    [InlineData("t1t2", "t1", "t2", "t2t1")]
+    // both replacements are the same
+    [InlineData("hello world", "hello", "hello", "hello world")]
+    // only casing
+    [InlineData("hello world", "hello", "HELLO", "HELLO world")]
+    // multi replacements
+    [InlineData("aaabbb", "a", "b", "bbbaaa")]
+    // irregular match count
+    [InlineData("aaabaaa", "a", "b", "bbbabbb")]
+    // whitespace replacement
+    [InlineData("hello\tworld", "\t", "\n", "hello\nworld")]
+    // possible overlappings at start 
+    // => oneone should have higher priority because it appears first in the input string
+    [InlineData("oneonetwo", "oneone", "onetwo", "onetwotwo")]
+    // first 6 chars should be swapped with 3 chars, and the last 3 with 6
+    [InlineData("abcabcabc", "abcabc", "abc", "abcabcabc")]
+    // reducing, two 6-chars-blocks found which can be replaced with 3-chars-blocks
+    [InlineData("abcabcabcabc", "abcabc", "abc", "abcabc")]
+    // text1 is substring of text2
+    [InlineData("longer than long", "long", "longer", "long than longer")]
+    public void SwapText(string input, string text1, string text2, string expected)
+    {
+        input.SwapText(text1, text2).Should().Be(expected);
+        input.SwapText(text2, text1).Should().Be(expected);
+    }
+
+    [Theory]
+    [InlineData(null, null, null)]
+    [InlineData(null, "x", "x")]
+    [InlineData("x", null, "x")]
+    [InlineData("x", "x", null)]
+    public void SwapText_ThrowsException_ForInvalidInput(string? input, string? text1, string? text2)
+    {
+        Assert.Throws<ArgumentException>(() => input!.SwapText(text1!, text2!)).Message.Should().Match("*cannot*null*empty*");
+
+        // empty is same useless 
+        input ??= "";
+        text1 ??= "";
+        text2 ??= "";
+        
+        Assert.Throws<ArgumentException>(() => input!.SwapText(text1!, text2!)).Message.Should().Match("*cannot*null*empty*");
+    }
+
+    [Theory]
     [InlineData("some,csv,text")] // start
     [InlineData(",,some,,,csv,,,text,,")] // remove empty entries
     [InlineData("  ,  ,some,  ,  ,csv,  ,  ,text,  ,  ")] // no content also means empty
