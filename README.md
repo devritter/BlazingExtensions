@@ -27,10 +27,9 @@ Clear the stage for `value.HasContent()`! :tada:
 What will it return?
 
 * `false` for everything useless like `null`, `""`, `" "`, `"\t"`, `"\n"`, `" \t \n "`
-* `true` for useful content like `"x"` or `" hello\n"`
+* `true` for **useful** content like `"x"` or `" hello\n"`
 
-So no rocket science, actually just the inverted version of `string.IsNullOrWhiteSpace()` :shrug:\
-As a memory hook just think of "myStringVar HasUsefulText() ?"
+So no rocket science, actually just the positive version of `string.IsNullOrWhiteSpace()` :shrug:\
 
 ## `.Fallback(otherString)`
 
@@ -57,12 +56,14 @@ Just shorter versions of:
 * `myString.StartsWith(subString, StringComparison.OrdinalIgnoreCase)` 
 * `myString.EndsWith(subString, StringComparison.OrdinalIgnoreCase)`.
 
+And because they pop up in Intellisense you get reminded to think about casing ;)
+
 ## `.TrimStartOnce(trimValue)`
 
 Trims substrings, not just characters.
 
 ```csharp
-"info:job done".TrimStartOnce("info:"); // returns: "job done"
+"info:job done".TrimStartOnce("info:");      // returns: "job done"
 "info:info:job done".TrimStartOnce("info:"); // returns: "info:job done"
 ```
 
@@ -130,7 +131,7 @@ Handy splitter function which also
 
 ## `items.StringJoin(separator)`
 
-Convenient way to join a string together just like `string.Join(separator, items)`.\
+Convenient way to join a list together just like `string.Join(separator, items)`.\
 Bonus point: allows the items list to be `null` (returns `""` then). \
 Tip: to exclude `null` items INSIDE the list, use `.WhereNotNull()` (see below).
 
@@ -186,7 +187,7 @@ return dataFromDb.Where(x => x.Timestamp => reportFrom && x.Timestamp <= reportT
 
 Returns the JavaScript ticks for a given `DateTime`.
 
-> Info: If the `DateTimeKind` is `Local`, the value is converted to `UTC` before calculating the JS ticks.
+Info: If the `DateTimeKind` is `Local`, the value is converted to `UTC` before calculating the JS ticks.
 
 ```csharp
 var xAxisValuesForSomeChart = rawData.Select(x => x.Timestamp.ToJsTicks());
@@ -194,7 +195,7 @@ var xAxisValuesForSomeChart = rawData.Select(x => x.Timestamp.ToJsTicks());
 
 ## `.IfUndefinedSpecifyKind(kind)`
 
-Simple way to specify the `DateTimeKind` for a `DateTime` if it's current `Kind=Unspecified`.
+Simple way to specify the `DateTimeKind` for a `DateTime` if it's current `Kind` is `Unspecified`.
 
 This is different from calling `.ToUniversalTime()` or `.ToLocalTime()` on `Unspecified` DateTimes because there the framework assumes that you desire a conversion and applies the timezone offset.
 
@@ -207,7 +208,7 @@ someData.ForEach(x => x.Timestamp = x.Timestamp.IfUndefinedSpecifyKind(DateTimeK
 
 # IComparable&lt;T&gt; extensions
 
-> Almost every struct is `IComparable<T>`, e.g. double, int, DateTime, TimeSpan, ...
+Almost every struct is `IComparable<T>`, e.g. double, int, DateTime, TimeSpan, ...
 
 ## `.Clamp(minValue, maxValue)`
 
@@ -263,7 +264,7 @@ public enum MyEnum
     DownloadLater
 }
 
-MyEnum.Skip.GetDescription(); // returns "Skip"
+MyEnum.Skip.GetDescription();          // returns "Skip"
 MyEnum.DownloadLater.GetDescription(); // returns "Download later"
 ```
 
@@ -280,7 +281,7 @@ public enum MyEnum
     ThirdEntry = 2   
 }
 
-// all of the following work:
+// all of the following lines work:
 BzEnumX.Parse<MyEnum>("SecondEntry");
 BzEnumX.Parse<MyEnum>("Second entry");
 BzEnumX.Parse<MyEnum>("1");
