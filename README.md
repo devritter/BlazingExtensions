@@ -13,6 +13,7 @@ will also speed up and inspire your life :)
 So let's start into your blazing future ;)
 
 ---
+<br>
 
 # String extensions
 
@@ -142,6 +143,7 @@ var nextThreeSongs = playlistItems.Take(3).Select(x => x.SongName).StringJoin(",
 ```
 
 ---
+<br>
 
 # Numeric extensions
 
@@ -154,6 +156,7 @@ Useful when generating HTML/CSS styles and the user has a non-english culture.
 ```
 
 ---
+<br>
 
 # DateTime extensions
 
@@ -205,6 +208,7 @@ someData.ForEach(x => x.Timestamp = x.Timestamp.IfUndefinedSpecifyKind(DateTimeK
 ```
 
 ---
+<br>
 
 # IComparable&lt;T&gt; extensions
 
@@ -248,6 +252,7 @@ Same as above, but the argument numbers itself are not considered "valid".
 `10.IsBetweenExclusive(10, 20) // returns false`
 
 ---
+<br>
 
 # Enum extensions
 
@@ -311,6 +316,7 @@ var staticBindingFlagsWithUserSelection = everythingStatic.SetFlag(BindingFlags.
 > Info! Don't expect too much performance when calling this method very frequently as a lot of conversion is needed!
 
 ---
+<br>
 
 # IEnumerable&lt;T&gt; extensions
 
@@ -379,6 +385,7 @@ return tasks
 ```
 
 ---
+<br>
 
 # Type extensions
 
@@ -406,6 +413,7 @@ typeof(StringBuilder).UnwrapNullable(); // returns typeof(StringBuilder)
 ```
 
 ---
+<br>
 
 # Utilities
 
