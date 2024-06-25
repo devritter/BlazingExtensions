@@ -4,6 +4,17 @@
         <TargetFramework>netstandard2.1</TargetFramework>
         <LangVersion>latest</LangVersion>
         <Nullable>enable</Nullable>
+        <Version>0.1.0</Version>
+        <Authors>the-blazing-dev</Authors>
+        <Description>Extensions for every kind of C# projects</Description>
+        <PackageIcon>blazingdev_logo_512.png</PackageIcon>
+        <RepositoryUrl>https://github.com/the-blazing-dev/BlazingExtensions</RepositoryUrl>
+        <PackageTags>extensions productivity clean-code</PackageTags>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
     </PropertyGroup>
+
+    <ItemGroup>
+        <None Update="blazingdev_logo_512.png" Pack="True" PackagePath="/"/>
+    </ItemGroup>
 
 </Project>
