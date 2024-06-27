@@ -1,0 +1,1 @@
+dotnet stryker --test-project ../src/BlazingDev.BlazingExtensions.Tests/BlazingDev.BlazingExtensions.Tests.csproj --open-report
