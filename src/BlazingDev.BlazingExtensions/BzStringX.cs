@@ -21,6 +21,16 @@ public static class BzStringX
     }
 
     /// <summary>
+    /// Returns true if the input string is null, empty, or consists only of white-space characters.
+    /// </summary>
+    /// <param name="input">The string to check.</param>
+    /// <returns>True if the input string is null, empty, or consists only of white-space characters; otherwise, false.</returns>
+    public static bool LacksContent([NotNullWhen(false)] this string? input)
+    {
+        return !input.HasContent();
+    }
+
+    /// <summary>
     /// Returns the fallback text if the "input" parameter has no text (see <see cref="HasContent">HasText()</see> extension). <br/>
     /// Returns empty string if "input" has no text and "fallbackText" is null.
     /// </summary>

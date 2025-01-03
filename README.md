@@ -32,6 +32,18 @@ What will it return?
 
 So no rocket science, actually just the positive version of `string.IsNullOrWhiteSpace()` :shrug:\
 
+## `.LacksContent()`
+
+The `LacksContent()` extension method is the opposite of `HasContent()`. It returns `true` if the input string is null, empty, or consists only of white-space characters.
+
+```csharp
+string? input = "   ";
+if (input.LacksContent()) // returns true
+{
+    // throw ex, prompt user, use fallback value, ...
+}
+```
+
 ## `.Fallback(otherString)`
 
 The `??` operator is cool but only works for `null` values. If you also want to fall back on empty / whitespace /
@@ -340,6 +352,18 @@ Use `!myItems.HasContent()` to prevent yourself from unreadable (and potentially
 * `if (myItems?.Any() == false)` (which does not work for `null` collections)
 * `if (myItems?.Any() != true)`
 * `if (myItems?.Count() == 0)` (which does not work for `null` collections and could be slow)
+
+## `.LacksContent()`
+
+The `LacksContent()` extension method is the opposite of `HasContent()`. It returns `true` if the enumerable is null or has no items.
+
+```csharp
+IEnumerable<int>? values = null;
+if (values.LacksContent()) // returns true
+{
+    // e.g. use fallback values
+}
+```
 
 ## `.WhereNotNull()`
 

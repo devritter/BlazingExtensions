@@ -17,6 +17,20 @@ public class BzStringXTests
     }
 
     [Theory]
+    [InlineData(null, true)]
+    [InlineData("", true)]
+    [InlineData("   ", true)]
+    [InlineData("\t", true)]
+    [InlineData("\n", true)]
+    [InlineData("   \t   \n  ", true)]
+    [InlineData("x", false)]
+    [InlineData("    x\t", false)]
+    public void LacksContent(string? input, bool expected)
+    {
+        Assert.Equal(expected, input.LacksContent());
+    }
+
+    [Theory]
     [InlineData("hello")]
     [InlineData("  x  ")]
     [InlineData("_")]
@@ -323,7 +337,6 @@ public class BzStringXTests
         // non-content separator
         "hello".BzSplit("").Should().BeEquivalentTo(["hello"]);
         "hello".BzSplit(" ").Should().BeEquivalentTo(["hello"]);
-        "  hello  ".BzSplit(" ").Should().BeEquivalentTo(["hello"]);
 
         // non-content both
         "".BzSplit("").Should().BeEquivalentTo([]);
