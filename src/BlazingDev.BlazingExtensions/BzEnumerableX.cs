@@ -17,6 +17,16 @@ public static class BzEnumerableX
     }
 
     /// <summary>
+    /// Returns true if the enumerable is null or has no items.
+    /// </summary>
+    /// <param name="enumerable">The enumerable to check.</param>
+    /// <returns>True if the enumerable is null or has no items; otherwise, false.</returns>
+    public static bool LacksContent<T>([NotNullWhen(false)] this IEnumerable<T>? enumerable)
+    {
+        return !enumerable.HasContent();
+    }
+
+    /// <summary>
     /// Returns the "items" joined together separated by the "separator"
     /// </summary>
     public static string StringJoin(this IEnumerable<string?>? items, string separator)

@@ -24,6 +24,25 @@ public class BzEnumerableXTests
     }
 
     [Fact]
+    public void LacksContent()
+    {
+        Test(true, null);
+        Test(true, []);
+        Test(false, [1]);
+
+        void Test(bool expected, int[]? values)
+        {
+            Assert.Equal(expected, values.LacksContent());
+
+            if (!values.LacksContent())
+            {
+                // no compiler warning here!
+                _ = values.Length;
+            }
+        }
+    }
+
+    [Fact]
     public void StringJoin()
     {
         Test([], ",", "");
