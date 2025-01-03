@@ -16,13 +16,36 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
+    
     - name: Restore dependencies
       run: dotnet restore ./src/
+    
     - name: Build
       run: dotnet build ./src/ --no-restore
+    
     - name: Test
       run: dotnet test ./src/ --no-build --verbosity normal --collect:"XPlat Code Coverage"
+    
+    - name: Generate coverage report
+      uses: danielpalme/ReportGenerator-GitHub-Action@4.8.12
+      with:
+        reports: '**/coverage.cobertura.xml'
+        targetdir: 'coveragereport'
+        
+    - name: Upload coverage report
+      uses: actions/upload-artifact@v2
+      with:
+        name: CoverageReport
+        path: coveragereport
+        
+    - name: Add coverage PR comment
+      uses: 5monkeys/cobertura-action@master
+      if: github.event_name == 'pull_request'
+      with:
+        path: '**/coverage.cobertura.xml'
+        minimum_coverage: 75
