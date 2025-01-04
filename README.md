@@ -435,6 +435,37 @@ return tasks
 ---
 <br>
 
+# Dictionary extensions
+
+## `.GetCount(key)`, `.IncrementCount(key)`, `.DecrementCount(key)`
+
+When you use a Dictionary to count occurrences you can use this extension methods.\
+They handle adding the first entry and then incrementing/decrementing on top of the last value.
+
+```csharp
+var pointsByUser = new Dictionary<string, int>();
+foreach (var item in contributions)
+{
+    if (IsSpecialContribution(item))
+    {
+        pointsByUser.IncrementCount(item.UserName, 5)    
+    }
+    else (IsNegativeContribution(item))
+    {
+        pointsByUser.DecrementCount(item.UserName, 2)
+    }
+    else
+    {
+        pointsByUser.IncrementCount(item.UserName)
+    }
+    
+    Console.WriteLine($"User {item.UserName} has {pointsByUser.GetCount(item.UserName)} points");
+}
+```
+
+---
+<br>
+
 # Type extensions
 
 ## `.IsNumeric()`
