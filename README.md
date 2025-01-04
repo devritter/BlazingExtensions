@@ -146,6 +146,16 @@ Handy splitter function which also
 "hello,  ,  world  ,,,".BzSplit(',')   // returns ["hello","world"]
 ```
 
+## `.Wrap(leftText, rightText)`
+
+Adds the left+right text to the input text. \
+Nothing more than `$"{left}{middle}{right}"`, but helpful when working with .cshtml or .razor files.
+
+```csharp
+var boldText = "important".Wrap("**"); // returns **important**
+var unitSuffix = unit.Wrap("[", "]"); // returns e.g. [km]
+```
+
 ## `.BzRemove(unwanted)`
 
 Remove unwanted characters or string parts from a given string

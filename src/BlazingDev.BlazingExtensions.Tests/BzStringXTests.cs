@@ -407,4 +407,40 @@ public class BzStringXTests
             input.BzRemove(separators).Should().Be(output);
         }
     }
+
+    [Theory]
+    [InlineData("hello", "-", "-hello-")]
+    [InlineData("hello", "//", "//hello//")]
+    [InlineData("hello", " # ", " # hello # ")]
+    [InlineData("hello", "hello", "hellohellohello")]
+    [InlineData(" ", " ", "   ")]
+    [InlineData("\t", "\n", "\n\t\n")]
+    [InlineData(null, "#", "##")]
+    [InlineData("", "#", "##")]
+    [InlineData(" ", "#", "# #")]
+    [InlineData("hello", null, "hello")]
+    [InlineData("hello", "", "hello")]
+    [InlineData("hello", " ", " hello ")]
+    [InlineData(null, null, "")]
+    [InlineData("", "", "")]
+    public void Wrap_WithSingleArgument(string? input, string? wrap, string output)
+    {
+        input.Wrap(wrap).Should().Be(output);
+        input.Wrap(wrap, wrap).Should().Be(output);
+    }
+
+    [Theory]
+    [InlineData("hello", "-", "-", "-hello-")]
+    [InlineData("hello", "<div>", "</div>", "<div>hello</div>")]
+    [InlineData(null, "<div>", "</div>", "<div></div>")]
+    [InlineData("hello", null, "</div>", "hello</div>")]
+    [InlineData("hello", "<div>", null, "<div>hello")]
+    [InlineData("hello", null, null, "hello")]
+    [InlineData(null, "<div>", null, "<div>")]
+    [InlineData(null, null, "</div>", "</div>")]
+    [InlineData(null, null, null, "")]
+    public void Wrap_WithTwoArguments(string? middle, string? left, string? right, string output)
+    {
+        middle.Wrap(left, right).Should().Be(output);
+    }
 }

@@ -324,4 +324,14 @@ public static class BzStringX
 
         return input;
     }
+
+    public static string Wrap(this string? middleText, string? wrapText)
+    {
+        return $"{wrapText}{middleText}{wrapText}";
+    }
+
+    public static string Wrap(this string? middleText, string? leftText, string? rightText)
+    {
+        return $"{leftText}{middleText}{rightText}";
+    }
 }
