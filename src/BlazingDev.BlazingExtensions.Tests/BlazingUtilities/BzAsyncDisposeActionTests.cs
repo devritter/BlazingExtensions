@@ -8,7 +8,7 @@ public class BzAsyncDisposeActionTests
     public async Task ActionIsCalledOnDispose()
     {
         var called = false;
-        await using (new BzAsyncDisposeAction(async () => called = true))
+        await using (new BzAsyncDisposeAction(() => Task.Run(() => called = true)))
         {
         }
 
@@ -19,7 +19,7 @@ public class BzAsyncDisposeActionTests
     public async Task ActionIsOnlyCalledOnce()
     {
         var count = 0;
-        var disposable = new BzAsyncDisposeAction(async () => count++);
+        var disposable = new BzAsyncDisposeAction(() => Task.Run(() => count++));
         await disposable.DisposeAsync();
         await disposable.DisposeAsync();
         Assert.Equal(1, count);
