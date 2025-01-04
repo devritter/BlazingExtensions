@@ -168,6 +168,8 @@ public class BzEnumerableXTests
             "Gimme",
             "I want"
         ];
+
+        friendlyFirst.Should().BeEquivalentTo(expected, o => o.WithStrictOrdering());
     }
 
     [Fact]
