@@ -34,7 +34,8 @@ So no rocket science, actually just the positive version of `string.IsNullOrWhit
 
 ## `.LacksContent()`
 
-The `LacksContent()` extension method is the opposite of `HasContent()`. It returns `true` if the input string is null, empty, or consists only of white-space characters.
+The `LacksContent()` extension method is the opposite of `HasContent()`. It returns `true` if the input string is null,
+empty, or consists only of white-space characters.
 
 ```csharp
 string? input = "   ";
@@ -61,12 +62,15 @@ public string GetPreviewText()
 }
 ```
 
-## `.EqualsIgnoreCase(other)` / `.ContainsIgnoreCase(subString)` / `.StartsWithIgnoreCase(subString)` / `.EndsWithIgnoreCase(subString)`
+## `.EqualsIgnoreCase(other)` / `.ContainsIgnoreCase(subString)` / `.StartsWithIgnoreCase(subString)` /
+
+`.EndsWithIgnoreCase(subString)`
 
 Just shorter versions of:
+
 * `myString.Equals(other, StringComparison.OrdinalIgnoreCase)`
-* `myString.Contains(subString, StringComparison.OrdinalIgnoreCase)` 
-* `myString.StartsWith(subString, StringComparison.OrdinalIgnoreCase)` 
+* `myString.Contains(subString, StringComparison.OrdinalIgnoreCase)`
+* `myString.StartsWith(subString, StringComparison.OrdinalIgnoreCase)`
 * `myString.EndsWith(subString, StringComparison.OrdinalIgnoreCase)`.
 
 And because they pop up in Intellisense you get reminded to think about casing ;)
@@ -142,6 +146,14 @@ Handy splitter function which also
 "hello,  ,  world  ,,,".BzSplit(',')   // returns ["hello","world"]
 ```
 
+## `.BzRemove(unwanted)`
+
+Remove unwanted characters or string parts from a given string
+
+```csharp
+"Total: 500€".BzRemove("Total", ":", " ", "$", "€") // returns "500"
+```
+
 ## `items.StringJoin(separator)`
 
 Convenient way to join a list together just like `string.Join(separator, items)`.\
@@ -212,7 +224,8 @@ var xAxisValuesForSomeChart = rawData.Select(x => x.Timestamp.ToJsTicks());
 
 Simple way to specify the `DateTimeKind` for a `DateTime` if it's current `Kind` is `Unspecified`.
 
-This is different from calling `.ToUniversalTime()` or `.ToLocalTime()` on `Unspecified` DateTimes because there the framework assumes that you desire a conversion and applies the timezone offset.
+This is different from calling `.ToUniversalTime()` or `.ToLocalTime()` on `Unspecified` DateTimes because there the
+framework assumes that you desire a conversion and applies the timezone offset.
 
 ```csharp
 // assume timestamps are UTC
@@ -355,7 +368,8 @@ Use `!myItems.HasContent()` to prevent yourself from unreadable (and potentially
 
 ## `.LacksContent()`
 
-The `LacksContent()` extension method is the opposite of `HasContent()`. It returns `true` if the enumerable is null or has no items.
+The `LacksContent()` extension method is the opposite of `HasContent()`. It returns `true` if the enumerable is null or
+has no items.
 
 ```csharp
 IEnumerable<int>? values = null;
@@ -415,7 +429,8 @@ return tasks
 
 ## `.IsNumeric()`
 
-returns true for numeric types: `byte`, `sbyte`, `short`, `ushort`, `int`, `uint`, `long`, `ulong`, `float`, `double`, `decimal`.
+returns true for numeric types: `byte`, `sbyte`, `short`, `ushort`, `int`, `uint`, `long`, `ulong`, `float`, `double`,
+`decimal`.
 
 ```csharp
 typeof(int).IsNumeric(); // returns true

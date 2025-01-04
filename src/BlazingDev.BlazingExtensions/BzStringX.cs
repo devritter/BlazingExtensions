@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -157,7 +156,8 @@ public static class BzStringX
 
         if (maxLengthIncludingEllipsis < ellipsisText.Length)
         {
-            throw new ArgumentException($"{nameof(maxLengthIncludingEllipsis)} with value '{maxLengthIncludingEllipsis}' " +
+            throw new ArgumentException(
+                $"{nameof(maxLengthIncludingEllipsis)} with value '{maxLengthIncludingEllipsis}' " +
                 $"is too small for {nameof(ellipsisText)} with value '{ellipsisText}'!");
         }
 
@@ -203,14 +203,14 @@ public static class BzStringX
         }
 
         // Escape any special characters in the texts to avoid unexpected behavior
-        string escapedText1 = Regex.Escape(text1);
-        string escapedText2 = Regex.Escape(text2);
+        var escapedText1 = Regex.Escape(text1);
+        var escapedText2 = Regex.Escape(text2);
 
         // Create a regular expression pattern to match both texts
-        string pattern = $"({escapedText1})|({escapedText2})";
+        var pattern = $"({escapedText1})|({escapedText2})";
 
         // Use a MatchEvaluator to handle replacements
-        string result = Regex.Replace(input, pattern, match =>
+        var result = Regex.Replace(input, pattern, match =>
         {
             if (match.Groups[1].Success)
             {
@@ -220,6 +220,7 @@ public static class BzStringX
             {
                 return text1;
             }
+
             return match.Value; // Return unchanged if no match
         });
 
@@ -284,5 +285,43 @@ public static class BzStringX
             .Where(x => x.HasContent())
             .Select(x => x.Trim())
             .ToArray();
+    }
+
+    /// <summary>
+    /// Removes unwanted characters from the input string
+    /// </summary>
+    /// <param name="input">string with unwanted characters</param>
+    /// <param name="charactersToRemove">characters that should be removed. Case-sensitive.</param>
+    public static string BzRemove(this string? input, params char[] charactersToRemove)
+    {
+        input ??= "";
+
+        foreach (var item in charactersToRemove)
+        {
+            input = input.Replace(item.ToString(), "");
+        }
+
+        return input;
+    }
+
+    /// <summary>
+    /// Removes unwanted string parts from the input string
+    /// </summary>
+    /// <param name="input">string with unwanted parts</param>
+    /// <param name="stringsToRemove">parts that should be removed. Case-sensitive.</param>
+    /// <returns></returns>
+    public static string BzRemove(this string? input, params string[] stringsToRemove)
+    {
+        input ??= "";
+
+        foreach (var item in stringsToRemove)
+        {
+            if (item.Length > 0)
+            {
+                input = input.Replace(item, "");
+            }
+        }
+
+        return input;
     }
 }

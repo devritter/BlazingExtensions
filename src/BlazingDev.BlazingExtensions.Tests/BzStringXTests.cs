@@ -287,14 +287,16 @@ public class BzStringXTests
     [InlineData("x", "x", null)]
     public void SwapText_ThrowsException_ForInvalidInput(string? input, string? text1, string? text2)
     {
-        Assert.Throws<ArgumentException>(() => input!.SwapText(text1!, text2!)).Message.Should().Match("*cannot*null*empty*");
+        Assert.Throws<ArgumentException>(() =>
+            input!.SwapText(text1!, text2!)).Message.Should().Match("*cannot*null*empty*");
 
         // empty is same useless 
         input ??= "";
         text1 ??= "";
         text2 ??= "";
-        
-        Assert.Throws<ArgumentException>(() => input!.SwapText(text1!, text2!)).Message.Should().Match("*cannot*null*empty*");
+
+        Assert.Throws<ArgumentException>(() =>
+            input!.SwapText(text1!, text2!)).Message.Should().Match("*cannot*null*empty*");
     }
 
     [Theory]
@@ -342,5 +344,67 @@ public class BzStringXTests
         "".BzSplit("").Should().BeEquivalentTo([]);
         "  ".BzSplit("").Should().BeEquivalentTo([]);
         " \t ".BzSplit("").Should().BeEquivalentTo([]);
+    }
+
+    [Theory]
+    [InlineData("hello world", " ", "helloworld")]
+    [InlineData("hello world", "o", "hell wrld")]
+    [InlineData("hello world", "owrd", "hell l")]
+    [InlineData("hello world", "", "hello world")] // no remove char
+    [InlineData("hello world", "x", "hello world")] // no match
+    [InlineData("hello world", "xyz", "hello world")] // no match - multiple
+    [InlineData("hello world", "H", "hello world")] // no match - wrong case
+    [InlineData("hello world", "WLD", "hello world")] // no match - wrong case multiple
+    [InlineData("hello world", "Xl ", "heoword")] // partial match
+    [InlineData("", "Xl ", "")] // empty input
+    [InlineData(null, "Xl ", "")] // null imput
+    [InlineData("hello world", "heloworld ", "")] // everything removed
+    public void BzRemove_WithCharParameters(string? input, string separators, string output)
+    {
+        if (separators.Length == 1)
+        {
+            var theChar = separators[0];
+            input.BzRemove(theChar).Should().Be(output);
+        }
+        else
+        {
+            var charArray = separators.ToCharArray();
+            input.BzRemove(charArray).Should().Be(output);
+        }
+    }
+
+    [Theory]
+    [InlineData("hello PRETTY world", " ", "helloPRETTYworld")]
+    [InlineData("hello PRETTY world", "o", "hell PRETTY wrld")]
+    [InlineData("hello PRETTY world", "hello", " PRETTY world")]
+    [InlineData("hello PRETTY world", "PRET", "hello TY world")]
+    [InlineData("hello PRETTY world", "hello,world", " PRETTY ")]
+    [InlineData("hello PRETTY world", "rld,wo", "hello PRETTY ")]
+    [InlineData("hello PRETTY world", "T,T,o", "hell PREY wrld")]
+    [InlineData("hello PRETTY world", "", "hello PRETTY world")] // no remove string
+    [InlineData("hello PRETTY world", "XYZ", "hello PRETTY world")] // no match
+    [InlineData("hello PRETTY world", "abc,XYZ", "hello PRETTY world")] // no match - multiple
+    [InlineData("hello PRETTY world", "HELLO", "hello PRETTY world")] // no match - wrong case
+    [InlineData("hello PRETTY world", "HELLO,pretty", "hello PRETTY world")] // no match - wrong case multiple
+    [InlineData("hello PRETTY world", "goodnight,hello", " PRETTY world")] // partial match
+    [InlineData("", "hello", "")] // empty input
+    [InlineData(null, "hello,pretty ", "")] // null imput
+    [InlineData("hello PRETTY world", "hello PRETTY world", "")] // everything removed in 1 go
+    [InlineData("hello PRETTY world", "hello,world, ,PRETTY", "")] // everything removed in multiple parts
+    [InlineData("hello PRETTY world", "hello PRETTY world ",
+        "hello PRETTY world")] // noting removed because of one space too much
+    [InlineData("Total: 500€", "Total,:, ,$,€", "500")] // README sample
+    public void BzRemove_WithStringParameters(string? input, string csvSeparators, string output)
+    {
+        var separators = csvSeparators.Split(',');
+        if (separators.Length == 1)
+        {
+            var singleString = separators[0];
+            input.BzRemove(singleString).Should().Be(output);
+        }
+        else
+        {
+            input.BzRemove(separators).Should().Be(output);
+        }
     }
 }
