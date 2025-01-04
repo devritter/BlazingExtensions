@@ -54,8 +54,15 @@ public class BzEnumerableXTests
 
         void Test(IEnumerable<string?>? items, bool expected)
         {
-            items.BzALl(x => x.HasContent()).Should().Be(expected);
+            items.BzAll(x => x.HasContent()).Should().Be(expected);
         }
+    }
+
+    [Fact]
+    public void BzAll_ThrowsArgumentException_WhenPredicateIsNull()
+    {
+        int[] items = [1, 2, 3];
+        Assert.Throws<ArgumentNullException>(() => items.BzAll(null!));
     }
 
     [Fact]

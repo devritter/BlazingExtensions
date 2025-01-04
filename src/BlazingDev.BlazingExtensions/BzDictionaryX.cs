@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace BlazingDev.BlazingExtensions;
@@ -26,6 +27,7 @@ public static class BzDictionaryX
 
     public static int DecrementCount<TKey>(this IDictionary<TKey, int> dictionary, TKey key, int decrement = 1)
     {
+        // Stryker disable once Arithmetic : *-1 will be replace by /-1 which also works
         return dictionary.IncrementCount(key, decrement * -1);
     }
 }

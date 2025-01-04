@@ -33,7 +33,7 @@ public static class BzEnumerableX
     /// <param name="predicate">check condition</param>
     /// <returns>true if the sequence has items and all items satisfy the condition</returns>
     /// <exception cref="ArgumentNullException">if the predicate is null</exception>
-    public static bool BzALl<T>([NotNullWhen(true)] this IEnumerable<T>? source, Func<T, bool> predicate)
+    public static bool BzAll<T>([NotNullWhen(true)] this IEnumerable<T>? source, Func<T, bool> predicate)
     {
         // "long" implementation to fix multiple enumerations warning
         if (source == null)
