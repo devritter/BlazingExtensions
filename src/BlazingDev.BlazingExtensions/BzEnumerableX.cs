@@ -123,4 +123,20 @@ public static class BzEnumerableX
             action(item);
         }
     }
+
+    /// <summary>
+    /// Checks if the source has exactly one item
+    /// </summary>
+    public static bool IsSingle<T>(this IEnumerable<T> source)
+    {
+        return source.Take(2).Count() == 1;
+    }
+
+    /// <summary>
+    /// Checks if the source has 2 or more items
+    /// </summary>
+    public static bool IsMultiple<T>(this IEnumerable<T> source)
+    {
+        return source.Take(2).Count() > 1;
+    }
 }

@@ -389,6 +389,22 @@ if (values.LacksContent()) // returns true
 }
 ```
 
+## `.IsSingle()` / `.IsMultiple()`
+
+Convenient way to do some special processing if the source has exactly one or multiple items. \
+No more thinking if `> 1` or `>= 2` is the better way to write.
+
+```csharp
+if (connectedDevices.IsSingle())
+{
+    // use that device
+}
+else if (connectedDevices.IsMultiple())
+{
+    // show selection dropdown
+}
+```
+
 ## `.WhereNotNull()`
 
 Returns only non-null items with the correct nullability information so you don't get compiler warnings.

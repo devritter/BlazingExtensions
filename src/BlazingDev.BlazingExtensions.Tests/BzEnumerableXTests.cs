@@ -264,4 +264,18 @@ public class BzEnumerableXTests
         list.ForEach(x => sum += x);
         sum.Should().Be(6);
     }
+
+    [Fact]
+    public void IsSingle_IsMultiple()
+    {
+        Test([], false, false);
+        Test([1], true, false);
+        Test([1, 2], false, true);
+
+        void Test(int[] values, bool expectedSingle, bool expectedMultiple)
+        {
+            values.IsSingle().Should().Be(expectedSingle);
+            values.IsMultiple().Should().Be(expectedMultiple);
+        }
+    }
 }
