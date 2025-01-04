@@ -43,6 +43,22 @@ public class BzEnumerableXTests
     }
 
     [Fact]
+    public void BzAll()
+    {
+        Test(null, false);
+        Test([], false);
+        Test([""], false);
+        Test(["hello"], true);
+        Test(["hello", "world"], true);
+        Test(["hello", ""], false);
+
+        void Test(IEnumerable<string?>? items, bool expected)
+        {
+            items.BzALl(x => x.HasContent()).Should().Be(expected);
+        }
+    }
+
+    [Fact]
     public void StringJoin()
     {
         Test([], ",", "");
@@ -75,19 +91,19 @@ public class BzEnumerableXTests
         List<Song> songs =
         [
             // first some uninteresting ones
-            new Song("boring", false, false, 10),
-            new Song("also boring", false, false, 10),
+            new("boring", false, false, 10),
+            new("also boring", false, false, 10),
             // then shuffled favorite and new ones
-            new Song("greatest song", true, false, 1000),
-            new Song("hot stuff", false, true, 500),
-            new Song("also like that", true, false, 800),
-            new Song("hot and liked stuff", true, true, 400),
+            new("greatest song", true, false, 1000),
+            new("hot stuff", false, true, 500),
+            new("also like that", true, false, 800),
+            new("hot and liked stuff", true, true, 400),
             // and again something boring
-            new Song("zzz I'm sleeping", false, false, 10),
-            new Song("zzz I'm sleeping vol2", false, true, 10),
-            new Song("boring but I like it", true, false, 20),
+            new("zzz I'm sleeping", false, false, 10),
+            new("zzz I'm sleeping vol2", false, true, 10),
+            new("boring but I like it", true, false, 20),
             // and a brand new one
-            new Song("hot stuff v2", false, true, 200)
+            new("hot stuff v2", false, true, 200)
         ];
 
         var sorted = songs

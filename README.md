@@ -412,6 +412,19 @@ someData
     // ...
 ```
 
+## `.BzAll()`
+
+The classic `.All()` has one problem: it returns `true` if you pass an empty list. \
+This extension method fixes that behavior.
+
+```csharp
+var isEverythingDelivered = orders.BzAll(x => x.IsDelivered());
+if (isEverythingDelivered)
+{
+    // e.g. send email
+}
+```
+
 ## `.ForEach(action)`
 
 Ever tried to call `.ForEach(...)` on an `Array`, `IEnumerable<T>` or `HashSet<T>`? Now you can!

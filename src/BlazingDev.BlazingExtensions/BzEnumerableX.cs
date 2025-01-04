@@ -27,6 +27,40 @@ public static class BzEnumerableX
     }
 
     /// <summary>
+    /// Determines whether the sequence has ANY elements AND ALL elements satisfy a condition
+    /// </summary>
+    /// <param name="source">the sequence to check</param>
+    /// <param name="predicate">check condition</param>
+    /// <returns>true if the sequence has items and all items satisfy the condition</returns>
+    /// <exception cref="ArgumentNullException">if the predicate is null</exception>
+    public static bool BzALl<T>([NotNullWhen(true)] this IEnumerable<T>? source, Func<T, bool> predicate)
+    {
+        // "long" implementation to fix multiple enumerations warning
+        if (source == null)
+        {
+            return false;
+        }
+
+        if (predicate == null)
+        {
+            throw new ArgumentNullException(nameof(predicate));
+        }
+
+        var anyItem = false;
+
+        foreach (var element in source)
+        {
+            anyItem = true;
+            if (!predicate(element))
+            {
+                return false;
+            }
+        }
+
+        return anyItem;
+    }
+
+    /// <summary>
     /// Returns the "items" joined together separated by the "separator"
     /// </summary>
     public static string StringJoin(this IEnumerable<string?>? items, string separator)
