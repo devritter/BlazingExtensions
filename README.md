@@ -538,7 +538,7 @@ Example:
 ```csharp
 FileStream _fileStream = null;
 
-public override void OnInitialized()
+protected override void OnInitialized()
 {
     _fileStream = GetFileStream();
     

@@ -4,17 +4,19 @@
         <TargetFramework>netstandard2.1</TargetFramework>
         <LangVersion>latest</LangVersion>
         <Nullable>enable</Nullable>
-        <Version>0.1.0</Version>
-        <Authors>the-blazing-dev</Authors>
+        <Version>0.3.0</Version>
+        <Authors>devritter</Authors>
         <Description>Extensions for every kind of C# projects</Description>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageIcon>blazingdev_logo_512.png</PackageIcon>
-        <RepositoryUrl>https://github.com/the-blazing-dev/BlazingExtensions</RepositoryUrl>
+        <RepositoryUrl>https://github.com/devritter/BlazingExtensions</RepositoryUrl>
         <PackageTags>extensions productivity clean-code</PackageTags>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
     </PropertyGroup>
 
     <ItemGroup>
         <None Update="blazingdev_logo_512.png" Pack="True" PackagePath="/"/>
+        <None Include="../../README.md" Pack="true" PackagePath="\"/>
     </ItemGroup>
 
 </Project>
