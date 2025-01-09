@@ -526,6 +526,34 @@ typeof(StringBuilder).UnwrapNullable(); // returns typeof(StringBuilder)
 
 # Utilities
 
+## `BzAsyncDisposer`
+
+A class that collects `IDisposable`, `IAsyncDisposable`, `Action` and `Func<Task>` instances and disposes them all in
+one go. \
+Useful for base classes so that you can register your disposables upfront and don't have to override Dispose methods any
+more.
+
+Example:
+
+```csharp
+FileStream _fileStream = null;
+
+public override void OnInitialized()
+{
+    _fileStream = GetFileStream();
+    
+    // BzAsyncDisposer from base class
+    Disposer.Add(_fileStream);
+    
+    var subscription = SubscriptionService.Subscribe("important-messages", HandleImportantMessage);
+    Disposer.Add(subscription);
+    
+    SubscriptionService.ConnectionLost += HandleConnectionLost;
+    Disposer.Add(() => SubscriptionService.ConnectionLost -= HandleConnectionLost);
+    Disposer.Add(SayGoodbyeAsync);
+}
+```
+
 ## `BzDisposeAction`
 
 A very simple `IDisposable` implementation which just invokes the passed action on manual `.Dispose()` call or when
