@@ -464,6 +464,22 @@ return tasks
 ---
 <br>
 
+# List&lt;T&gt; extensions
+
+## `.Extract()`
+
+Let's you extract items out of a source list and process them with another list.
+
+```csharp
+var attendees = Workshop.GetAttendees();
+var fromOwnCompany = attendees.Extract(x => x.Email.EndsWithIgnoreCase("@owncompany.com"));
+var fromPartnerCompany = attendees.Extract(x => x.Email.EndsWithIgnoreCase("@partnercompany.com"));
+var remaining = attendees;
+```
+
+---
+<br>
+
 # Dictionary extensions
 
 ## `.GetCount(key)`, `.IncrementCount(key)`, `.DecrementCount(key)`
