@@ -607,3 +607,15 @@ private async Task ListenForMessagesAsync()
     }
 }
 ```
+
+## BzReflection
+
+Easily get and set public and private properties and fields by specifying their name.
+
+Example:
+
+```csharp
+var myList = new List<string>();
+var internalVersion = BzReflection.GetValue<int>(myList, "_version");
+BzReflection.SetValue(myList, "_version", 100);
+```
