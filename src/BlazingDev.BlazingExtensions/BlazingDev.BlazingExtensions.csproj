@@ -4,7 +4,7 @@
         <TargetFramework>netstandard2.1</TargetFramework>
         <LangVersion>latest</LangVersion>
         <Nullable>enable</Nullable>
-        <Version>0.3.0</Version>
+        <Version>0.4.0</Version>
         <Authors>devritter</Authors>
         <Description>Extensions for every kind of C# projects</Description>
         <PackageReadmeFile>README.md</PackageReadmeFile>
